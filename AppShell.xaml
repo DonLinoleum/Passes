@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Passes.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Passes"
+    xmlns:pages="clr-namespace:Passes.Pages"
+    
+    Title="Passes">
+   <!-- Shell.FlyoutBehavior="Flyout" -->
+
+
+    <ShellContent
+        Title="Авторизация"
+        ContentTemplate="{DataTemplate pages:AuthPage}"
+        Route="AuthPage" />
+    <ShellContent
+        Title="Рабочее место"
+        ContentTemplate="{DataTemplate pages:PassesList}"
+        Route="PassesList"
+    />
+
+</Shell>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Passes.Pages.PassesList"
+             Shell.NavBarIsVisible="False"
+             Title="Рабочее место">
+
+    <ScrollView>
+        <StackLayout Padding="20">
+        <Label Text="Рабочее место" FontSize="24" HorizontalOptions="Center"></Label >
+        <CollectionView ItemsSource="{Binding Passes}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="10" Margin="5" BorderColor="Grey">
+                        <StackLayout>
+                                <Label Text="{Binding Pass_num, StringFormat='Заявка №{0}'}" FontSize="18"></Label>
+                                <Label Text="{Binding SINERGO_APP_ENTITY_PASSES_pass_state_name}" FontSize="14"></Label>
+                                <Label Text="{Binding Date_from, StringFormat='Дата посещения: {0}'}" FontSize="14"></Label>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+    </ScrollView>
+</ContentPage>

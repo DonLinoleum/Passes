@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Passes.Pages.AuthPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#f9f9f9"          
+             >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="Regular">JostRegular</x:String>
+            <x:String x:Key="Medium">JostMedium</x:String>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <StackLayout VerticalOptions="Center" Spacing="10">
+        <Image Source="main_logo" WidthRequest="280" Margin="0,0,0,10"></Image>
+        <Border x:Name="auth_error" IsVisible="False" Stroke="#ffffff" StrokeShape="RoundRectangle 10" BackgroundColor="#ffffff" Margin="10,0,10,0" >
+            <Border.Shadow>
+                <Shadow Brush="Black" 
+                    Offset="0,0" 
+                    Radius="5" 
+                    Opacity="0.1" />
+            </Border.Shadow>
+            <HorizontalStackLayout Spacing="25" Padding="20">
+                <Image Source="error" WidthRequest="65"></Image>
+                <Label FontFamily="{StaticResource Regular}" FontSize="16" VerticalOptions="Center" Text="Неверный логин или пароль."></Label>
+            </HorizontalStackLayout>
+        </Border>
+        
+        <Border Stroke="#ffffff" StrokeShape="RoundRectangle 10" Margin="10,0,10,0">
+            <Border.Shadow>
+                <Shadow Brush="Black" 
+                    Offset="0,0" 
+                    Radius="5" 
+                    Opacity="0.1" />
+            </Border.Shadow>
+            <StackLayout BackgroundColor="#ffffff" Padding="10, 15, 10, 15" >
+                <Label FontFamily="{StaticResource Medium}" Text="Вход" FontSize="22" FontAttributes="Bold" Margin="0,0,0,25"></Label>
+                <Label FontFamily="{StaticResource Regular}" Margin="3,0,0,10" FontAttributes="Bold" Text="E-mail" FontSize="16"></Label>
+                <Border Margin="0,0,0,20" Stroke="#ffffff" StrokeShape="RoundRectangle 10">
+                    <Entry BackgroundColor="#f6f6f8" StyleClass="CustomEntry" x:Name="email" ></Entry>
+                </Border>
+                <Label FontFamily="{StaticResource Regular}" Margin="3,0,0,10" FontAttributes="Bold" Text="Пароль" FontSize="16"></Label>
+                <Border Margin="0,0,0,30" Stroke="#ffffff" StrokeShape="RoundRectangle 10">
+                    <Grid VerticalOptions="Center" HorizontalOptions="Fill">
+                        <Entry IsPassword="True" BackgroundColor="#f6f6f8" StyleClass="CustomEntry" x:Name="password" ></Entry>
+                        <ImageButton Aspect="AspectFit" Source="eye" BackgroundColor="Transparent" MinimumHeightRequest="5" HeightRequest="24" MinimumWidthRequest="5" WidthRequest="24" HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,23,0" Clicked="PasswordShowClicked"></ImageButton>
+                    </Grid>
+                </Border>
+                <Button HeightRequest="55" BackgroundColor="#2056ae" FontAttributes="Bold"  FontSize="Subtitle" Text="Войти" Clicked="Auth"></Button>
+            </StackLayout>
+        </Border>
+        <ActivityIndicator x:Name="loader" HorizontalOptions="Center" IsRunning="False" Color="#2056ae"></ActivityIndicator>
+    </StackLayout>
+</ContentPage>
