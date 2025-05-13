@@ -1,6 +1,4 @@
-﻿
-
-using Passes.Models;
+﻿using Passes.Models.PassList;
 using System.Text.Json;
 
 namespace Passes.Services
@@ -11,7 +9,7 @@ namespace Passes.Services
         public PassesListService()
         {}
 
-        public async Task<List<PassModel>> GetPasses()
+        public async Task<List<PassListModel>> GetPasses()
         {
             string baseURL = await ConfigService.GetBaseURL();
             string passesURL = $"{baseURL}api/?action=PassesListApprover";
@@ -31,7 +29,7 @@ namespace Passes.Services
             }
             catch (Exception ex)
             {
-                return new List<PassModel>(); 
+                return new List<PassListModel>(); 
             }
         }
     }

@@ -15,9 +15,14 @@
         ContentTemplate="{DataTemplate pages:AuthPage}"
         Route="AuthPage" />
     <ShellContent
-        Title="Рабочее место"
+        Title="Список заявок"
         ContentTemplate="{DataTemplate pages:PassesList}"
         Route="PassesList"
     />
+    <ShellContent
+        Title="Подробные данные"
+        ContentTemplate="{DataTemplate pages:PassDetail}"
+        Route="PassDetail"
+ />
 
 </Shell>

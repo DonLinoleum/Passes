@@ -20,7 +20,12 @@ namespace Passes.Pages
                 bool authResult = await auth.Auth();
                 loader.IsRunning = false;
                 if (authResult)
+                {                   
                     await Shell.Current.GoToAsync("//PassesList");
+                    password.Text = "";
+                    email.Text = "";
+                    auth_error.IsVisible = false;
+                }
                 else
                 {
                     password.Text = "";

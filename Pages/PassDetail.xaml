@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Passes.Pages.PassDetail"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#f9f9f9" 
+             >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="Regular">JostRegular</x:String>
+            <x:String x:Key="Medium">JostMedium</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource Medium}"></Setter>
+                <Setter Property="TextColor" Value="#0f2548"></Setter>
+            </Style>
+        </ResourceDictionary>
+        <ResourceDictionary Source="/Resources/Styles/PassListStyles.xaml"></ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Style="{StaticResource grid_top}" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label FontFamily="{StaticResource Medium}"  Grid.Column="0" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Подробные данные"></Label>
+            <ImageButton Command="{Binding ExitCommand}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Source="exit"></ImageButton>
+        </Grid>
+        <Label Grid.Row="1" Text="{Binding PassIdObservable,StringFormat='Id - {0}'}"></Label>
+        <Button Grid.Row="2" Text="Назад" Command="{Binding GoBackCommand}"></Button>
+    </Grid>
+
+
+
+</ContentPage>

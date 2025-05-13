@@ -27,6 +27,13 @@ public static class MauiProgram
 			handler.PlatformView.SetPadding(20, 0, 20, 0);
 #endif
         });
+        PickerHandler.Mapper.AppendToMapping("CustomPicker", (handler, view) =>
+        {
+#if ANDROID
+			handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.ParseColor("#f6f6f8"));
+			handler.PlatformView.SetPadding(20, 0, 20, 0);
+#endif
+        });
 
 #if DEBUG
         builder.Logging.AddDebug();

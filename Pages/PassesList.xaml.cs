@@ -7,7 +7,6 @@ public partial class PassesList : ContentPage
 	public PassesList()
 	{
 		InitializeComponent();
-		BindingContext = new PassesViewModel();
-        
+		BindingContext = new PassesViewModel();     
     }  
 }
