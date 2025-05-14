@@ -8,5 +8,12 @@ public partial class PassesList : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = new PassesViewModel();     
-    }  
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        this.AbortAnimation("DrawerAnimation");
+        this.AbortAnimation("LoadingProgressBar");
+    }
 }

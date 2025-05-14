@@ -1,20 +1,19 @@
-﻿
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.ApplicationModel.Communication;
 using Passes.Models.PassList;
 using Passes.Services;
+using Passes.Services.Auth;
 using Passes.ViewModels.Helpers;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Security.AccessControl;
 
-
 namespace Passes.ViewModels
 {
    public partial class PassesViewModel : ObservableObject
     {
-        private readonly PassesListService _passesListService;
-
+        
         [ObservableProperty]
         private ObservableCollection<PassListModel> passes;
 
@@ -31,6 +30,9 @@ namespace Passes.ViewModels
         private bool isLoading = true;
 
         [ObservableProperty]
+        private bool isRefreshing = false;
+
+        [ObservableProperty]
         private double filterLoadingProgress = 0.0;
 
         //filters
@@ -38,7 +40,7 @@ namespace Passes.ViewModels
         private string? findInput;
 
         [ObservableProperty]
-        private double filterHeight = 0;
+        private double filterHeight = 380;
 
         [ObservableProperty]
         private bool filterOpacity = false;
@@ -48,37 +50,47 @@ namespace Passes.ViewModels
         private int filterCount;
 
         [ObservableProperty]
-        private string? passTypeFilter;
+        private string? passTypeFilterInput;
 
         [ObservableProperty]
-        private string? passStateFilter;
+        private string? passStateFilterInput;
+
+        [ObservableProperty]
+        private int filterApplyingProgresBarScale = 0;
 
         [ObservableProperty]
         private Color findBgColor = Color.FromArgb("#2056ae");
 
-        private bool hasSearched = false;
-        private bool hasFilteredByType = false;
-        private bool hasFilteredByState = false;
+        private AllPassesListHelper _allPassesListHelper;
+        private bool _hasSearched = false;
+        private bool _hasFilteredByType = false;
+        private bool _hasFilteredByState = false;
 
         public PassesViewModel()
         {
-            _passesListService = new PassesListService();
+            _allPassesListHelper = new AllPassesListHelper();
             LoadPasses();
         }
 
         public int OpacityHasFilters => FilterCount > 0 ? 1 : 0;
 
         [RelayCommand]
-        public async void LoadPasses()
+        public async Task LoadPassesRefreshList()
         {
-            var passesList = await _passesListService.GetPasses();
-            Passes = new ObservableCollection<PassListModel>(passesList);
-            FilteredPasses = new ObservableCollection<PassListModel>(passesList);
-            GetItemsForFilterPickers();
-            IsLoading = false;
+            IsRefreshing = true;
+            await LoadPasses();
+            IsRefreshing = false;
         }
 
-
+        [RelayCommand]
+        public async Task LoadPasses()
+        {
+           var passesList = await _allPassesListHelper.GetAllPasses();
+           Passes = new ObservableCollection<PassListModel>(passesList);
+           FilteredPasses = new ObservableCollection<PassListModel>(passesList);
+           GetItemsForFilterPickers();
+           IsLoading = false;
+        }
         [RelayCommand]
         public async Task PassElementTapped(string Id)
         {
@@ -90,7 +102,6 @@ namespace Passes.ViewModels
         {
             ExitHandlerHelper.GoToAuthPage();
         }
-
         [RelayCommand]
         public async void Find()
         {
@@ -107,79 +118,88 @@ namespace Passes.ViewModels
                 await Task.Delay(10);
             }
             FindBgColor = startColor;
-            /* var filtered =   from p in Passes
-                              where p.Pass_num.Contains(FindInput)
-                              select p;*/
             if (FindInput is not null)
             {
                 FilteredPasses = new ObservableCollection<PassListModel>(
                 FilteredPasses.Where(p => p.Pass_num.Contains(FindInput)));
-                if (!hasSearched)
+                if (!_hasSearched)
                 {
                     FilterCount++;
-                    hasSearched = true;
+                    _hasSearched = true;
                 }
             }
         }
-
         [RelayCommand]
-        public async void ToogleDrawerFilter()
+        public async Task ToogleDrawerFilter()
         {
             FilterOpacity = !FilterOpacity;
             var targetHeight = FilterHeight == 0 ? 380 : 0;
-
-            var animation = new Animation(
-                callback: v => FilterHeight = v,
-                start: FilterHeight,
-                end: targetHeight,
-                easing: Easing.Default
+            await MainThread.InvokeOnMainThreadAsync(async () => 
+            {
+                var animation = new Animation
+                (
+                    callback: v => FilterHeight = v,
+                    start: FilterHeight,
+                    end: targetHeight,
+                    easing: Easing.CubicInOut
                 );
-
-            animation.Commit( owner: Application.Current.MainPage,name: "DrawerAnimation",length: 400);
+                    Application.Current.MainPage.Animate(
+                    name: "DrawerAnimation",
+                    animation: animation,
+                    rate: 16,
+                    length: 300,
+                    finished: (v, c) => { }
+                    );
+            }); 
         }
-
         [RelayCommand]
-        public async void FilterPasses()
+        public async Task FilterPasses()
         {
-            FilterLoadingProgress = 0.0;
-            LoadingProgressBar();
-            if (PassTypeFilter is not null)
+            FilterApplyingProgresBarScale = 1;
+            var loadingProgressBar = LoadingProgressBar();
+            await Task.Run(async () => 
             {
-                FilteredPasses = new ObservableCollection<PassListModel>(
-                    FilteredPasses.Where(p => p.PassTypeName.Equals(PassTypeFilter)));
-                if (!hasFilteredByType)
-                {
-                    FilterCount++;
-                    hasFilteredByType = true;
-                }
-            }
-            if (PassStateFilter is not null)
-            {
-                FilteredPasses = new ObservableCollection<PassListModel>(
-                    FilteredPasses.Where(p => p.PassStateName.Equals(PassStateFilter)));
-                if (!hasFilteredByState)
-                {
-                    FilterCount++;
-                    hasFilteredByState = true;
-                }
-            }
+                var filtered = FilteredPasses.ToList();
+                if (PassTypeFilterInput is not null)
+                    filtered = filtered.Where(p => p.PassTypeName.Equals(PassTypeFilterInput)).ToList();
+                if (PassStateFilterInput is not null)
+                    filtered = filtered.Where(p => p.PassStateName.Equals(PassStateFilterInput)).ToList();     
+            
+                await MainThread.InvokeOnMainThreadAsync(() => {
+                FilteredPasses = new ObservableCollection<PassListModel>(filtered);              
+                    if (!_hasFilteredByType)
+                    {
+                        FilterCount++;
+                        _hasFilteredByType = true;
+                    }               
+                    if (!_hasFilteredByState)
+                    {
+                        FilterCount++;
+                        _hasFilteredByState = true;
+                    }
+                });
+            });
+            await loadingProgressBar;
         }
-
         [RelayCommand]
         public async void CancelFilterOfPasses()
         {
-            FilterLoadingProgress = 0.0;
-            LoadingProgressBar();
-            FilteredPasses = new ObservableCollection<PassListModel>(Passes);
-            FilterCount = 0;
-            FindInput = null;
-            PassTypeFilter = null;
-            PassStateFilter = null;
-            hasSearched = false;
-            hasFilteredByType = false;
-            hasFilteredByState = false;
+            FilterApplyingProgresBarScale = 1;
+            await Task.WhenAll(
+                LoadingProgressBar(),
+                Task.Run(() =>
+                {
+                    FilteredPasses = new ObservableCollection<PassListModel>(Passes);
+                    FilterCount = 0;
+                    FindInput = null;
+                    PassTypeFilterInput = null;
+                    PassStateFilterInput = null;
+                    _hasSearched = false;
+                    _hasFilteredByType = false;
+                    _hasFilteredByState = false;
+                })
+                );
         }
-
         private void GetItemsForFilterPickers()
         {
             var passStateItems = FilteredPasses.Select(p => p.PassStateName).Distinct().ToList();
@@ -188,20 +208,24 @@ namespace Passes.ViewModels
             var passTypeItems = FilteredPasses.Select(p => p.PassTypeName).Distinct().ToList();
             PassTypeFilterItems = new ObservableCollection<string>(passTypeItems);
         }
-
-        private async void LoadingProgressBar()
+        private async Task LoadingProgressBar()
         {
-            var animation = new Animation(
-                callback: v => FilterLoadingProgress = v,
-                start: 0.0,
-                end: 1.0,
-                easing: Easing.Default
-                );
-            animation.Commit(
-                owner: Application.Current.MainPage,
-                name: "LoadingProgressBarAnimation",
-                length: 1000
-                );
+            await MainThread.InvokeOnMainThreadAsync(() =>
+            {
+                var animation = new Animation(
+                    callback: v => FilterLoadingProgress = v,
+                    start: 0.0,
+                    end: 1.0,
+                    easing: Easing.CubicInOut
+                    );
+                Application.Current.MainPage.Animate(
+                    name: "LoadingProgressBar",
+                    animation: animation,
+                    rate: 16,
+                    length: 500,
+                    finished: async (v, c) => { FilterApplyingProgresBarScale = 0; await ToogleDrawerFilter(); }
+                    );
+            });
         }
     }
 }

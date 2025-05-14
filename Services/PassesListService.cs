@@ -1,31 +1,50 @@
 ﻿using Passes.Models.PassList;
+using Passes.ViewModels;
+using System.Diagnostics;
+using System.Net;
 using System.Text.Json;
 
 namespace Passes.Services
 {
     class PassesListService
     {
-        static readonly HttpClient client = new HttpClient();
+        private readonly HttpClient _client;
+        private readonly CookieContainer _cookieContainer;
+        private readonly HttpClientHandler _handler;
+
         public PassesListService()
-        {}
+        {
+            _cookieContainer = new CookieContainer();
+            _handler = new HttpClientHandler()
+            {
+                CookieContainer = _cookieContainer,
+                UseCookies = true
+            };
+            _client = new HttpClient(_handler);
+        }
 
         public async Task<List<PassListModel>> GetPasses()
         {
             string baseURL = await ConfigService.GetBaseURL();
             string passesURL = $"{baseURL}api/?action=PassesListApprover";
             try
-            {
-                var request = new HttpRequestMessage() 
-                { 
-                    RequestUri = new Uri(passesURL),
-                    Method = HttpMethod.Get
-                };
+            {       
                 string sessid = await SecureStorage.GetAsync("PHPSESSID") ?? "";
-                request.Headers.Add("Cookie", $"PHPSESSID={sessid}");
-                var response = await client.SendAsync(request);
+                _cookieContainer.GetCookies(new Uri(baseURL)).Clear();
+                _cookieContainer.Add(new Uri(baseURL),new Cookie("PHPSESSID", sessid));
+
+                HttpRequestMessage request = new HttpRequestMessage() 
+                { 
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(passesURL), 
+                };
+  
+                var response = await _client.SendAsync(request);
+
                 var data = await response.Content.ReadAsStringAsync();
                 RootModel root = JsonSerializer.Deserialize<RootModel>(data) ?? new RootModel();
-                return root.Passes;
+ 
+                return root.Passes ?? new List<PassListModel>();
             }
             catch (Exception ex)
             {

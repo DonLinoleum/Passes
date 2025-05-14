@@ -3,19 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              >
 
-    <Style x:Key="grid_top" TargetType="Grid">
+    <Style x:Key="shadow" TargetType="View">
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Offset="0,0" Radius="3" Opacity="0.1" />
+        </Setter>
+    </Style>
+    <Style x:Key="grid_top" TargetType="Grid" BasedOn="{StaticResource shadow}">
         <Setter Property="Padding" Value="10"></Setter>
         <Setter Property="BackgroundColor" Value="#ffffff"></Setter>
         <Setter Property="Margin" Value="0,0,0,10"></Setter>
     </Style>
-    <Style x:Key="rounded_white_border" TargetType="Border">
-        <Setter Property="Stroke" Value="#ffffff"></Setter>
+    <Style x:Key="rounded_white_border" TargetType="Border" BasedOn="{StaticResource shadow}">
+        <Setter Property="Stroke" Value="Transparent"></Setter>
         <Setter Property="StrokeShape" Value="RoundRectangle 10"></Setter>
         <Setter Property="BackgroundColor" Value="#ffffff"></Setter>
     </Style>
     <Style x:Key="stack_props_labels" TargetType="StackLayout">
         <Setter Property="Orientation" Value="Horizontal"></Setter>
-        <Setter Property="Margin" Value="0,0,0,6"></Setter>
+        <Setter Property="Margin" Value="0,0,0,5"></Setter>
     </Style>
     <Style x:Key="label_text_margin_right" TargetType="Label">
         <Setter Property="Margin" Value="0,0,4,0"></Setter>
@@ -27,5 +32,8 @@
         <Setter Property="VerticalOptions"  Value="Center"></Setter>
         <Setter Property="TextColor" Value="#ffffff"></Setter>
     </Style>
-   
+    <Style x:Key="label_pass_type_and_num" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Bold"></Setter>
+        <Setter Property="FontSize" Value="14"></Setter>
+    </Style>
 </ResourceDictionary>
