@@ -24,6 +24,9 @@ namespace Passes.Models.PassList
 
         [JsonPropertyName("date_from")]
         public string? DateFrom { get; set; }
+
+        [JsonPropertyName("created")]
+        public string? Created { get; set; }
     }
 
     public class VisitorPassListModel

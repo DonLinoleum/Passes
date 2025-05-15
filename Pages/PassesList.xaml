@@ -32,7 +32,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label FontFamily="{StaticResource Medium}"  Grid.Column="0" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Список заявок"></Label>
+            <Label Grid.Column="0" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Список заявок"></Label>
                 <ImageButton Command="{Binding ExitCommand}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Source="exit"></ImageButton>
             </Grid>
         </Grid>
@@ -60,10 +60,10 @@
                                 Command="{Binding FindCommand}"
                                 />
                             </Border.GestureRecognizers>
-                        <HorizontalStackLayout BackgroundColor="{Binding FindBgColor}" Padding="15,0">
-                                <Image MinimumWidthRequest="15" MaximumWidthRequest="15"  Source="find"></Image>
-                                <Label FontFamily="Roboto" Margin="10,0,0,0" FontSize="12" VerticalOptions="Center" Text="Найти" FontAttributes="Bold" TextColor="#ffffff"></Label>
-                            </HorizontalStackLayout>
+                        <HorizontalStackLayout BackgroundColor="{Binding FindBgColor}" Padding="17,0">
+                                <Image MinimumWidthRequest="14" MaximumWidthRequest="13"  Source="find" WidthRequest="15"></Image>
+                                <Label CharacterSpacing="2" Margin="10,0,0,0" FontSize="12" VerticalOptions="Center" Text="Найти" FontAttributes="Bold" TextColor="#ffffff"></Label>
+                        </HorizontalStackLayout>
                         </Border>
                     </Grid>
                 </Border>
@@ -118,8 +118,8 @@
                             <StackLayout Padding="10">
                                 <FlexLayout JustifyContent="SpaceBetween" Margin="0,0,0,5">
                                     <VerticalStackLayout>
-                                            <Label FontFamily="{StaticResource Medium}" Text="{Binding PassTypeName, StringFormat='{0}'}" Style="{StaticResource label_pass_type_and_num}" Margin="0,0,0,-2"></Label>
-                                            <Label FontFamily="{StaticResource Medium}" Text="{Binding PassNum, StringFormat='{0}'}" Style="{StaticResource label_pass_type_and_num}"></Label>
+                                                <Label FontFamily="{StaticResource Medium}" Text="{Binding PassTypeName, StringFormat='{0}'}" Style="{StaticResource label_pass_info_values}" Margin="0,0,0,-2"></Label>
+                                                <Label FontFamily="{StaticResource Medium}" Text="{Binding PassNum, StringFormat='{0}'}" Style="{StaticResource label_pass_info_values}"></Label>
                                     </VerticalStackLayout>
                                     <HorizontalStackLayout VerticalOptions="Center">
                                             <Label Text="{Binding PassStateName, StringFormat='{0}'}" FontSize="14" FontFamily="{StaticResource Regular}"></Label>
@@ -128,17 +128,17 @@
                                 </FlexLayout>
                                 <StackLayout Style="{StaticResource stack_props_labels}" IsVisible="{Binding Visitors[0], TargetNullValue=False}" >
                                     <Label FontFamily="{StaticResource Regular}" TextColor="#0f2548" FontSize="14"  Text="Посетитель: "></Label>
-                                    <Label Text="{Binding Visitors[0].LastName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
-                                    <Label Text="{Binding Visitors[0].FirstName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
-                                    <Label Text="{Binding Visitors[0].SecondName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
+                                    <Label  Text="{Binding Visitors[0].LastName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
+                                    <Label  Text="{Binding Visitors[0].FirstName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
+                                    <Label  Text="{Binding Visitors[0].SecondName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
                                 </StackLayout>
                                 <StackLayout Style="{StaticResource stack_props_labels}">
                                     <Label  FontFamily="{StaticResource Regular}" FontSize="14" Text="Дата посещения: " ></Label>
-                                    <Label Text="{Binding DateFrom , StringFormat='{0} '}" FontAttributes="Bold"></Label>
+                                    <Label Style="{StaticResource label_pass_info_values}" Text="{Binding DateFrom , StringFormat='{0} '}" ></Label>
                                 </StackLayout>
                                     <StackLayout Style="{StaticResource stack_props_labels}" IsVisible="{Binding VisitGoal, TargetNullValue=False}">
-                                        <Label  FontFamily="{StaticResource Regular}"  FontSize="14" Text="Цель: "></Label>
-                                        <Label Text="{Binding VisitGoal.Name, StringFormat='{0} '} " FontAttributes="Bold"></Label>
+                                        <Label FontFamily="{StaticResource Regular}"  FontSize="14" Text="Цель: "></Label>
+                                        <Label Style="{StaticResource label_pass_info_values}" Text="{Binding VisitGoal.Name, StringFormat='{0} '} " ></Label>
                                     </StackLayout>
                                 </StackLayout>
                         </Border>
@@ -185,7 +185,7 @@
                             </Grid>
                         </Border>
                         <Button Command="{Binding FilterPassesCommand}" FontSize="16" FontFamily="{StaticResource Medium}" BackgroundColor="#2056AE" Margin="0,0,0,20" Text="Применить"></Button>
-                        <Button Command="{Binding CancelFilterOfPassesCommand}" FontSize="16" FontFamily="{StaticResource Medium}" FontAttributes="Bold" TextColor="#0F2548" BackgroundColor="#F9F9F9" Margin="0,0,0,20" Text="Сбросить"></Button>
+                        <Button Command="{Binding CancelFilterOfPassesCommand}" FontSize="16" FontFamily="{StaticResource Medium}"  TextColor="#0F2548" BackgroundColor="#F9F9F9" Margin="0,0,0,20" Text="Сбросить"></Button>
                         <Border WidthRequest="250" StrokeShape="RoundRectangle 10" Scale="{Binding FilterApplyingProgresBarScale}"  BackgroundColor="Transparent" Stroke="Transparent" HeightRequest="7" >
                             <ProgressBar Progress="{Binding FilterLoadingProgress}" ProgressColor="#2056ae" BackgroundColor="#b3d0ff" />
                         </Border>

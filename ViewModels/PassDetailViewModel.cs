@@ -36,7 +36,7 @@ namespace Passes.ViewModels
             var data = JsonSerializer.Deserialize<Dictionary<string, string>>(decodedString);
             PassIdInputProp = data?["passId"];
             PassNumInputProp = data?["passNum"];
-            PassDateInputProp = data?["passDate"];
+            PassDateInputProp = data?["passCreated"];
         }
 
       

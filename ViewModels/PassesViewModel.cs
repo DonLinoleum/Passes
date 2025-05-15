@@ -77,7 +77,6 @@ namespace Passes.ViewModels
                 if (_isNeedUpdate) LoadPassesRefreshList();  
             } 
         }
-
         public PassesViewModel()
         {
             _allPassesListHelper = new AllPassesListHelper();
@@ -107,7 +106,7 @@ namespace Passes.ViewModels
         [RelayCommand]
         public async Task PassElementTapped(PassListModel model)
         {
-            var queryParams = new Dictionary<string, string?>() { { "passId",model?.Id },{"passNum",model?.PassNum },{ "passDate",model?.DateFrom} };
+            var queryParams = new Dictionary<string, string?>() { { "passId",model?.Id },{"passNum",model?.PassNum },{ "passCreated",model?.Created} };
             await Shell.Current.GoToAsync($"//PassDetail?QueryData={HttpUtility.UrlEncode(JsonSerializer.Serialize(queryParams))}");
         }
 

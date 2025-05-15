@@ -11,16 +11,34 @@ namespace Passes.Pages
             InitializeComponent();
         }
 
+        protected override async void OnAppearing()
+        {
+            string? login = await SecureStorage.GetAsync("login");
+            string? password = await SecureStorage.GetAsync("password");
+            if (login is not null && password is not null)
+            {
+                bool authResult = await AuthHandler(login, password);
+                if (authResult)
+                    await Shell.Current.GoToAsync("//PassesList");
+                else
+                {
+                    SecureStorage.Remove("login");
+                    SecureStorage.Remove("password");
+                    await Shell.Current.GoToAsync("//AuthPage");
+                }
+            }
+            base.OnAppearing();
+        }
+
         private async void Auth(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(email.Text) && !string.IsNullOrEmpty(password.Text))
             {
-                loader.IsRunning = true;
-                IAuthService auth = new BitrixAuthService(email.Text, password.Text);
-                bool authResult = await auth.Auth();
-                loader.IsRunning = false;
+                bool authResult = await AuthHandler(email.Text,password.Text);
                 if (authResult)
-                {                   
+                {
+                    await SecureStorage.SetAsync("login", email.Text);
+                    await SecureStorage.SetAsync("password", password.Text);
                     await Shell.Current.GoToAsync("//PassesList");
                     password.Text = "";
                     email.Text = "";
@@ -32,6 +50,23 @@ namespace Passes.Pages
                     email.Text = "";
                     auth_error.IsVisible = true;
                 }
+            }
+        }
+
+        private async Task<bool> AuthHandler(string login, string password)
+        {
+            try
+            {
+                loader.IsRunning = true;
+                IAuthService auth = new BitrixAuthService(login, password);
+                bool authResult = await auth.Auth();
+                loader.IsRunning = false;
+                return authResult;
+            }
+            catch (Exception ex) {
+                await DisplayAlert("Ошибка", "Ошибка при загрузке данных", "OK");
+                await Shell.Current.GoToAsync("//AuthPage");
+                return false;
             }
         }
 

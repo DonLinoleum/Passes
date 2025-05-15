@@ -20,7 +20,6 @@
     </Style>
 
     <Style x:Key="top_info_pass" TargetType="Label">
-        <Setter Property="FontAttributes" Value="Bold"></Setter>
         <Setter Property="FontSize" Value="18"></Setter>
     </Style>
 
