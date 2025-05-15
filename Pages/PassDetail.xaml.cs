@@ -7,6 +7,6 @@ public partial class PassDetail : ContentPage
 	public PassDetail()
 	{
 		InitializeComponent();
-		BindingContext = new PassDetailViewModel();
-	}
+		BindingContext = new PassDetailViewModel();    
+    }
 }

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+>
+
+    <Style x:Key="shadow" TargetType="View">
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Offset="0,0" Radius="3" Opacity="0.1" />
+        </Setter>
+    </Style>
+    <Style x:Key="grid_top" TargetType="Grid" BasedOn="{StaticResource shadow}">
+        <Setter Property="Padding" Value="10"></Setter>
+        <Setter Property="BackgroundColor" Value="#ffffff"></Setter>
+        <Setter Property="Margin" Value="0,0,0,10"></Setter>
+    </Style>
+    <Style x:Key="rounded_white_border" TargetType="Border" BasedOn="{StaticResource shadow}">
+        <Setter Property="Stroke" Value="Transparent"></Setter>
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"></Setter>
+        <Setter Property="BackgroundColor" Value="#ffffff"></Setter>
+    </Style>
+
+    <Style x:Key="top_info_pass" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Bold"></Setter>
+        <Setter Property="FontSize" Value="18"></Setter>
+    </Style>
+
+    <Style x:Key="bottom_menu_img" TargetType="Image">
+        <Setter Property="WidthRequest" Value="22"></Setter>
+        <Setter Property="Margin" Value="0,0,0,3.5"></Setter>
+    </Style>
+
+    <Style x:Key="main_buttons" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 5"></Setter>
+        <Setter Property="Stroke" Value="Transparent"></Setter>
+        <Setter Property="BackgroundColor" Value="#B85753"></Setter>
+        <Setter Property="Padding" Value="11,15,11,15"></Setter>
+    </Style>
+</ResourceDictionary>

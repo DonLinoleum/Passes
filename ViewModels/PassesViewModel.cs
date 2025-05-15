@@ -8,12 +8,16 @@ using Passes.ViewModels.Helpers;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Security.AccessControl;
+using System.Text.Json;
+using System.Web;
 
 namespace Passes.ViewModels
 {
+    [QueryProperty(nameof(IsNeedUpdate), "need_update")]
    public partial class PassesViewModel : ObservableObject
     {
-        
+        private bool _isNeedUpdate = false;
+
         [ObservableProperty]
         private ObservableCollection<PassListModel> passes;
 
@@ -66,6 +70,14 @@ namespace Passes.ViewModels
         private bool _hasFilteredByType = false;
         private bool _hasFilteredByState = false;
 
+        public bool IsNeedUpdate { get => _isNeedUpdate; 
+            set 
+            { 
+                _isNeedUpdate = value; 
+                if (_isNeedUpdate) LoadPassesRefreshList();  
+            } 
+        }
+
         public PassesViewModel()
         {
             _allPassesListHelper = new AllPassesListHelper();
@@ -79,6 +91,7 @@ namespace Passes.ViewModels
         {
             IsRefreshing = true;
             await LoadPasses();
+            RestoreFilterSettingsToDefault();
             IsRefreshing = false;
         }
 
@@ -92,9 +105,10 @@ namespace Passes.ViewModels
            IsLoading = false;
         }
         [RelayCommand]
-        public async Task PassElementTapped(string Id)
+        public async Task PassElementTapped(PassListModel model)
         {
-            await Shell.Current.GoToAsync($"//PassDetail?passId={Id}");
+            var queryParams = new Dictionary<string, string?>() { { "passId",model?.Id },{"passNum",model?.PassNum },{ "passDate",model?.DateFrom} };
+            await Shell.Current.GoToAsync($"//PassDetail?QueryData={HttpUtility.UrlEncode(JsonSerializer.Serialize(queryParams))}");
         }
 
         [RelayCommand]
@@ -121,7 +135,7 @@ namespace Passes.ViewModels
             if (FindInput is not null)
             {
                 FilteredPasses = new ObservableCollection<PassListModel>(
-                FilteredPasses.Where(p => p.Pass_num.Contains(FindInput)));
+                FilteredPasses.Where(p => p.PassNum.Contains(FindInput)));
                 if (!_hasSearched)
                 {
                     FilterCount++;
@@ -190,15 +204,9 @@ namespace Passes.ViewModels
                 Task.Run(() =>
                 {
                     FilteredPasses = new ObservableCollection<PassListModel>(Passes);
-                    FilterCount = 0;
-                    FindInput = null;
-                    PassTypeFilterInput = null;
-                    PassStateFilterInput = null;
-                    _hasSearched = false;
-                    _hasFilteredByType = false;
-                    _hasFilteredByState = false;
+                    RestoreFilterSettingsToDefault();
                 })
-                );
+            );
         }
         private void GetItemsForFilterPickers()
         {
@@ -226,6 +234,16 @@ namespace Passes.ViewModels
                     finished: async (v, c) => { FilterApplyingProgresBarScale = 0; await ToogleDrawerFilter(); }
                     );
             });
+        }
+        private void RestoreFilterSettingsToDefault()
+        {
+            FilterCount = 0;
+            FindInput = null;
+            PassTypeFilterInput = null;
+            PassStateFilterInput = null;
+            _hasSearched = false;
+            _hasFilteredByType = false;
+            _hasFilteredByState = false;
         }
     }
 }

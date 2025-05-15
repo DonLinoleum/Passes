@@ -11,13 +11,8 @@
             <x:String x:Key="Regular">JostRegular</x:String>
             <x:String x:Key="Medium">JostMedium</x:String>
         </ResourceDictionary>
-        <ResourceDictionary>
-            <Style TargetType="Label">
-                <Setter Property="FontFamily" Value="{DynamicResource Medium}"></Setter>
-                <Setter Property="TextColor" Value="#0f2548"></Setter>
-            </Style>
-        </ResourceDictionary>
         <ResourceDictionary Source="/Resources/Styles/PassListStyles.xaml"></ResourceDictionary>
+        <StyleSheet Source="/css/styles.css" />
     </ContentPage.Resources>
     
     
@@ -67,7 +62,7 @@
                             </Border.GestureRecognizers>
                         <HorizontalStackLayout BackgroundColor="{Binding FindBgColor}" Padding="15,0">
                                 <Image MinimumWidthRequest="15" MaximumWidthRequest="15"  Source="find"></Image>
-                                <Label Margin="10,0,0,0" FontSize="12" VerticalOptions="Center" Text="Найти" FontAttributes="Bold" TextColor="#ffffff"></Label>
+                                <Label FontFamily="Roboto" Margin="10,0,0,0" FontSize="12" VerticalOptions="Center" Text="Найти" FontAttributes="Bold" TextColor="#ffffff"></Label>
                             </HorizontalStackLayout>
                         </Border>
                     </Grid>
@@ -117,14 +112,14 @@
                                 <Border.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},Path=BindingContext.PassElementTappedCommand}"
-                                    CommandParameter="{Binding Id}"
+                                    CommandParameter="{Binding .}"
                                     ></TapGestureRecognizer>
                             </Border.GestureRecognizers>
                             <StackLayout Padding="10">
                                 <FlexLayout JustifyContent="SpaceBetween" Margin="0,0,0,5">
                                     <VerticalStackLayout>
-                                            <Label Text="{Binding PassTypeName, StringFormat='{0}'}" Style="{StaticResource label_pass_type_and_num}" Margin="0,0,0,-2"></Label>
-                                            <Label Text="{Binding Pass_num, StringFormat='{0}'}" Style="{StaticResource label_pass_type_and_num}"></Label>
+                                            <Label FontFamily="{StaticResource Medium}" Text="{Binding PassTypeName, StringFormat='{0}'}" Style="{StaticResource label_pass_type_and_num}" Margin="0,0,0,-2"></Label>
+                                            <Label FontFamily="{StaticResource Medium}" Text="{Binding PassNum, StringFormat='{0}'}" Style="{StaticResource label_pass_type_and_num}"></Label>
                                     </VerticalStackLayout>
                                     <HorizontalStackLayout VerticalOptions="Center">
                                             <Label Text="{Binding PassStateName, StringFormat='{0}'}" FontSize="14" FontFamily="{StaticResource Regular}"></Label>

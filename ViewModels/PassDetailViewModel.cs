@@ -5,32 +5,47 @@ using Passes.Models.PassList;
 using Passes.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text.Json;
+using System.Web;
 
 namespace Passes.ViewModels
 {
-    [QueryProperty(nameof(PassId),"passId")]
+    [QueryProperty(nameof(QueryData), "QueryData")]
     public partial class PassDetailViewModel : ObservableObject
     {
-        private string? _passId;
+        private string _queryData;
 
         [ObservableProperty]
-        private string? passIdObservable;
+        private string? passIdInputProp;
 
-        public string PassId 
+        [ObservableProperty]
+        private string? passNumInputProp;
+
+        [ObservableProperty]
+        private string? passDateInputProp;
+
+        public string QueryData
         {
-            get => _passId ?? "";
-            set
-            {
-                _passId = value;
-                PassIdObservable = value;
-            }
+            get => _queryData;
+            set {_queryData = value;DecodeQueryData(value);}
         }
+
+        private void DecodeQueryData(string inputEncodedJson)
+        {
+            string decodedString = HttpUtility.UrlDecode(inputEncodedJson);
+            var data = JsonSerializer.Deserialize<Dictionary<string, string>>(decodedString);
+            PassIdInputProp = data?["passId"];
+            PassNumInputProp = data?["passNum"];
+            PassDateInputProp = data?["passDate"];
+        }
+
+      
 
 
         [RelayCommand]
         public async void GoBack()
         {
-            await Shell.Current.GoToAsync("//PassesList");
+            await Shell.Current.GoToAsync("//PassesList?need_update=true");
         }
 
         [RelayCommand]

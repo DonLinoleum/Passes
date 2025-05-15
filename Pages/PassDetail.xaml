@@ -10,22 +10,17 @@
             <x:String x:Key="Regular">JostRegular</x:String>
             <x:String x:Key="Medium">JostMedium</x:String>
         </ResourceDictionary>
-        <ResourceDictionary>
-            <Style TargetType="Label">
-                <Setter Property="FontFamily" Value="{DynamicResource Medium}"></Setter>
-                <Setter Property="TextColor" Value="#0f2548"></Setter>
-            </Style>
-        </ResourceDictionary>
-        <ResourceDictionary Source="/Resources/Styles/PassListStyles.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="/Resources/Styles/PassDetailStyles.xaml"></ResourceDictionary>
+        <StyleSheet Source="/css/styles.css" />
     </ContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
+        <!-- Top -->
         <Grid Style="{StaticResource grid_top}" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -34,8 +29,54 @@
             <Label FontFamily="{StaticResource Medium}"  Grid.Column="0" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Подробные данные"></Label>
             <ImageButton Command="{Binding ExitCommand}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Source="exit"></ImageButton>
         </Grid>
-        <Label Grid.Row="1" Text="{Binding PassIdObservable,StringFormat='Id - {0}'}"></Label>
-        <Button Grid.Row="2" Text="Назад" Command="{Binding GoBackCommand}"></Button>
+        <!-- Main -->
+        <Border Grid.Row="1" Style="{StaticResource rounded_white_border}" Margin="10,0,10,10">
+        <Grid  Style="{StaticResource rounded_white_border}" Padding="10">
+            <StackLayout>
+                <HorizontalStackLayout>
+                    <Label Style="{StaticResource top_info_pass}" Text="{Binding PassNumInputProp, StringFormat='Заявка {0}'}"></Label>
+                    <Label Style="{StaticResource top_info_pass}"   Text="{Binding PassDateInputProp, StringFormat=' от {0}'}"></Label>
+                </HorizontalStackLayout>
+                    <Label FontSize="16" Opacity="0.7" Text="{Binding PassIdInputProp, StringFormat='идентификатор {0}'}"></Label>
+                    <VerticalStackLayout Margin="0,20,0,0">
+                        <Border Style="{StaticResource main_buttons}" Margin="0,0,0,20" >
+                            <FlexLayout JustifyContent="Center">
+                                <Image Source="approve" Margin="0,0,10,0"></Image>
+                                <Label FontSize="16" TextColor="#ffffff" Text="Согласовать"></Label>
+                            </FlexLayout>
+                        </Border>
+                        <Border Style="{StaticResource main_buttons}" >
+                            <FlexLayout JustifyContent="Center">
+                                <Image Source="decline" Margin="0,0,10,0"></Image>
+                                <Label FontSize="16" TextColor="#ffffff" Text="Отказать"></Label>
+                            </FlexLayout>
+                        </Border>
+                    </VerticalStackLayout>    
+            </StackLayout>
+        </Grid>
+        </Border>
+        <!-- Bottom Menu -->
+        <Border Grid.Row="2" Style="{StaticResource rounded_white_border}" StrokeShape="Rectangle" VerticalOptions="End">
+            <Grid Padding="0,5.5">
+                <FlexLayout JustifyContent="SpaceEvenly">
+                    <VerticalStackLayout>
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                        </VerticalStackLayout.GestureRecognizers>
+                        <Image Style="{StaticResource bottom_menu_img}" Source="back" />
+                        <Label FontFamily="{StaticResource Medium}" FontSize="9" Text="Вернуться" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Image Style="{StaticResource bottom_menu_img}" Source="approval_progress.png" />
+                        <Label FontFamily="{StaticResource Medium}" FontSize="9" Text="Ход согласования" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Image Style="{StaticResource bottom_menu_img}" Source="marks.png" />
+                        <Label FontFamily="{StaticResource Medium}" FontSize="9" Text="Отметки" />
+                    </VerticalStackLayout>
+                </FlexLayout>
+            </Grid>
+        </Border>
     </Grid>
 
 

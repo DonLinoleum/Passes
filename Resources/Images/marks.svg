@@ -1,0 +1,14 @@
+﻿<svg width="21.000000" height="21.000000" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+		Created with Pixso.
+	</desc>
+	<defs>
+		<clipPath id="clip351_44">
+			<rect id="git-commit-line" width="21.000000" height="21.000002" transform="translate(21.000000 0.000000) rotate(90.000000)" fill="white" fill-opacity="0"/>
+		</clipPath>
+	</defs>
+	<rect id="git-commit-line" width="21.000000" height="21.000002" transform="translate(21.000000 0.000000) rotate(90.000000)" fill="#FFFFFF" fill-opacity="0"/>
+	<g clip-path="url(#clip351_44)">
+		<path id="矢量 19" d="M9.55 14.06C8.79 13.87 8.11 13.42 7.63 12.8C7.15 12.17 6.89 11.41 6.89 10.62C6.89 9.83 7.15 9.07 7.63 8.44C8.11 7.82 8.79 7.37 9.55 7.18L9.55 2.62L11.33 2.62L11.33 7.18C12.09 7.37 12.77 7.82 13.25 8.44C13.73 9.07 13.99 9.83 13.99 10.62C13.99 11.41 13.73 12.17 13.25 12.8C12.77 13.42 12.09 13.87 11.33 14.06L11.33 18.62L9.55 18.62L9.55 14.06L9.55 14.06ZM8.66 10.62C8.66 11.09 8.85 11.54 9.18 11.88C9.52 12.21 9.97 12.4 10.44 12.4C10.91 12.4 11.36 12.21 11.7 11.88C12.03 11.54 12.22 11.09 12.22 10.62C12.22 10.15 12.03 9.7 11.7 9.36C11.36 9.03 10.91 8.84 10.44 8.84C9.97 8.84 9.52 9.03 9.18 9.36C8.85 9.7 8.66 10.15 8.66 10.62Z" fill="#444444" fill-opacity="1.000000" fill-rule="evenodd"/>
+	</g>
+</svg>

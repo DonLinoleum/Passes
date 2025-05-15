@@ -8,7 +8,7 @@ namespace Passes.Models.PassList
         public string? Id { get; set; }
 
         [JsonPropertyName("pass_num")]
-        public string? Pass_num { get; set; }
+        public string? PassNum { get; set; }
 
         [JsonPropertyName("SINERGO_APP_ENTITY_PASSES_pass_type_name")]
         public string? PassTypeName { get; set; }

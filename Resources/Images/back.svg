@@ -1,0 +1,8 @@
+﻿<svg width="20.000000" height="20.000000" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+		Created with Pixso.
+	</desc>
+	<defs/>
+	<rect id="arrow_downward_24px" width="20.000000" height="20.000000" transform="translate(20.000000 0.000000) rotate(90.000000)" fill="#FFFFFF" fill-opacity="0"/>
+	<path id="icon/navigation/arrow_downward_24px" d="M15.65 9.17L6.35 9.17L10.41 5.1C10.74 4.77 10.74 4.24 10.41 3.92C10.09 3.59 9.56 3.59 9.24 3.92L3.75 9.41C3.42 9.73 3.42 10.26 3.75 10.58L9.24 16.07C9.56 16.4 10.09 16.4 10.41 16.07C10.57 15.92 10.66 15.71 10.66 15.49C10.66 15.27 10.57 15.05 10.41 14.9L6.35 10.83L15.65 10.83C16.11 10.83 16.49 10.46 16.49 10C16.49 9.54 16.11 9.17 15.65 9.17Z" fill="#0F2548" fill-opacity="1.000000" fill-rule="evenodd"/>
+</svg>
