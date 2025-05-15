@@ -9,6 +9,7 @@
         <ResourceDictionary>
             <x:String x:Key="Regular">JostRegular</x:String>
             <x:String x:Key="Medium">JostMedium</x:String>
+            <x:String x:Key="SemiBold">JostSemiBold</x:String>
         </ResourceDictionary>
         <ResourceDictionary Source="/Resources/Styles/PassDetailStyles.xaml"></ResourceDictionary>
         <StyleSheet Source="/css/styles.css" />
@@ -26,7 +27,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Подробные данные"></Label>
+            <Label Grid.Column="0" FontSize="20" FontFamily="JostSemiBold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Подробные данные"></Label>
             <ImageButton Command="{Binding ExitCommand}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Source="exit"></ImageButton>
         </Grid>
         <!-- Main -->
@@ -39,16 +40,16 @@
                 </HorizontalStackLayout>
                     <Label FontFamily="{StaticResource Regular}" FontSize="16" Opacity="0.7" Text="{Binding PassIdInputProp, StringFormat='идентификатор {0}'}"></Label>
                     <VerticalStackLayout Margin="0,20,0,0">
-                        <Border Style="{StaticResource main_buttons}" BackgroundColor="#12A958" Margin="0,0,0,20" >
+                        <Border Style="{StaticResource main_buttons_border}" BackgroundColor="#12A958" Margin="0,0,0,20" >
                             <FlexLayout JustifyContent="Center">
                                 <Image Source="approve" Margin="0,0,10,0"></Image>
-                                <Label CharacterSpacing="1" FontSize="16" TextColor="#ffffff" Text="Согласовать"></Label>
+                                <Label Style="{StaticResource main_buttons}" Text="Согласовать"></Label>
                             </FlexLayout>
                         </Border>
-                        <Border Style="{StaticResource main_buttons}" >
+                        <Border Style="{StaticResource main_buttons_border}" >
                             <FlexLayout JustifyContent="Center">
                                 <Image Source="decline" Margin="0,0,10,0"></Image>
-                                <Label CharacterSpacing="1" FontSize="16"  TextColor="#ffffff" Text="Отказать"></Label>
+                                <Label Style="{StaticResource main_buttons}" Text="Отказать"></Label>
                             </FlexLayout>
                         </Border>
                     </VerticalStackLayout>    

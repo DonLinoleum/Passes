@@ -10,6 +10,7 @@
         <ResourceDictionary>
             <x:String x:Key="Regular">JostRegular</x:String>
             <x:String x:Key="Medium">JostMedium</x:String>
+            <x:String x:Key="SemiBold">JostSemiBold</x:String>
         </ResourceDictionary>
         <ResourceDictionary Source="/Resources/Styles/PassListStyles.xaml"></ResourceDictionary>
         <StyleSheet Source="/css/styles.css" />
@@ -32,7 +33,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Список заявок"></Label>
+                <Label Grid.Column="0" FontSize="20" FontFamily="{StaticResource SemiBold}" VerticalOptions="Center" HorizontalOptions="Start"  Text="Список заявок"></Label>
                 <ImageButton Command="{Binding ExitCommand}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Source="exit"></ImageButton>
             </Grid>
         </Grid>
@@ -62,7 +63,7 @@
                             </Border.GestureRecognizers>
                         <HorizontalStackLayout BackgroundColor="{Binding FindBgColor}" Padding="17,0">
                                 <Image MinimumWidthRequest="14" MaximumWidthRequest="13"  Source="find" WidthRequest="15"></Image>
-                                <Label CharacterSpacing="2" Margin="10,0,0,0" FontSize="12" VerticalOptions="Center" Text="Найти" FontAttributes="Bold" TextColor="#ffffff"></Label>
+                                <Label CharacterSpacing="1" Margin="10,0,0,0" FontSize="12" VerticalOptions="Center" Text="Найти" FontFamily="JostSemiBold" TextColor="#ffffff"></Label>
                         </HorizontalStackLayout>
                         </Border>
                     </Grid>
@@ -118,8 +119,8 @@
                             <StackLayout Padding="10">
                                 <FlexLayout JustifyContent="SpaceBetween" Margin="0,0,0,5">
                                     <VerticalStackLayout>
-                                                <Label FontFamily="{StaticResource Medium}" Text="{Binding PassTypeName, StringFormat='{0}'}" Style="{StaticResource label_pass_info_values}" Margin="0,0,0,-2"></Label>
-                                                <Label FontFamily="{StaticResource Medium}" Text="{Binding PassNum, StringFormat='{0}'}" Style="{StaticResource label_pass_info_values}"></Label>
+                                                <Label LineHeight="0.8" MaximumWidthRequest="150" Text="{Binding PassTypeName, StringFormat='{0}'}" Style="{StaticResource label_pass_info_values}" Margin="0,0,0,-2"></Label>
+                                                <Label Text="{Binding PassNum, StringFormat='{0}'}" Style="{StaticResource label_pass_info_values}"></Label>
                                     </VerticalStackLayout>
                                     <HorizontalStackLayout VerticalOptions="Center">
                                             <Label Text="{Binding PassStateName, StringFormat='{0}'}" FontSize="14" FontFamily="{StaticResource Regular}"></Label>

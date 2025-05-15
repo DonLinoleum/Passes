@@ -24,7 +24,7 @@
     </Style>
     <Style x:Key="label_text_margin_right" TargetType="Label">
         <Setter Property="Margin" Value="0,0,4,0"></Setter>
-        <Setter Property="FontAttributes" Value="Bold"></Setter>
+        <Setter Property="FontFamily" Value="JostSemiBold"></Setter>
         <Setter Property="FontSize" Value="14"></Setter>
         <Setter Property="CharacterSpacing" Value="1"></Setter>
     </Style>
@@ -35,8 +35,9 @@
         <Setter Property="TextColor" Value="#ffffff"></Setter>
     </Style>
     <Style x:Key="label_pass_info_values" TargetType="Label">
-        <Setter Property="FontAttributes" Value="Bold"></Setter>
+        <Setter Property="FontFamily" Value="JostSemiBold"></Setter>
         <Setter Property="FontSize" Value="14"></Setter>
         <Setter Property="CharacterSpacing" Value="1"></Setter>
     </Style>
+    
 </ResourceDictionary>
