@@ -61,7 +61,7 @@
                                 Command="{Binding FindCommand}"
                                 />
                             </Border.GestureRecognizers>
-                        <HorizontalStackLayout BackgroundColor="{Binding FindBgColor}" Padding="17,0">
+                        <HorizontalStackLayout BackgroundColor="{Binding FindBgColor}" Padding="15,0">
                                 <Image MinimumWidthRequest="14" MaximumWidthRequest="13"  Source="find" WidthRequest="15"></Image>
                                 <Label CharacterSpacing="1" Margin="10,0,0,0" FontSize="12" VerticalOptions="Center" Text="Найти" FontFamily="JostSemiBold" TextColor="#ffffff"></Label>
                         </HorizontalStackLayout>
