@@ -1,5 +1,6 @@
 ﻿using Passes.Models.PassList;
 using Passes.Services;
+using Passes.Services.HttpRequests;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -12,18 +13,19 @@ namespace Passes.ViewModels.Helpers
 {
    public class AllPassesListHelper
     {
-        private readonly PassesListService _passesListService;
+        private IHttpGetRequest<RootPassesModel>? _passesListService;
 
         public AllPassesListHelper()
-        {
-            _passesListService = new PassesListService();
-        }
+        { }
 
-        public async Task<List<PassListModel>> GetAllPasses()
+        public async Task<List<PassListModel>>? GetAllPasses()
         {
+            var baseUrl = await ConfigService.GetBaseURL();
+            _passesListService = new PassesListService<RootPassesModel>("PassesListApprover", baseUrl);
             try
             {
-                return await _passesListService.GetPasses();
+                RootPassesModel? passes =  await _passesListService.GetData();
+                return passes?.Passes ?? new List<PassListModel>();
             }
             catch (Exception ex) {
                 await Shell.Current.DisplayAlert("Ошибка", "Ошибка загрузки данных", "OK");

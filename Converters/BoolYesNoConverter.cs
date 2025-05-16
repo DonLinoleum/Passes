@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Passes.Converters
 {
-    public class IsLoadingConverter : IValueConverter
+    public class BoolYesNoConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is bool boolValue)
+            if (value is bool dataValue)
             {
-                return !boolValue;
+                return dataValue == true ? "Да" : "Нет";
             }
-            return value;
+            return null;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

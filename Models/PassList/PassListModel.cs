@@ -20,7 +20,7 @@ namespace Passes.Models.PassList
         public List<VisitorPassListModel>? Visitors { get;set; }
 
         [JsonPropertyName("visit_goal")]
-        public List<VisitGoalPassListModel>? VisitGoal { get; set; }
+        public VisitGoalPassListModel? VisitGoal { get; set; }
 
         [JsonPropertyName("date_from")]
         public string? DateFrom { get; set; }
@@ -43,6 +43,9 @@ namespace Passes.Models.PassList
 
     public class VisitGoalPassListModel
     {
+        [JsonPropertyName("id")]
+        public string? id { get; set; }
+
         [JsonPropertyName("name")]
         public string? name { get; set; }
     }
@@ -59,7 +62,7 @@ namespace Passes.Models.PassList
         public string? FirstName { get; set; }
     }
 
-    public class RootModel
+    public class RootPassesModel
     {
         [JsonPropertyName("Passes")]
         public List<PassListModel>? Passes { get; set; }

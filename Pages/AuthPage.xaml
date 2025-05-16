@@ -22,10 +22,10 @@
                     Radius="5" 
                     Opacity="0.1" />
             </Border.Shadow>
-            <HorizontalStackLayout Spacing="25" Padding="20">
-                <Image Source="error" WidthRequest="65"></Image>
+            <FlexLayout JustifyContent="Center"  Padding="20">
+                <Image Margin="0,0,10,0" Source="error" WidthRequest="65"></Image>
                 <Label FontFamily="{StaticResource Regular}" FontSize="16" VerticalOptions="Center" Text="Неверный логин или пароль."></Label>
-            </HorizontalStackLayout>
+            </FlexLayout>
         </Border>
         
         <Border Stroke="#ffffff" StrokeShape="RoundRectangle 10" Margin="10,0,10,0">
