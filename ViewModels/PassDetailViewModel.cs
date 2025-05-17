@@ -4,7 +4,9 @@ using CommunityToolkit.Mvvm.Input;
 using Passes.Models.PassDetail;
 using Passes.Services;
 using Passes.Services.HttpRequests;
+using Passes.Services.HttpRequestsGet.HttpRequestsGetItem;
 using Passes.ViewModels.States;
+using System.Buffers.Text;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.Json;
@@ -19,7 +21,9 @@ namespace Passes.ViewModels
         private string? _queryData;
         private ActionOnDetailState _detailState;
         private readonly ApproveDeclinePassService _approveDeclinePassService;
+        private IHttpGetRequest<CheckCanApproveModel> _checkCanApprove;
         private IHttpGetRequest<RootPassDetailModel> _passDetailService;
+        private string _baseUrl;
 
         [ObservableProperty]
         private string? passIdInputProp;
@@ -46,6 +50,9 @@ namespace Passes.ViewModels
         private bool isLoading;
 
         [ObservableProperty]
+        private bool? canApprove;
+
+        [ObservableProperty]
         private ObservableCollection<PassDetailModel> passData;
 
         public string QueryData
@@ -55,6 +62,9 @@ namespace Passes.ViewModels
             {
                 _queryData = value;
                 DecodeQueryData(value);
+                _passDetailService = new PassDetailService<RootPassDetailModel>("GetPassById", _baseUrl!, PassIdInputProp ?? "");
+                _checkCanApprove = new CheckCanApproveService<CheckCanApproveModel>("CheckCanApprovePass", _baseUrl!, PassIdInputProp ?? "");
+                LoadPassData();
             }
         }
 
@@ -67,9 +77,19 @@ namespace Passes.ViewModels
         }
 
         public PassDetailViewModel() 
-        { 
+        {
+             GetBaseUrl();
             _detailState = new ActionOnDetailState();
-            _approveDeclinePassService = new ApproveDeclinePassService();          
+            _approveDeclinePassService = new ApproveDeclinePassService();
+        }
+
+        [RelayCommand]
+        public async Task LoadPassData()
+        {
+            IsLoading = true;
+            await GetPassDataById();
+            CanApprove = (await _checkCanApprove.GetData())?.Result;
+            IsLoading = false;
         }
 
         [RelayCommand]
@@ -113,21 +133,28 @@ namespace Passes.ViewModels
         [RelayCommand]
         public async Task HandleApprovementPass()
         {
-            IsSending = true;
-            HandleApproveModel body = new HandleApproveModel() 
+            if (_detailState?.ActionName == ActionOnDetailState.DeclinePass && String.IsNullOrEmpty(CommentFromEditor))
+               await Shell.Current.DisplayAlert("Ошибка","При отказе необходимо указать причину отказа.","OK");
+            else
             {
-                id = PassIdInputProp, 
-                action = _detailState.ActionName,
-                comment = CommentFromEditor
-            };
+                IsSending = true;
+                HandleApproveModel body = new HandleApproveModel()
+                {
+                    id = PassIdInputProp,
+                    action = _detailState.ActionName,
+                    comment = CommentFromEditor
+                };
                 ApproveDeclinePassService approveDeclinePassService = new ApproveDeclinePassService();
                 bool isResponseSuccess = await approveDeclinePassService.MakeRequest(body);
                 IsSending = false;
                 await ToogleDrawer();
                 CommentFromEditor = "";
                 if (isResponseSuccess) await Shell.Current.DisplayAlert("Статус изменен", $"Статус заявки {PassIdInputProp} изменен", "OK");
+                await LoadPassData();
+            }
         }
 
+      
         private async Task DecodeQueryData(string inputEncodedJson)
         {
             string decodedString = HttpUtility.UrlDecode(inputEncodedJson);
@@ -135,18 +162,11 @@ namespace Passes.ViewModels
             PassIdInputProp = data?["passId"];
             PassNumInputProp = data?["passNum"];
             PassDateInputProp = data?["passCreated"];
-            await LoadPassData();
         }
 
-        private async Task LoadPassData()
+        private async void GetBaseUrl()
         {
-            IsLoading = true;
-            var baseUrl = await ConfigService.GetBaseURL();
-            _passDetailService = new PassDetailService<RootPassDetailModel>("GetPassById", baseUrl, PassIdInputProp ?? "");
-            await GetPassDataById();
-            IsLoading = false;
+            _baseUrl = await ConfigService.GetBaseURL();
         }
-
-
     }
 }

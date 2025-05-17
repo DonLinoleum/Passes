@@ -42,6 +42,7 @@ namespace Passes.Services.Auth
                 if (!string.IsNullOrEmpty(phpSessId) && !string.IsNullOrEmpty(mmkUserInfo))
                 {
                     await SecureStorage.SetAsync("PHPSESSID", phpSessId);
+                    await SecureStorage.SetAsync("mmk_user_info", mmkUserInfo);
                     handler.CookieContainer = new System.Net.CookieContainer();
                     return true;
                 }

@@ -6,7 +6,7 @@ using System.Net;
 using System.Text.Json;
 using System.Web;
 
-namespace Passes.Services
+namespace Passes.Services.HttpRequestsGet.HttpRequestsGetList
 {
     class PassesListService<T> : IHttpGetRequest<T>
     {
@@ -29,14 +29,19 @@ namespace Passes.Services
             _baseUrl = baseUrl;
         }
 
+        public async Task AddCookies()
+        {
+            string sessid = await SecureStorage.GetAsync("PHPSESSID") ?? "";
+            _cookieContainer.GetCookies(new Uri(_baseUrl)).Clear();
+            _cookieContainer.Add(new Uri(_baseUrl), new Cookie("PHPSESSID", sessid));
+        }
+
         public async Task<T?> GetData()
         {
             try
             {
                 UriBuilder uriBuilder = PrepareRequestUri();
-                string sessid = await SecureStorage.GetAsync("PHPSESSID") ?? "";
-                _cookieContainer.GetCookies(new Uri(_baseUrl)).Clear();
-                _cookieContainer.Add(new Uri(_baseUrl),new Cookie("PHPSESSID", sessid));
+                await AddCookies();
  
                 HttpRequestMessage request = new HttpRequestMessage() 
                 { 

@@ -110,9 +110,9 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
-                
-                <VerticalStackLayout Margin="0,20,0,0">
-                        <Border Style="{StaticResource main_buttons_border}" BackgroundColor="#12A958" Margin="0,0,0,20" >
+
+                        <VerticalStackLayout Margin="0,20,0,0" IsVisible="{Binding IsLoading,Converter={StaticResource BoolInvertConverter}}">
+                        <Border IsVisible="{Binding CanApprove}" Style="{StaticResource main_buttons_border}" BackgroundColor="#12A958" Margin="0,0,0,20" >
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter="ApprovePass" />
                                 </Border.GestureRecognizers>
@@ -121,7 +121,7 @@
                                 <Label Style="{StaticResource main_buttons}" Text="Согласовать"></Label>
                             </FlexLayout>
                         </Border>
-                        <Border Style="{StaticResource main_buttons_border}" >
+                            <Border IsVisible="{Binding CanApprove}" Style="{StaticResource main_buttons_border}" >
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter="DeclinePass" />
                                 </Border.GestureRecognizers>

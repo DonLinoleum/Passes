@@ -10,5 +10,6 @@ namespace Passes.Services.HttpRequests
     {
         Task<T?> GetData();
         UriBuilder PrepareRequestUri();
+        Task AddCookies();
     }
 }

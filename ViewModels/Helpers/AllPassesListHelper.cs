@@ -1,6 +1,7 @@
 ﻿using Passes.Models.PassList;
 using Passes.Services;
 using Passes.Services.HttpRequests;
+using Passes.Services.HttpRequestsGet.HttpRequestsGetList;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
