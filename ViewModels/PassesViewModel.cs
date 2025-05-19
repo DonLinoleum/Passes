@@ -31,7 +31,10 @@ namespace Passes.ViewModels
         private ObservableCollection<string> passTypeFilterItems;
 
         [ObservableProperty]
-        private bool isLoading = true;
+        private bool hasNoPasses = false;
+
+        [ObservableProperty]
+        private bool isLoading = false;
 
         [ObservableProperty]
         private bool isRefreshing = false;
@@ -69,18 +72,25 @@ namespace Passes.ViewModels
         private bool _hasSearched = false;
         private bool _hasFilteredByType = false;
         private bool _hasFilteredByState = false;
+        private string _baseUrl;
 
         public bool IsNeedUpdate { get => _isNeedUpdate; 
             set 
             { 
-                _isNeedUpdate = value; 
-                if (_isNeedUpdate) LoadPassesRefreshList();  
+                _isNeedUpdate = value;
+                Init(_isNeedUpdate);  
             } 
         }
+
+        private async Task Init(bool isNeedUpdate)
+        {
+            if (_isNeedUpdate) await LoadPassesRefreshList();
+        }
+
         public PassesViewModel()
         {
-            _allPassesListHelper = new AllPassesListHelper();
-            LoadPasses();
+            _baseUrl = (new BaseUrlService()).GetBaseUrl();
+            _allPassesListHelper = new AllPassesListHelper(_baseUrl);
         }
 
         public int OpacityHasFilters => FilterCount > 0 ? 1 : 0;
@@ -88,26 +98,30 @@ namespace Passes.ViewModels
         [RelayCommand]
         public async Task LoadPassesRefreshList()
         {
-            IsRefreshing = true;
-            await LoadPasses();
-            RestoreFilterSettingsToDefault();
+            IsLoading = true;
+            IsRefreshing = false;
+            await Task.Run(async () => {
+                await LoadPasses();
+                RestoreFilterSettingsToDefault();
+            });
+            IsLoading = false;
             IsRefreshing = false;
         }
 
         [RelayCommand]
         public async Task LoadPasses()
         {
-           var passesList = await _allPassesListHelper.GetAllPasses();
-           Passes = new ObservableCollection<PassListModel>(passesList);
-           FilteredPasses = new ObservableCollection<PassListModel>(passesList);
-           GetItemsForFilterPickers();
-           IsLoading = false;
+                var passesList = await _allPassesListHelper.GetAllPasses();
+                HasNoPasses = passesList?.Count < 1;
+                Passes = new ObservableCollection<PassListModel>(passesList);
+                FilteredPasses = new ObservableCollection<PassListModel>(passesList);
+                GetItemsForFilterPickers();
         }
         [RelayCommand]
         public async Task PassElementTapped(PassListModel model)
         {
             var queryParams = new Dictionary<string, string?>() { { "passId",model?.Id },{"passNum",model?.PassNum },{ "passCreated",model?.Created} };
-            await Shell.Current.GoToAsync($"//PassDetail?QueryData={HttpUtility.UrlEncode(JsonSerializer.Serialize(queryParams))}");
+            await Shell.Current.GoToAsync($"//PassDetail?QueryData={HttpUtility.UrlEncode(JsonSerializer.Serialize(queryParams))}",true);
         }
 
         [RelayCommand]
@@ -219,19 +233,8 @@ namespace Passes.ViewModels
         {
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
-                var animation = new Animation(
-                    callback: v => FilterLoadingProgress = v,
-                    start: 0.0,
-                    end: 1.0,
-                    easing: Easing.CubicInOut
-                    );
-                Application.Current.MainPage.Animate(
-                    name: "LoadingProgressBar",
-                    animation: animation,
-                    rate: 16,
-                    length: 500,
-                    finished: async (v, c) => { FilterApplyingProgresBarScale = 0; await ToogleDrawerFilter(); }
-                    );
+                var animation = new Animation(callback: v => FilterLoadingProgress = v,start: 0.0,end: 1.0,easing: Easing.CubicInOut);
+                Application.Current.MainPage.Animate(name: "LoadingProgressBar",animation: animation,rate: 16,length: 500,finished: async (v, c) => { FilterApplyingProgresBarScale = 0; await ToogleDrawerFilter(); });
             });
         }
         private void RestoreFilterSettingsToDefault()

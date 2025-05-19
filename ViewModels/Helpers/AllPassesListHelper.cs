@@ -15,14 +15,16 @@ namespace Passes.ViewModels.Helpers
    public class AllPassesListHelper
     {
         private IHttpGetRequest<RootPassesModel>? _passesListService;
+        private string _baseUrl;
 
-        public AllPassesListHelper()
-        { }
+        public AllPassesListHelper(string baseUrl)
+        {
+            _baseUrl = baseUrl;
+            _passesListService = new PassesListService<RootPassesModel>("PassesListApprover", baseUrl);
+        }
 
         public async Task<List<PassListModel>>? GetAllPasses()
         {
-            var baseUrl = await ConfigService.GetBaseURL();
-            _passesListService = new PassesListService<RootPassesModel>("PassesListApprover", baseUrl);
             try
             {
                 RootPassesModel? passes =  await _passesListService.GetData();

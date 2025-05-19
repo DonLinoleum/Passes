@@ -14,6 +14,10 @@
             <converters:BoolInvertConverter x:Key="BoolInvertConverter"></converters:BoolInvertConverter>
             <converters:BoolYesNoConverter x:Key="BoolYesNoConverter"></converters:BoolYesNoConverter>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"></converters:NullToVisibilityConverter>
+            <converters:NumberToYesOrNoConverter x:Key="NumberToYesOrNoConverter"></converters:NumberToYesOrNoConverter>
+            <converters:AreasImportExportConverter x:Key="AreasImportExportConverter"></converters:AreasImportExportConverter>
+            <converters:CheckIsNegotiatorIsUserByIdConverter x:Key="CheckIsNegotiatorIsUserByIdConverter"></converters:CheckIsNegotiatorIsUserByIdConverter>
+            <converters:StatusMarkColorConverter x:Key="StatusMarkColorConverter"></converters:StatusMarkColorConverter>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

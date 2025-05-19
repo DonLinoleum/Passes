@@ -79,12 +79,6 @@ namespace Passes.Models.PassDetail
         [JsonPropertyName("is_internal_movement")]
         public string? is_internal_movement { get; set; }
 
-        [JsonPropertyName("mol_user_id")]
-        public string? mol_user_id { get; set; }
-
-        [JsonPropertyName("psp_user_id")]
-        public string? psp_user_id { get; set; }
-
         [JsonPropertyName("transit_from_object_id")]
         public string? transit_from_object_id { get; set; }
 
@@ -138,9 +132,6 @@ namespace Passes.Models.PassDetail
 
         [JsonPropertyName("associated_pass")]
         public string? associated_pass { get; set; }
-
-        [JsonPropertyName("visit_goal_id")]
-        public string? visit_goal_id { get; set; }
 
         [JsonPropertyName("is_umts")]
         public string? is_umts { get; set; }
@@ -538,6 +529,9 @@ namespace Passes.Models.PassDetail
         [JsonPropertyName("author")]
         public string? author { get; set; }
 
+        [JsonPropertyName("mol")]
+        public string? mol { get; set; }
+
         [JsonPropertyName("vehicles")]
         public List<Vehicle>? vehicles { get; set; }
 
@@ -546,6 +540,9 @@ namespace Passes.Models.PassDetail
 
         [JsonPropertyName("visit_goal")]
         public VisitGoal? visitGoal { get; set; }
+
+        [JsonPropertyName("areas")]
+        public Areas? Areas { get; set; }
 
     }
 
@@ -604,6 +601,7 @@ namespace Passes.Models.PassDetail
 
         [JsonPropertyName("is_employee_of_mmk")]
         public bool? is_employee_of_mmk { get; set; }
+
     }
 
     public class VisitGoal
@@ -622,6 +620,15 @@ namespace Passes.Models.PassDetail
 
         [JsonPropertyName("number")]
         public string? number { get; set; }
+    }
+
+    public class Areas
+    {
+        [JsonPropertyName("SINERGO_APP_ENTITY_PASSES_AREAS_area_import_name")]
+        public string? ImportName { get; set; }
+
+        [JsonPropertyName("SINERGO_APP_ENTITY_PASSES_AREAS_area_export_name")]
+        public string? ExportName { get; set; }
     }
 
     public class RootPassDetailModel

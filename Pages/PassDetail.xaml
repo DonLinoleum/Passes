@@ -2,8 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Passes.Pages.PassDetail"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
              Shell.NavBarIsVisible="False"
              BackgroundColor="#f9f9f9" 
+             Shell.PresentationMode="Animated"
              >
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -13,6 +15,8 @@
         </ResourceDictionary>
         <ResourceDictionary Source="/Resources/Styles/PassDetailStyles.xaml"></ResourceDictionary>
         <StyleSheet Source="/css/styles.css" />
+        <x:Boolean x:Key="FalseValue">False</x:Boolean>
+        <x:Boolean x:Key="TrueValue">True</x:Boolean>
     </ContentPage.Resources>
 
     <Grid>
@@ -24,173 +28,329 @@
         <!-- Top -->
         <Grid Grid.Row="0">
             <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" Grid.ZIndex="1"></BoxView>
-        <Grid Style="{StaticResource grid_top}" Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" FontSize="20" FontFamily="JostSemiBold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Подробные данные"></Label>
-            <ImageButton Command="{Binding ExitCommand}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Source="exit"></ImageButton>
+            <Grid Style="{StaticResource grid_top}" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" FontSize="20" FontFamily="JostSemiBold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Подробные данные"></Label>
+                <ImageButton Command="{Binding ExitCommand}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Source="exit"></ImageButton>
+            </Grid>
         </Grid>
-        </Grid>
-    <!-- Main -->
+        <!-- Main -->
         <Grid Grid.Row="1">
             <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" Grid.ZIndex="1"></BoxView>
-           <Border Style="{StaticResource rounded_white_border}" Margin="10,0,10,10">
-            <Grid  Style="{StaticResource rounded_white_border}" Padding="10">
-            <StackLayout>
-                <HorizontalStackLayout>
-                    <Label Style="{StaticResource top_info_pass}" Text="{Binding PassNumInputProp, StringFormat='Заявка {0}'}"></Label>
-                    <Label Style="{StaticResource top_info_pass}" Text="{Binding PassDateInputProp, StringFormat=' от {0}'}"></Label>
-                </HorizontalStackLayout>
-                <Label FontFamily="{StaticResource Regular}" FontSize="16" Opacity="0.7" Text="{Binding PassIdInputProp, StringFormat='идентификатор {0}'}"></Label>
+            <Border Style="{StaticResource rounded_white_border}" Margin="10,0,10,10">
+                <Grid Padding="10" RowDefinitions="Auto,*,Auto">
+                    <StackLayout Grid.Row="0">
+                        <HorizontalStackLayout>
+                            <Label Style="{StaticResource top_info_pass}" Text="{Binding PassNumInputProp, StringFormat='Заявка {0}'}"></Label>
+                            <Label Style="{StaticResource top_info_pass}" Text="{Binding PassDateInputProp, StringFormat=' от {0}'}"></Label>
+                        </HorizontalStackLayout>
+                        <Label FontFamily="{StaticResource Regular}" FontSize="16" Opacity="0.7" Text="{Binding PassIdInputProp, StringFormat='идентификатор {0}'}"></Label>
+                        <ActivityIndicator Margin="0,50,0,0" IsRunning="true" IsVisible="{Binding IsLoading}" Color="#2056ae" />
+                    </StackLayout>
+                    <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+                        <VerticalStackLayout>
+                            <CollectionView ItemsSource="{Binding PassData}" IsVisible="{Binding IsLoading,Converter={StaticResource BoolInvertConverter}}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout>
+                                    <Label Style="{StaticResource label_subtitles}" Text="Данные посетителя" ></Label>
+                                    <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}" Text="ФИО: "/>
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].LastName}" Margin="0,0,2,0" />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].FirstName}"  Margin="0,0,2,0"/>
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].SecondName}" Margin="0,0,2,0" />
+                                    </FlexLayout>
+                                    <FlexLayout IsVisible="{Binding visitors[0].BirthDate, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}" Text="Дата рождения: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].BirthDate}" />
+                                    </FlexLayout>
+                                    <FlexLayout IsVisible="{Binding visitors[0].Phone, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}" Text="Телефон: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].Phone}" />
+                                    </FlexLayout>
+                                    <Label Style="{StaticResource label_subtitles}" Text="Данные пропуска" ></Label>
+                                    <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
+                                    
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding author, Converter={StaticResource NullToVisibilityConverter}}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Составитель: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding author}" />
+                                    </FlexLayout>
 
-                        <ActivityIndicator Margin="0,10,0,0" IsRunning="true" IsVisible="{Binding IsLoading}" Color="#2056ae" />
-                        <CollectionView ItemsSource="{Binding PassData}" IsVisible="{Binding IsLoading,Converter={StaticResource BoolInvertConverter}}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackLayout>
-                                        <Label Style="{StaticResource label_subtitles}" Text="Данные посетителя" ></Label>
-                                        <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
-                                        <HorizontalStackLayout Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}" Text="ФИО: "/>
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].LastName}" Margin="0,0,5,0" />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].FirstName}"  Margin="0,0,5,0"/>
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].SecondName}" Margin="0,0,5,0" />
-                                        </HorizontalStackLayout>
-                                        <HorizontalStackLayout IsVisible="{Binding visitors[0].BirthDate, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}" Text="Дата рождения: " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].BirthDate}" />
-                                        </HorizontalStackLayout>
-                                        <HorizontalStackLayout IsVisible="{Binding visitors[0].Phone, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}" Text="Телефон: " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].Phone}" />
-                                        </HorizontalStackLayout>
-                                        <Label Style="{StaticResource label_subtitles}" Text="Данные пропуска" ></Label>
-                                        <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
-                                        <HorizontalStackLayout Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}"  Text="Тип пропуска: " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding SINERGO_APP_ENTITY_PASSES_pass_type_name}" />
-                                        </HorizontalStackLayout>
-                                        <HorizontalStackLayout Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}"  Text="Цель посещения: " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding visitGoal.name}" />
-                                        </HorizontalStackLayout>
-                                        <HorizontalStackLayout Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}"  Text="Объект посещения: " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding objects[0].SINERGO_APP_ENTITY_PASSES_OBJECTS_object_name}" />
-                                        </HorizontalStackLayout>
-                                        <HorizontalStackLayout IsVisible="{Binding curator, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}"  Text="Куратор или принимающее лицо: " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding curator}" />
-                                        </HorizontalStackLayout>
-                                        
-                                        <HorizontalStackLayout Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}"  Text="Дата посещения: " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding date_from}" />
-                                        </HorizontalStackLayout>
-                                        <HorizontalStackLayout IsVisible="{Binding time_from, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}"  Text="Временной режим 'С' и 'ПО': " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding time_from, StringFormat='C {0}'}" />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding time_to, StringFormat=' ПО {0}'}" />
-                                        </HorizontalStackLayout>
-                                        <HorizontalStackLayout IsVisible="{Binding goal, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}"  Text="Цель пребывания: " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding goal}" />
-                                        </HorizontalStackLayout>
-                                        <HorizontalStackLayout IsVisible="{Binding visitors[0].number_of_pass, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}"  Text="Номер электронного пропуска: " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].number_of_pass}" />
-                                        </HorizontalStackLayout>
-                                        <HorizontalStackLayout IsVisible="{Binding visitors[0].date_of_pass, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
-                                            <Label Style="{StaticResource pass_data_keys}"  Text="Дата выдачи электронного пропуска: " />
-                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].date_of_pass}" />
-                                        </HorizontalStackLayout>
-                                    </StackLayout>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding is_tmc, Converter={StaticResource NullToVisibilityConverter}}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Ввоз подрядчиком (Да/Нет): " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding is_tmc, Converter={StaticResource NumberToYesOrNoConverter}}" />
+                                    </FlexLayout>
 
-                        <VerticalStackLayout Margin="0,20,0,0" IsVisible="{Binding IsLoading,Converter={StaticResource BoolInvertConverter}}">
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding is_internal_movement, Converter={StaticResource NullToVisibilityConverter}}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Внутреннее перемещение (Да/Нет): " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding is_internal_movement}" />
+                                    </FlexLayout>
+
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding mol, Converter={StaticResource NullToVisibilityConverter}}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="МОЛ: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding mol}" />
+                                    </FlexLayout>
+
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Тип пропуска: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding SINERGO_APP_ENTITY_PASSES_pass_type_name}" />
+                                    </FlexLayout>
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Цель посещения: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding visitGoal.name}" />
+                                    </FlexLayout>
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Объект посещения: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding objects[0].SINERGO_APP_ENTITY_PASSES_OBJECTS_object_name}" />
+                                    </FlexLayout>
+                                    <FlexLayout IsVisible="{Binding curator, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Куратор или принимающее лицо: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding curator}" />
+                                    </FlexLayout>
+
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Дата посещения: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding date_from}" />
+                                    </FlexLayout>
+                                    <FlexLayout IsVisible="{Binding time_from, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Временной режим 'С' и 'ПО': " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding time_from, StringFormat='C {0}'}" />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding time_to, StringFormat=' ПО {0}'}" />
+                                    </FlexLayout>
+                                            <FlexLayout IsVisible="{Binding goal, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                                <Label Style="{StaticResource pass_data_keys}"  Text="Цель пребывания: " />
+                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding goal}" />
+                                            </FlexLayout>
+                                            <FlexLayout AlignItems="Center"  Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding transit_from_object_text, Converter={StaticResource NullToVisibilityConverter}}">
+                                                <Label Style="{StaticResource pass_data_keys}"  Text="Откуда осуществляется вывоз: " />
+                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding transit_from_object_text}" />
+                                            </FlexLayout>
+                                            <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding SINERGO_APP_ENTITY_PASSES_transit_to_object_NAME, Converter={StaticResource NullToVisibilityConverter}}">
+                                                <Label Style="{StaticResource pass_data_keys}"  Text="Куда осуществляется ввоз: " />
+                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding SINERGO_APP_ENTITY_PASSES_transit_to_object_NAME}" Margin="0,0,2,0" />
+                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding SINERGO_APP_ENTITY_PASSES_transit_to_object_LOCATION}" />
+                                            </FlexLayout>
+                                            <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding Areas, Converter={StaticResource AreasImportExportConverter},ConverterParameter='ImportName'}">
+                                                <Label Style="{StaticResource pass_data_keys}"  Text="Место ввоза груза: " />
+                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding Areas.ImportName}"/>
+                                            </FlexLayout>
+                                            <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding Areas, Converter={StaticResource AreasImportExportConverter},ConverterParameter='ExportName'}">
+                                                <Label Style="{StaticResource pass_data_keys}"  Text="Место вывоза груза: " />
+                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding Areas.ExportName}"/>
+                                            </FlexLayout>
+                                            <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding comment, Converter={StaticResource NullToVisibilityConverter}}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Комментарий: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding comment}"/>
+                                    </FlexLayout>
+
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding waybills, Converter={StaticResource NullToVisibilityConverter}}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Транспортные накладные: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding waybills}"/>
+                                    </FlexLayout>
+
+                                    <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding SINERGO_APP_ENTITY_PASSES_way_to_get_documents_name, Converter={StaticResource NullToVisibilityConverter}}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Документы на ТМЦ: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding SINERGO_APP_ENTITY_PASSES_way_to_get_documents_name}"/>
+                                    </FlexLayout>
+
+                                    <FlexLayout IsVisible="{Binding visitors[0].number_of_pass, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Номер электронного пропуска: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].number_of_pass}" />
+                                    </FlexLayout>
+                                    <FlexLayout IsVisible="{Binding visitors[0].date_of_pass, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                        <Label Style="{StaticResource pass_data_keys}"  Text="Дата выдачи электронного пропуска: " />
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].date_of_pass}" />
+                                    </FlexLayout>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <VerticalStackLayout  Margin="0,20,0,0" IsVisible="{Binding IsLoading,Converter={StaticResource BoolInvertConverter}}">
                         <Border IsVisible="{Binding CanApprove}" Style="{StaticResource main_buttons_border}" BackgroundColor="#12A958" Margin="0,0,0,20" >
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter="ApprovePass" />
-                                </Border.GestureRecognizers>
+                            <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter="ApprovePass,ApproveDeclineDrawer" />
+                            </Border.GestureRecognizers>
                             <FlexLayout JustifyContent="Center">
                                 <Image Source="approve" Margin="0,0,6,0"></Image>
                                 <Label Style="{StaticResource main_buttons}" Text="Согласовать"></Label>
                             </FlexLayout>
                         </Border>
-                            <Border IsVisible="{Binding CanApprove}" Style="{StaticResource main_buttons_border}" >
-                                <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter="DeclinePass" />
-                                </Border.GestureRecognizers>
-                                <FlexLayout JustifyContent="Center">
+                        <Border IsVisible="{Binding CanApprove}" Style="{StaticResource main_buttons_border}" >
+                            <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter="DeclinePass,ApproveDeclineDrawer" />
+                            </Border.GestureRecognizers>
+                            <FlexLayout JustifyContent="Center">
                                 <Image Source="decline" Margin="0,0,6,0"></Image>
                                 <Label Style="{StaticResource main_buttons}" Text="Отказать"></Label>
                             </FlexLayout>
                         </Border>
-                    </VerticalStackLayout>    
-            </StackLayout>
-        </Grid>
-        </Border>
-    </Grid>
-
-    <!-- DrawerApprove/Decline-->
-    <Grid Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerHeight}" Grid.Row="1">
-            <Grid >
-                <Grid.GestureRecognizers>
-                    <SwipeGestureRecognizer 
-                 Direction="Down"
-                 Command="{Binding ToogleDrawerCommand}"
-                 Threshold="20"
-                />
-                </Grid.GestureRecognizers>
-                <Border 
-        Margin="0,0,0,0" 
-        Style="{StaticResource rounded_white_border}" 
-        StrokeShape="RoundRectangle 20 20 0 0" 
-        Padding="10">
-                    <VerticalStackLayout>
-                        <Border Margin="0,0,0,20" Stroke="Transparent" StrokeShape="RoundRectangle 10" HeightRequest="8" WidthRequest="150">
-                            <BoxView BackgroundColor="#2056Ae" Opacity="0.6"  />
-                        </Border>
-                        <Label FontSize="16" Text="Комментарий / причина отказа"  FontFamily="{StaticResource Medium}"></Label>
-                        <Border IsVisible="{Binding IsSending,Converter={StaticResource BoolInvertConverter}}" Margin="0,5,0,20" Stroke="#ffffff" StrokeShape="RoundRectangle 10">
-                            <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" BackgroundColor="#f6f6f8" FontSize="14" FontFamily="JostMedium" HeightRequest="135"></Editor>
-                        </Border>
-                        <Border IsVisible="{Binding IsSending}" Margin="0,5,0,20" Stroke="#ffffff" StrokeShape="RoundRectangle 10" HeightRequest="135">
-                            <ActivityIndicator VerticalOptions="Center" IsRunning="true" Color="#2056ae" />
-                        </Border>
-                        <Button Command="{Binding HandleApprovementPassCommand}" FontSize="16" FontFamily="{StaticResource Medium}" BackgroundColor="#2056AE" Margin="0,0,0,20" Text="Принять"></Button>
                     </VerticalStackLayout>
-                </Border>
-            </Grid>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </Grid>
+            </Border>
         </Grid>
 
+        <!-- DrawerApprove/Decline-->
+        <Grid IsVisible="{Binding ApproveDeclineDrawerVisible}" Grid.ZIndex="100" Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerHeight}" Grid.Row="1">
+            <Border  Margin="0,0,0,0" Style="{StaticResource rounded_white_border}" StrokeShape="RoundRectangle 20 20 0 0" Padding="10">
+                <Border.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Down" Command="{Binding ToogleDrawerCommand}" Threshold="20"/>
+                </Border.GestureRecognizers>
+                <VerticalStackLayout>
+                    <Border Margin="0,0,0,20" Stroke="Transparent" StrokeShape="RoundRectangle 10" HeightRequest="8" WidthRequest="150">
+                        <BoxView BackgroundColor="#2056Ae" Opacity="0.6"  />
+                    </Border>
+                    <Label FontSize="16" Text="Комментарий / причина отказа"  FontFamily="{StaticResource Medium}"></Label>
+                    <Border IsVisible="{Binding IsSending,Converter={StaticResource BoolInvertConverter}}" Margin="0,5,0,20" Stroke="#ffffff" StrokeShape="RoundRectangle 10">
+                        <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" BackgroundColor="#f6f6f8" FontSize="14" FontFamily="JostMedium" HeightRequest="135"></Editor>
+                    </Border>
+                    <Border IsVisible="{Binding IsSending}" Margin="0,5,0,20" Stroke="#ffffff" StrokeShape="RoundRectangle 10" HeightRequest="135">
+                        <ActivityIndicator VerticalOptions="Center" IsRunning="true" Color="#2056ae" />
+                    </Border>
+                    <Button Command="{Binding HandleApprovementPassCommand}" FontSize="16" FontFamily="{StaticResource Medium}" BackgroundColor="#2056AE" Margin="0,0,0,20" Text="Принять"></Button>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- DrawerApprove/ApprovalProgress-->
+        <Grid IsVisible="{Binding ApproveProgressDrawerVisible}" Grid.ZIndex="100"  Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerHeight}" Grid.Row="1">
+            <Border BackgroundColor="#f9f9f9" Margin="0,0,0,0" Style="{StaticResource rounded_white_border}" StrokeShape="RoundRectangle 20 20 0 0" Padding="10">
+                <Border.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Down" Command="{Binding ToogleDrawerCommand}" Threshold="20"/>
+                </Border.GestureRecognizers>
+                <VerticalStackLayout>
+                    <Border Margin="0,0,0,20" Stroke="Transparent" StrokeShape="RoundRectangle 10" HeightRequest="8" WidthRequest="150">
+                        <BoxView BackgroundColor="#2056Ae" Opacity="0.6"  />
+                    </Border>
+                    <Label Style="{StaticResource pass_drawer_title}" Text="Ход согласования"></Label>
+                    <ActivityIndicator  Margin="0,50,0,50" HorizontalOptions="Center" IsRunning="{Binding IsDrawerLoading}" IsVisible="{Binding IsDrawerLoading}" Color="#2056ae"></ActivityIndicator>
+                    <ScrollView IsVisible="{Binding IsDrawerLoading,Converter={StaticResource BoolInvertConverter}}" VerticalScrollBarVisibility="Never">
+                        <VerticalStackLayout>
+                            <Border IsVisible="{Binding PassProgress.Mol, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource rounded_white_border}" Margin="0,0,0,10">
+                            <VerticalStackLayout  Padding="10">
+                            <HorizontalStackLayout Margin="0,0,0,10">
+                                    <Image VerticalOptions="Center" Source="user_icon" WidthRequest="30" HeightRequest="30" Margin="0,0,11,0" ></Image>
+                                    <Label VerticalOptions="Center" LineBreakMode="WordWrap">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding PassProgress.Mol.LastName}"></Span>
+                                            <Span Text=" " ></Span>
+                                            <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding PassProgress.Mol.Name}"></Span>
+                                            <Span Text=" "></Span>
+                                            <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding PassProgress.Mol.SecondName}"></Span>
+                                                    <Span Text=" "></Span>
+                                                </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label IsVisible="{Binding IsNegotiatorIsUser,Converter={StaticResource CheckIsNegotiatorIsUserByIdConverter},ConverterParameter={Binding PassProgress.Mol.Id}}" VerticalOptions="Center" Text="(Вы)" Style="{StaticResource pass_drawer_approve_progress_user_name}"></Label>
+                               </HorizontalStackLayout>
+                                <Label Style="{StaticResource pass_drawer_approve_progress_user_role}" Text="{Binding PassProgress.Mol.Role}"></Label>
+                            <HorizontalStackLayout>
+                                    <Border Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}">
+                                    <Grid>
+                                            <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassProgress.Mol.Status}"></Label>
+                                                <Grid Grid.Column="1" Margin="10,0,2,0">
+                                                    <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}"  />
+                                                    <Image WidthRequest="10" HeightRequest="10"  Source="calendar"/>
+                                                </Grid>
+                                    </Grid>
+                                </Border>
+                                    <Border Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2">
+                                    <Grid ColumnDefinitions="Auto,Auto">
+                                         <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassProgress.Mol.Date}"></Label>
+                                                <Grid Grid.Column="1" Margin="8,0,3,0">
+                                                    <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}"  />
+                                                    <Image WidthRequest="10" HeightRequest="10"  Source="calendar"/>
+                                                </Grid>
+                                    </Grid>
+                                </Border>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                         </Border>
+                            <CollectionView ItemsSource="{Binding PassProgress.Negotiators}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                        <Border Style="{StaticResource rounded_white_border}" Margin="0,0,0,10">
+                                            <VerticalStackLayout Padding="10" IsVisible="{Binding LastName, Converter={StaticResource NullToVisibilityConverter}}">
+                                                <HorizontalStackLayout Margin="0,0,0,10">
+                                                    <Image Source="user_icon" WidthRequest="30" HeightRequest="30" Margin="0,0,11,0"></Image>
+                                                    <Label VerticalOptions="Center" LineBreakMode="WordWrap" >
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding LastName}"></Span>
+                                                        <Span Text=" " ></Span>
+                                                        <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding Name}"></Span>
+                                                        <Span Text=" "></Span>
+                                                        <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding SecondName}"></Span>
+                                                        <Span Text=" "></Span>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                         <Label IsVisible="{Binding IsNegotiatorIsUser,Converter={StaticResource CheckIsNegotiatorIsUserByIdConverter},ConverterParameter={Binding Id}}" VerticalOptions="Center" Text="(Вы)" Style="{StaticResource pass_drawer_approve_progress_user_name}"></Label>
+                                        </HorizontalStackLayout>
+                                                <Label Style="{StaticResource pass_drawer_approve_progress_user_role}" Text="{Binding Role}"></Label>
+                                                <HorizontalStackLayout>
+                                                    <Border BackgroundColor="{Binding StatusMarkColor,Converter={StaticResource StatusMarkColorConverter},ConverterParameter={Binding Status}}" Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}">
+                                                        <Grid ColumnDefinitions="Auto,Auto">
+                                                            <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding Status}"></Label>
+                                                            <Grid Grid.Column="1" Margin="10,0,2,0">
+                                                                <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}"  />
+                                                                <Image WidthRequest="10" HeightRequest="10"  Source="calendar"/>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Border>
+                                                    <Border Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="7,2,0,2" IsVisible="{Binding Date,Converter={StaticResource NullToVisibilityConverter}}">
+                                                        <Grid ColumnDefinitions="Auto,Auto">
+                                                            <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding Date}"></Label>
+                                                            <Grid Grid.Column="1" Margin="10,0,2,0">
+                                                                <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}" />
+                                                                <Image WidthRequest="10" HeightRequest="10"  Source="calendar"/>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Border>
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+                                    </Border>
+                            </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
 
         <!-- Bottom Menu -->
-        <Border IsVisible="{Binding MainContentOpacity, Converter={StaticResource BoolInvertConverter}}" Grid.Row="2" Style="{StaticResource rounded_white_border}" StrokeShape="Rectangle" VerticalOptions="End">
-            <Grid Padding="0,5.5">
-                <FlexLayout JustifyContent="SpaceEvenly">
+        <Grid Grid.Row="2" >
+            <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" Grid.ZIndex="1"></BoxView>
+            <Border Style="{StaticResource rounded_white_border}" StrokeShape="Rectangle" VerticalOptions="End">
+                <FlexLayout JustifyContent="SpaceEvenly" Padding="0,5.5">
                     <VerticalStackLayout>
                         <VerticalStackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                            <TapGestureRecognizer Command="{Binding GoBackCommand}" CommandParameter="//PassesList"/>
                         </VerticalStackLayout.GestureRecognizers>
                         <Image Style="{StaticResource bottom_menu_img}" Source="back" />
                         <Label FontFamily="{StaticResource Regular}" FontSize="10" Text="Вернуться" />
                     </VerticalStackLayout>
                     <VerticalStackLayout>
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter=",ApproveProgressDrawer"/>
+                        </VerticalStackLayout.GestureRecognizers>
                         <Image Style="{StaticResource bottom_menu_img}" Source="approval_progress.png" />
-                        <Label FontFamily="{StaticResource Regular}" FontSize="10" Text="Ход согласования" />
+                        <Label  FontFamily="{StaticResource Regular}" FontSize="10" Text="Ход согласования" />
                     </VerticalStackLayout>
                     <VerticalStackLayout>
                         <Image Style="{StaticResource bottom_menu_img}" Source="marks.png" />
                         <Label FontFamily="{StaticResource Regular}"  FontSize="10" Text="Отметки" />
                     </VerticalStackLayout>
                 </FlexLayout>
-            </Grid>
-        </Border>
+            </Border>
+        </Grid>
     </Grid>
-
 </ContentPage>

@@ -5,7 +5,6 @@ namespace Passes.Pages
 {
     public partial class AuthPage : ContentPage
     {
-
        public AuthPage()
         {
             InitializeComponent();
@@ -13,20 +12,8 @@ namespace Passes.Pages
 
         protected override async void OnAppearing()
         {
-            string? login = await SecureStorage.GetAsync("login");
-            string? password = await SecureStorage.GetAsync("password");
-            if (login is not null && password is not null)
-            {
-                bool authResult = await AuthHandler(login, password);
-                if (authResult)
-                    await Shell.Current.GoToAsync("//PassesList");
-                else
-                {
-                    SecureStorage.Remove("login");
-                    SecureStorage.Remove("password");
-                    await Shell.Current.GoToAsync("//AuthPage");
-                }
-            }
+            AnimtedCreationPage();
+            HandleAuthPageStart();
             base.OnAppearing();
         }
 
@@ -39,7 +26,7 @@ namespace Passes.Pages
                 {
                     await SecureStorage.SetAsync("login", email.Text);
                     await SecureStorage.SetAsync("password", password.Text);
-                    await Shell.Current.GoToAsync("//PassesList");
+                    await Shell.Current.GoToAsync("//PassesList?need_update=true", true);
                     password.Text = "";
                     email.Text = "";
                     auth_error.IsVisible = false;
@@ -65,7 +52,7 @@ namespace Passes.Pages
             }
             catch (Exception ex) {
                 await DisplayAlert("Ошибка", "Ошибка при загрузке данных", "OK");
-                await Shell.Current.GoToAsync("//AuthPage");
+                await Shell.Current.GoToAsync("//AuthPage",true);
                 return false;
             }
         }
@@ -75,6 +62,35 @@ namespace Passes.Pages
             var eyeImagePasswordButton = (ImageButton)sender;
             password.IsPassword = !password.IsPassword;
             eyeImagePasswordButton.Source = password.IsPassword ? "eye" : "eye_off";
+        }
+
+        private async void AnimtedCreationPage()
+        {
+            this.Opacity = 0;
+            this.TranslationX = this.Width;
+
+            await Task.WhenAll(
+                 this.FadeTo(1, 1000),
+                 this.TranslateTo(0, 0, 1000, Easing.CubicOut)
+                );
+        }
+
+        private async void HandleAuthPageStart()
+        {
+            string? login = await SecureStorage.GetAsync("login");
+            string? password = await SecureStorage.GetAsync("password");
+            if (login is not null && password is not null)
+            {
+                bool authResult = await AuthHandler(login, password);
+                if (authResult)
+                    await Shell.Current.GoToAsync("//PassesList?need_update=true",true);
+                else
+                {
+                    SecureStorage.Remove("login");
+                    SecureStorage.Remove("password");
+                    await Shell.Current.GoToAsync("//AuthPage", true);
+                }
+            }
         }
     }
 

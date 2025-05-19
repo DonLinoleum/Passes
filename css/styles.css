@@ -3,4 +3,9 @@
     font-family: JostMedium;
 }
 
+RefreshView > .refresh-indicator {
+    opacity: 0;
+    height: 0;
+}
+
 

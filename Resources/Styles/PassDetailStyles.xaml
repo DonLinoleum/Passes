@@ -25,7 +25,7 @@
 
     <Style x:Key="bottom_menu_img" TargetType="Image">
         <Setter Property="WidthRequest" Value="22"></Setter>
-        <Setter Property="Margin" Value="0,0,0,3.5"></Setter>
+        <Setter Property="Margin" Value="0,0,0,2.5"></Setter>
     </Style>
 
     <Style x:Key="main_buttons_border" TargetType="Border">
@@ -55,12 +55,53 @@
     <Style x:Key="pass_data_keys" TargetType="Label">
         <Setter Property="FontSize" Value="14"></Setter>
         <Setter Property="FontFamily" Value="JostSemiBold"></Setter>
+        <Setter Property="LineBreakMode" Value="NoWrap"></Setter>
     </Style>
     <Style x:Key="pass_data_values" TargetType="Label">
         <Setter Property="FontSize" Value="14"></Setter>
         <Setter Property="FontFamily" Value="JostRegular"></Setter>
+        <Setter Property="LineBreakMode" Value="WordWrap"></Setter>
     </Style>
-    <Style x:Key="pass_data_element_wrapper" TargetType="HorizontalStackLayout">
+    <Style x:Key="pass_data_element_wrapper" TargetType="FlexLayout">
+        <Setter Property="Wrap" Value="Wrap"></Setter>
         <Setter Property="Margin" Value="0,0,0,3"></Setter>
+        <Setter Property="AlignItems" Value="Center"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_title" TargetType="Label">
+        <Setter Property="Margin" Value="0,0,0,20"></Setter>
+        <Setter Property="HorizontalOptions" Value="Center"></Setter>
+        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="FontFamily" Value="JostMedium"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_approve_progress_user_name" TargetType="Span">
+        <Setter Property="FontFamily" Value="JostMedium"></Setter>
+        <Setter Property="TextColor" Value="#2056AE"></Setter>
+        <Setter Property="FontSize" Value="16"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_approve_progress_user_role" TargetType="Label">
+        <Setter Property="FontFamily" Value="JostRegular"></Setter>
+        <Setter Property="TextColor" Value="#2056AE"></Setter>
+        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="Margin" Value="0,0,0,10"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_approve_progress__colored_marks" TargetType="Label">
+        <Setter Property="VerticalOptions" Value="Center"></Setter>
+        <Setter Property="TextTransform" Value="Uppercase"></Setter>
+        <Setter Property="FontSize" Value="9"></Setter>
+        <Setter Property="FontFamily" Value="JostSemiBold"></Setter>
+        <Setter Property="TextColor" Value="#ffffff"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_approve_progress__colored_marks__border" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 20"></Setter>
+        <Setter Property="Stroke" Value="Transparent"></Setter>
+        <Setter Property="Padding" Value="10,2,10,2"></Setter>
+        <Setter Property="BackgroundColor" Value="#5DBB81"></Setter>
+        <Setter Property="Margin" Value="0,0,10,10"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_approve_progress__colored_marks_ellipse" TargetType="Ellipse">
+        <Setter Property="BackgroundColor" Value="#ffffff"></Setter>
+        <Setter Property="Opacity" Value="0.35"></Setter>
+        <Setter Property="WidthRequest" Value="17"></Setter>
+        <Setter Property="HeightRequest" Value="17"></Setter>
     </Style>
 </ResourceDictionary>

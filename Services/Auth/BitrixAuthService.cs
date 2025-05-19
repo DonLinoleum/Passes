@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
+
 namespace Passes.Services.Auth
 {
     class BitrixAuthService : IAuthService
@@ -36,13 +37,16 @@ namespace Passes.Services.Auth
              };
 
                 var authResponse = await client.PostAsync(loginURL, formData);
+                var a = await authResponse.Content.ReadAsStringAsync();
                 var cookies = handler.CookieContainer.GetCookies(new Uri(loginURL));
                 var phpSessId = cookies["PHPSESSID"]?.Value;
                 var mmkUserInfo = cookies["mmk_user_info"]?.Value;
-                if (!string.IsNullOrEmpty(phpSessId) && !string.IsNullOrEmpty(mmkUserInfo))
+                var userId = UserIdService.GetUserIdByJson(mmkUserInfo);
+                if (!string.IsNullOrEmpty(phpSessId) && !string.IsNullOrEmpty(mmkUserInfo) && !string.IsNullOrEmpty(userId))
                 {
                     await SecureStorage.SetAsync("PHPSESSID", phpSessId);
                     await SecureStorage.SetAsync("mmk_user_info", mmkUserInfo);
+                    Preferences.Set("mmk_user_info__user_id", userId);
                     handler.CookieContainer = new System.Net.CookieContainer();
                     return true;
                 }

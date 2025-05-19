@@ -4,6 +4,7 @@
              x:Class="Passes.Pages.PassesList"
              Shell.NavBarIsVisible="False"
              BackgroundColor="#f9f9f9" 
+             Shell.PresentationMode="Animated"
              >
     
     <ContentPage.Resources>
@@ -96,16 +97,16 @@
             </Grid>
         </Grid>
 
-        <ActivityIndicator Grid.Row="2"  HorizontalOptions="Center" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="#2056ae"></ActivityIndicator>
+        <ActivityIndicator Margin="0,30,0,0" Grid.Row="2" VerticalOptions="Center"  HorizontalOptions="Center" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="#2056ae"></ActivityIndicator> 
 
         <!-- Passes -->
         <Grid Grid.Row="3">
             <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding FilterOpacity}" Grid.ZIndex="1"></BoxView>
             <Grid >
                 <RefreshView Margin="10,0,10,0" IsRefreshing="{Binding IsRefreshing}" Command="{Binding LoadPassesRefreshListCommand}">
-                    <CollectionView ItemsSource="{Binding FilteredPasses}">
+                    <CollectionView ItemsSource="{Binding FilteredPasses}" IsVisible="{Binding IsLoading, Converter={StaticResource BoolInvertConverter}}">
                     <CollectionView.EmptyView>
-                        <Label IsVisible="{Binding IsLoading, Converter={StaticResource BoolInvertConverter}}" Text="Нет заявок для согласования" HorizontalOptions="Center" FontSize="16" Margin="20"></Label>
+                        <Label IsVisible="{Binding HasNoPasses, Converter={StaticResource BoolInvertConverter}}" Text="Нет заявок для согласования" HorizontalOptions="Center" FontSize="16" Margin="20"></Label>
                     </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>

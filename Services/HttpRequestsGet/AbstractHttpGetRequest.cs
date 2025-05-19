@@ -13,7 +13,9 @@ namespace Passes.Services.HttpRequestsGet
         protected readonly CookieContainer _cookieContainer;
         protected readonly string _actionName;
         protected readonly string _baseUrl;
-        protected readonly string _passId;
+        protected string _passId;
+
+        public string PassId { get => _passId; set { _passId = value; } }
 
         public AbstractHttpGetRequest(string actionName, string baseUrl, string passId)
         {
@@ -53,7 +55,7 @@ namespace Passes.Services.HttpRequestsGet
             }
         }
 
-        public UriBuilder PrepareRequestUri()
+        public virtual UriBuilder PrepareRequestUri()
         {
             UriBuilder uriBuilder = new UriBuilder($"{_baseUrl}/api");
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
