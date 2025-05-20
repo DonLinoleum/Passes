@@ -253,7 +253,7 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label IsVisible="{Binding IsNegotiatorIsUser,Converter={StaticResource CheckIsNegotiatorIsUserByIdConverter},ConverterParameter={Binding PassProgress.Mol.Id}}" VerticalOptions="Center" Text="(Вы)" Style="{StaticResource pass_drawer_approve_progress_user_name}"></Label>
+                                        <Label IsVisible="{Binding PassProgress.Mol.Id,Converter={StaticResource CheckIsNegotiatorIsUserByIdConverter}}" VerticalOptions="Center" Text="(Вы)" Style="{StaticResource pass_drawer_approve_progress_user_name}"></Label>
                                     </HorizontalStackLayout>
                                     <Label Style="{StaticResource pass_drawer_approve_progress_user_role}" Text="{Binding PassProgress.Mol.Role}"></Label>
                                     <HorizontalStackLayout>
@@ -297,7 +297,7 @@
                                                             </FormattedString>
                                                         </Label.FormattedText>
                                                     </Label>
-                                                    <Label IsVisible="{Binding IsNegotiatorIsUser,Converter={StaticResource CheckIsNegotiatorIsUserByIdConverter},ConverterParameter={Binding Id}}" VerticalOptions="Center" Text="(Вы)" Style="{StaticResource pass_drawer_approve_progress_user_name}"></Label>
+                                                    <Label IsVisible="{Binding Id, Converter={StaticResource CheckIsNegotiatorIsUserByIdConverter}}" VerticalOptions="Center" Text="(Вы)" Style="{StaticResource pass_drawer_approve_progress_user_name}"></Label>
                                                 </HorizontalStackLayout>
                                                 <Label Style="{StaticResource pass_drawer_approve_progress_user_role}" Text="{Binding Role}"></Label>
                                                 <HorizontalStackLayout>
@@ -344,10 +344,15 @@
                     <Label Style="{StaticResource pass_drawer_title}" Text="Отметки"></Label>
 
                     <VerticalStackLayout HeightRequest="0" IsVisible="{Binding IsDrawerLoading}">
-                        <ActivityIndicator  HorizontalOptions="Center" IsRunning="{Binding IsDrawerLoading}" Color="#2056ae"></ActivityIndicator>
+                        <ActivityIndicator HorizontalOptions="Center" IsRunning="{Binding IsDrawerLoading}" Color="#2056ae"></ActivityIndicator>
                     </VerticalStackLayout>
 
-                    <ScrollView VerticalScrollBarVisibility="Never">
+                    <FlexLayout JustifyContent="Center" >
+                        <Border IsVisible="{Binding PassMarks,Converter={StaticResource IsMarksListEmptyConverter},ConverterParameter='empty'}"  Margin="0" Style="{StaticResource pass_drawer_pass_marks__date__border}" Padding="10,2,10,2" >
+                            <Label Style="{StaticResource pass_drawer_pass_marks__date}" Text="Нет отметок"></Label>
+                        </Border>
+                    </FlexLayout>
+                    <ScrollView VerticalScrollBarVisibility="Never" IsVisible="{Binding PassMarks,Converter={StaticResource IsMarksListEmptyConverter},ConverterParameter='notEmpty'}">
                         <VerticalStackLayout IsVisible="{Binding IsDrawerLoading,Converter={StaticResource BoolInvertConverter}}">
                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
                                 <Grid.IsVisible>
@@ -357,7 +362,7 @@
                                     </MultiBinding>
                                 </Grid.IsVisible>
                                 <Grid Grid.Column="0">
-                                    <GraphicsView Margin="22,0,0,0"  Drawable="{drawable:DashedLineDrawable}" ZIndex="999" />
+                                    <GraphicsView Margin="22.5,0,0,0"  Drawable="{drawable:DashedLineDrawable}" ZIndex="999" />
                                     <Grid VerticalOptions="Start" HorizontalOptions="Start" ZIndex="999">
                                         <Ellipse WidthRequest="45" HeightRequest="45" BackgroundColor="#3F5468"></Ellipse>
                                         <Image WidthRequest="30" Source="print"></Image>
@@ -387,10 +392,10 @@
                                     <DataTemplate>
                                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
                                             <Grid Grid.Column="0">
-                                                <GraphicsView Margin="22,0,0,0"  Drawable="{drawable:DashedLineDrawable}" ZIndex="999" />
+                                                <GraphicsView Margin="22.5,0,0,0"  Drawable="{drawable:DashedLineDrawable}" ZIndex="999" />
                                                 <Grid VerticalOptions="Start" HorizontalOptions="Start" ZIndex="999">
                                                     <Ellipse WidthRequest="45" HeightRequest="45" BackgroundColor="#3F5468"></Ellipse>
-                                                    <Image WidthRequest="30" Source="print"></Image>
+                                                    <Image WidthRequest="30" Source="{Binding Type,Converter={StaticResource MarkLogoAsMarkTypeConverter}}"></Image>
                                                 </Grid>
                                             </Grid>
                                             <Border Grid.Column="1" Style="{StaticResource rounded_white_border}" Margin="0,0,0,10">
@@ -416,8 +421,6 @@
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
-                            
-                            
                         </VerticalStackLayout>
                     </ScrollView>
                 </VerticalStackLayout>

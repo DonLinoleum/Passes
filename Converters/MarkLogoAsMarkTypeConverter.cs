@@ -1,30 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace Passes.Converters
 {
-    internal class CheckIsNegotiatorIsUserByIdConverter : IValueConverter
+    class MarkLogoAsMarkTypeConverter : IValueConverter
     {
+        private Dictionary<string, string> logosByType = new Dictionary<string, string>()
+        {
+            {"warehouse","mark_warehouse" },
+            {"guard","mark_shield" }
+        };
+            
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is string negotiatorId)
+            if (value is string markType)
             {
-                var userId = Preferences.Get("mmk_user_info__user_id", "");
-                return userId == negotiatorId;
+                logosByType.TryGetValue(markType, out var svg);
+                return svg;
             }
-            return false;
+            return String.Empty;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
-
-     
     }
 }

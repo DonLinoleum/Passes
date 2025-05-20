@@ -20,6 +20,8 @@
             <converters:StatusMarkColorConverter x:Key="StatusMarkColorConverter"></converters:StatusMarkColorConverter>
             <converters:MarkSvgByStatusConverter x:Key="MarkSvgByStatusConverter"></converters:MarkSvgByStatusConverter>
             <converters:CheckShowPrintMarkByPassType x:Key="CheckShowPrintMarkByPassType"></converters:CheckShowPrintMarkByPassType>
+            <converters:MarkLogoAsMarkTypeConverter x:Key="MarkLogoAsMarkTypeConverter"></converters:MarkLogoAsMarkTypeConverter>
+            <converters:IsMarksListEmptyConverter x:Key="IsMarksListEmptyConverter"></converters:IsMarksListEmptyConverter>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
