@@ -233,8 +233,8 @@ namespace Passes.ViewModels
         {
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
-                var animation = new Animation(callback: v => FilterLoadingProgress = v,start: 0.0,end: 1.0,easing: Easing.CubicInOut);
-                Application.Current.MainPage.Animate(name: "LoadingProgressBar",animation: animation,rate: 16,length: 500,finished: async (v, c) => { FilterApplyingProgresBarScale = 0; await ToogleDrawerFilter(); });
+                var animation = new Animation(callback: v => FilterLoadingProgress = v,start: 0.0,end: 1.0,easing: Easing.CubicInOut);  
+                Application.Current?.Windows[0].Page.Animate(name: "LoadingProgressBar",animation: animation,rate: 16,length: 500,finished: async (v, c) => { FilterApplyingProgresBarScale = 0; await ToogleDrawerFilter(); });
             });
         }
         private void RestoreFilterSettingsToDefault()

@@ -24,6 +24,7 @@ namespace Passes.ViewModels
         private IHttpGetRequest<CheckCanApproveModel> _checkCanApprove;
         private IHttpGetRequest<RootPassDetailModel> _passDetailService;
         private IHttpGetRequest<ApproveProgressMarksModel> _passListApproveProgressMarksService;
+        private IHttpGetRequest<MarksForPassModel> _marksForPass;
         private string _baseUrl;
         private string _passNum;
 
@@ -54,6 +55,7 @@ namespace Passes.ViewModels
         [ObservableProperty]
         private bool? canApprove;
 
+        //drawers
         [ObservableProperty]
         private bool? approveDeclineDrawerVisible = false;
 
@@ -61,8 +63,12 @@ namespace Passes.ViewModels
         private bool? approveProgressDrawerVisible = false;
 
         [ObservableProperty]
+        private bool? marksDrawerVisible = false;
+
+        [ObservableProperty]
         private bool? isDrawerLoading = false;
 
+        //
         [ObservableProperty]
         private bool? isNegotiatorIsUser = false;
 
@@ -70,7 +76,7 @@ namespace Passes.ViewModels
         private ApproveProgressMarksModel? passProgress;
 
         [ObservableProperty]
-        private Color? statusMarkColor;
+        private MarksForPassModel? passMarks;
 
         [ObservableProperty]
         private ObservableCollection<PassDetailModel> passData;
@@ -84,13 +90,13 @@ namespace Passes.ViewModels
                 Init(value);
             }
         }
-
         public PassDetailViewModel() 
         {
             _baseUrl = (new BaseUrlService()).GetBaseUrl();
             _passDetailService = new PassDetailService<RootPassDetailModel>("GetPassById", _baseUrl!, PassIdInputProp ?? "");
             _checkCanApprove = new CheckCanApproveService<CheckCanApproveModel>("CheckCanApprovePass", _baseUrl!, PassIdInputProp ?? "");
             _passListApproveProgressMarksService = new PassListApproveProgressMarksService<ApproveProgressMarksModel>("ApproversForPassById", _baseUrl!, PassIdInputProp ?? "");
+            _marksForPass = new MarksForPassService<MarksForPassModel>("GetTimelineItems", _baseUrl!, PassIdInputProp ?? "");
             _detailState = new ActionOnDetailState();
             _approveDeclinePassService = new ApproveDeclinePassService();
         }
@@ -101,6 +107,7 @@ namespace Passes.ViewModels
             _passDetailService.PassId = PassIdInputProp;
             _checkCanApprove.PassId = PassIdInputProp;
             _passListApproveProgressMarksService.PassId = PassIdInputProp;
+            _marksForPass.PassId = PassIdInputProp;
             await LoadPassData();
         }
 
@@ -141,7 +148,7 @@ namespace Passes.ViewModels
         public async Task ToogleDrawer(string? Params = "")
         {
             MainContentOpacity = !MainContentOpacity;
-            var targetHeight = DrawerHeight == 0 ? 380 : 0;
+            var targetHeight = DrawerHeight == 0 ? 900 : 0;
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
                 var animation = new Animation(callback: v => DrawerHeight = v,start: DrawerHeight,end: targetHeight,easing: Easing.CubicInOut);
@@ -149,7 +156,7 @@ namespace Passes.ViewModels
                 name: "DrawerAnimation",
                 animation: animation,
                 rate: 16,
-                length: 300,
+                length: 400,
                 finished: (v, c) => { }
                 );
             });
@@ -198,6 +205,7 @@ namespace Passes.ViewModels
         {
             ApproveDeclineDrawerVisible = false;
             ApproveProgressDrawerVisible = false;
+            MarksDrawerVisible = false;
             switch (selectedDrawer)
             {
                 case SelectedDrawerState.ApproveDeclineDrawer:
@@ -209,6 +217,16 @@ namespace Passes.ViewModels
                         IsDrawerLoading = true;
                         var passProgressData = await _passListApproveProgressMarksService.GetData();
                         PassProgress = passProgressData ?? new ApproveProgressMarksModel();
+                        IsDrawerLoading = false;
+                    });
+                    break;
+                case SelectedDrawerState.MarksDrawer:
+                    await Task.Run(async () => {
+                        MarksDrawerVisible = true;
+                        IsDrawerLoading = true;
+                        var passMarksData = await _marksForPass.GetData();
+                        passMarksData?.Movement?.Reverse();
+                        PassMarks = passMarksData ?? new MarksForPassModel();
                         IsDrawerLoading = false;
                     });
                     break;

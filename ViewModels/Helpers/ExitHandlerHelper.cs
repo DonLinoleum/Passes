@@ -11,6 +11,7 @@ namespace Passes.ViewModels.Helpers
         public static async void GoToAuthPage()
         {
             SecureStorage.Remove("PHPSESSID");
+            Preferences.Clear();
             string? login = await SecureStorage.GetAsync("login");
             string? password = await SecureStorage.GetAsync("password");
             if (login is not null && password is not null)

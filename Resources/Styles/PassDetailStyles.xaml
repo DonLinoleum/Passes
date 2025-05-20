@@ -67,6 +67,13 @@
         <Setter Property="Margin" Value="0,0,0,3"></Setter>
         <Setter Property="AlignItems" Value="Center"></Setter>
     </Style>
+    <Style x:Key="pass_drawer_top_line" TargetType="Border">
+        <Setter Property="Margin" Value="0,0,0,10"></Setter>
+        <Setter Property="Stroke" Value="Transparent"></Setter>
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"></Setter>
+        <Setter Property="HeightRequest" Value="8"></Setter>
+        <Setter Property="WidthRequest" Value="150"></Setter>
+    </Style> 
     <Style x:Key="pass_drawer_title" TargetType="Label">
         <Setter Property="Margin" Value="0,0,0,20"></Setter>
         <Setter Property="HorizontalOptions" Value="Center"></Setter>
@@ -87,18 +94,48 @@
     <Style x:Key="pass_drawer_approve_progress__colored_marks" TargetType="Label">
         <Setter Property="VerticalOptions" Value="Center"></Setter>
         <Setter Property="TextTransform" Value="Uppercase"></Setter>
-        <Setter Property="FontSize" Value="9"></Setter>
+        <Setter Property="FontSize" Value="10"></Setter>
         <Setter Property="FontFamily" Value="JostSemiBold"></Setter>
         <Setter Property="TextColor" Value="#ffffff"></Setter>
     </Style>
     <Style x:Key="pass_drawer_approve_progress__colored_marks__border" TargetType="Border">
         <Setter Property="StrokeShape" Value="RoundRectangle 20"></Setter>
         <Setter Property="Stroke" Value="Transparent"></Setter>
-        <Setter Property="Padding" Value="10,2,10,2"></Setter>
         <Setter Property="BackgroundColor" Value="#5DBB81"></Setter>
         <Setter Property="Margin" Value="0,0,10,10"></Setter>
     </Style>
     <Style x:Key="pass_drawer_approve_progress__colored_marks_ellipse" TargetType="Ellipse">
+        <Setter Property="BackgroundColor" Value="#ffffff"></Setter>
+        <Setter Property="Opacity" Value="0.35"></Setter>
+        <Setter Property="WidthRequest" Value="17"></Setter>
+        <Setter Property="HeightRequest" Value="17"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_pass_marks__item__title" TargetType="Label">
+        <Setter Property="FontSize" Value="16"></Setter>
+        <Setter Property="LineBreakMode" Value="WordWrap"></Setter>
+        <Setter Property="FontFamily" Value="JostMedium"></Setter>
+        <Setter Property="TextColor" Value="#0F2548"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_pass_marks__item__user" TargetType="Label">
+        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="LineBreakMode" Value="WordWrap"></Setter>
+        <Setter Property="FontFamily" Value="JostMedium"></Setter>
+        <Setter Property="TextColor" Value="#0F2548"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_pass_marks__date__border" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 20"></Setter>
+        <Setter Property="Stroke" Value="Transparent"></Setter>
+        <Setter Property="BackgroundColor" Value="#3F5468"></Setter>
+        <Setter Property="Margin" Value="0,0,10,10"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_pass_marks__date" TargetType="Label">
+        <Setter Property="VerticalOptions" Value="Center"></Setter>
+        <Setter Property="TextTransform" Value="Uppercase"></Setter>
+        <Setter Property="FontSize" Value="10"></Setter>
+        <Setter Property="FontFamily" Value="JostSemiBold"></Setter>
+        <Setter Property="TextColor" Value="#ffffff"></Setter>
+    </Style>
+    <Style x:Key="pass_drawer_pass_marks__icon__ellipse" TargetType="Ellipse">
         <Setter Property="BackgroundColor" Value="#ffffff"></Setter>
         <Setter Property="Opacity" Value="0.35"></Setter>
         <Setter Property="WidthRequest" Value="17"></Setter>

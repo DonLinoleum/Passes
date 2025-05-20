@@ -37,7 +37,6 @@ namespace Passes.Services.Auth
              };
 
                 var authResponse = await client.PostAsync(loginURL, formData);
-                var a = await authResponse.Content.ReadAsStringAsync();
                 var cookies = handler.CookieContainer.GetCookies(new Uri(loginURL));
                 var phpSessId = cookies["PHPSESSID"]?.Value;
                 var mmkUserInfo = cookies["mmk_user_info"]?.Value;

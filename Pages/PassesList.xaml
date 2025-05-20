@@ -6,7 +6,7 @@
              BackgroundColor="#f9f9f9" 
              Shell.PresentationMode="Animated"
              >
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <x:String x:Key="Regular">JostRegular</x:String>
@@ -16,8 +16,8 @@
         <ResourceDictionary Source="/Resources/Styles/PassListStyles.xaml"></ResourceDictionary>
         <StyleSheet Source="/css/styles.css" />
     </ContentPage.Resources>
-    
-    
+
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -31,9 +31,9 @@
             <BoxView BackgroundColor="#4D000000" IsVisible="{Binding FilterOpacity}" Grid.ZIndex="1"></BoxView>
             <Grid Style="{StaticResource grid_top}" Grid.ZIndex="0">
                 <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" FontSize="20" FontFamily="{StaticResource SemiBold}" VerticalOptions="Center" HorizontalOptions="Start"  Text="Список заявок"></Label>
                 <ImageButton Command="{Binding ExitCommand}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Source="exit"></ImageButton>
             </Grid>
@@ -62,10 +62,10 @@
                                 Command="{Binding FindCommand}"
                                 />
                             </Border.GestureRecognizers>
-                        <HorizontalStackLayout BackgroundColor="{Binding FindBgColor}" Padding="15,0">
+                            <HorizontalStackLayout BackgroundColor="{Binding FindBgColor}" Padding="15,0">
                                 <Image MinimumWidthRequest="14" MaximumWidthRequest="13"  Source="find" WidthRequest="15"></Image>
                                 <Label CharacterSpacing="1" Margin="10,0,0,0" FontSize="12" VerticalOptions="Center" Text="Найти" FontFamily="JostSemiBold" TextColor="#ffffff"></Label>
-                        </HorizontalStackLayout>
+                            </HorizontalStackLayout>
                         </Border>
                     </Grid>
                 </Border>
@@ -97,7 +97,7 @@
             </Grid>
         </Grid>
 
-        <ActivityIndicator Margin="0,30,0,0" Grid.Row="2" VerticalOptions="Center"  HorizontalOptions="Center" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="#2056ae"></ActivityIndicator> 
+        <ActivityIndicator Margin="0,30,0,0" Grid.Row="2" VerticalOptions="Center"  HorizontalOptions="Center" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="#2056ae"></ActivityIndicator>
 
         <!-- Passes -->
         <Grid Grid.Row="3">
@@ -105,53 +105,53 @@
             <Grid >
                 <RefreshView Margin="10,0,10,0" IsRefreshing="{Binding IsRefreshing}" Command="{Binding LoadPassesRefreshListCommand}">
                     <CollectionView ItemsSource="{Binding FilteredPasses}" IsVisible="{Binding IsLoading, Converter={StaticResource BoolInvertConverter}}">
-                    <CollectionView.EmptyView>
-                        <Label IsVisible="{Binding HasNoPasses, Converter={StaticResource BoolInvertConverter}}" Text="Нет заявок для согласования" HorizontalOptions="Center" FontSize="16" Margin="20"></Label>
-                    </CollectionView.EmptyView>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                            <Border Style="{StaticResource rounded_white_border}" Margin="0,0,0,10" >
-                                <Border.GestureRecognizers>
-                                <TapGestureRecognizer
+                        <CollectionView.EmptyView>
+                            <Label IsVisible="{Binding HasNoPasses, Converter={StaticResource BoolInvertConverter}}" Text="Нет заявок для согласования" HorizontalOptions="Center" FontSize="16" Margin="20"></Label>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource rounded_white_border}" Margin="0,0,0,10" >
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},Path=BindingContext.PassElementTappedCommand}"
                                     CommandParameter="{Binding .}"
                                     ></TapGestureRecognizer>
-                            </Border.GestureRecognizers>
-                            <StackLayout Padding="10">
-                                <FlexLayout JustifyContent="SpaceBetween" Margin="0,0,0,5">
-                                    <VerticalStackLayout>
+                                    </Border.GestureRecognizers>
+                                    <StackLayout Padding="10">
+                                        <FlexLayout JustifyContent="SpaceBetween" Margin="0,0,0,5">
+                                            <VerticalStackLayout>
                                                 <Label LineHeight="0.8" MaximumWidthRequest="150" Text="{Binding PassTypeName, StringFormat='{0}'}" Style="{StaticResource label_pass_info_values}" Margin="0,0,0,-2"></Label>
                                                 <Label Text="{Binding PassNum, StringFormat='{0}'}" Style="{StaticResource label_pass_info_values}"></Label>
-                                    </VerticalStackLayout>
-                                    <HorizontalStackLayout VerticalOptions="Center">
-                                            <Label Text="{Binding PassStateName, StringFormat='{0}'}" FontSize="14" FontFamily="{StaticResource Regular}"></Label>
-                                            <Ellipse HeightRequest="20" WidthRequest="20" Margin="10,0,0,0" Fill="{Binding PassStateName, Converter={StaticResource PassStateToColorConverter}}" />
-                                        </HorizontalStackLayout>
-                                </FlexLayout>
-                                <StackLayout Style="{StaticResource stack_props_labels}" IsVisible="{Binding Visitors[0], TargetNullValue=False}" >
-                                    <Label FontFamily="{StaticResource Regular}" TextColor="#0f2548" FontSize="14"  Text="Посетитель: "></Label>
-                                    <Label  Text="{Binding Visitors[0].LastName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
-                                    <Label  Text="{Binding Visitors[0].FirstName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
-                                    <Label  Text="{Binding Visitors[0].SecondName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
-                                </StackLayout>
-                                <StackLayout Style="{StaticResource stack_props_labels}">
-                                    <Label  FontFamily="{StaticResource Regular}" FontSize="14" Text="Дата посещения: " ></Label>
-                                    <Label Style="{StaticResource label_pass_info_values}" Text="{Binding DateFrom , StringFormat='{0} '}" ></Label>
-                                </StackLayout>
-                                    <StackLayout Style="{StaticResource stack_props_labels}" IsVisible="{Binding VisitGoal, TargetNullValue=False}">
-                                        <Label FontFamily="{StaticResource Regular}"  FontSize="14" Text="Цель: "></Label>
-                                        <Label Style="{StaticResource label_pass_info_values}" Text="{Binding VisitGoal.Name, StringFormat='{0} '} " ></Label>
+                                            </VerticalStackLayout>
+                                            <HorizontalStackLayout VerticalOptions="Center">
+                                                <Label Text="{Binding PassStateName, StringFormat='{0}'}" FontSize="14" FontFamily="{StaticResource Regular}"></Label>
+                                                <Ellipse HeightRequest="20" WidthRequest="20" Margin="10,0,0,0" Fill="{Binding PassStateName, Converter={StaticResource PassStateToColorConverter}}" />
+                                            </HorizontalStackLayout>
+                                        </FlexLayout>
+                                        <StackLayout Style="{StaticResource stack_props_labels}" IsVisible="{Binding Visitors[0], TargetNullValue=False}" >
+                                            <Label FontFamily="{StaticResource Regular}" TextColor="#0f2548" FontSize="14"  Text="Посетитель: "></Label>
+                                            <Label  Text="{Binding Visitors[0].LastName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
+                                            <Label  Text="{Binding Visitors[0].FirstName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
+                                            <Label  Text="{Binding Visitors[0].SecondName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
+                                        </StackLayout>
+                                        <StackLayout Style="{StaticResource stack_props_labels}">
+                                            <Label  FontFamily="{StaticResource Regular}" FontSize="14" Text="Дата посещения: " ></Label>
+                                            <Label Style="{StaticResource label_pass_info_values}" Text="{Binding DateFrom , StringFormat='{0} '}" ></Label>
+                                        </StackLayout>
+                                        <StackLayout Style="{StaticResource stack_props_labels}" IsVisible="{Binding VisitGoal, TargetNullValue=False}">
+                                            <Label FontFamily="{StaticResource Regular}"  FontSize="14" Text="Цель: "></Label>
+                                            <Label Style="{StaticResource label_pass_info_values}" Text="{Binding VisitGoal.Name, StringFormat='{0} '} " ></Label>
+                                        </StackLayout>
                                     </StackLayout>
-                                </StackLayout>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </RefreshView>
             </Grid>
-    </Grid>
+        </Grid>
 
-    <!-- Drawer -->
+        <!-- Drawer -->
         <Grid Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding FilterHeight}" Grid.Row="3">
             <Grid >
                 <Grid.GestureRecognizers>

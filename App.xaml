@@ -18,6 +18,8 @@
             <converters:AreasImportExportConverter x:Key="AreasImportExportConverter"></converters:AreasImportExportConverter>
             <converters:CheckIsNegotiatorIsUserByIdConverter x:Key="CheckIsNegotiatorIsUserByIdConverter"></converters:CheckIsNegotiatorIsUserByIdConverter>
             <converters:StatusMarkColorConverter x:Key="StatusMarkColorConverter"></converters:StatusMarkColorConverter>
+            <converters:MarkSvgByStatusConverter x:Key="MarkSvgByStatusConverter"></converters:MarkSvgByStatusConverter>
+            <converters:CheckShowPrintMarkByPassType x:Key="CheckShowPrintMarkByPassType"></converters:CheckShowPrintMarkByPassType>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

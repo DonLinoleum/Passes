@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 
 namespace Passes.Converters
 {
-    internal class StatusMarkColorConverter : IValueConverter
+    public class StatusMarkColorConverter : IValueConverter
     {
-        private Dictionary<string,Color> StatusMarksColors = new Dictionary<string, Color>()
+        private Dictionary<string,string> StatusMarksColors = new Dictionary<string, string>()
         {
-            {"Согласован" , Color.FromRgba("#5DBB81") } ,
-            {"Отменен",Color.FromRgba("#e55952") },
-            {"Ожидает" , Color.FromRgba("#EBB144") }
+            {"Согласован" , "#5DBB81" } ,
+            {"Отменен","#e55952" },
+            {"Ожидает" , "#EBB144" }
         };
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is Color valueData && parameter is string param)
+            
+            if (value is string colorHex)
             {
-                StatusMarksColors.TryGetValue(param, out var color);
-                return color;
+                if (StatusMarksColors.TryGetValue(colorHex, out var color) == true)
+                return Color.FromRgba(color);
             }
             return Color.FromRgba("#5DBB81");
         }
