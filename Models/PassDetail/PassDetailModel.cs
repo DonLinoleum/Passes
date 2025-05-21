@@ -130,9 +130,6 @@ namespace Passes.Models.PassDetail
         [JsonPropertyName("register_date")]
         public string? register_date { get; set; }
 
-        [JsonPropertyName("associated_pass")]
-        public string? associated_pass { get; set; }
-
         [JsonPropertyName("is_umts")]
         public string? is_umts { get; set; }
 
@@ -544,6 +541,9 @@ namespace Passes.Models.PassDetail
         [JsonPropertyName("areas")]
         public Areas? Areas { get; set; }
 
+        [JsonPropertyName("associated_pass")]
+        public AssociatedPass? AssociatedPass { get; set; }
+
     }
 
    public class Negotiator
@@ -631,9 +631,17 @@ namespace Passes.Models.PassDetail
         public string? ExportName { get; set; }
     }
 
+    public class AssociatedPass
+    {
+        [JsonPropertyName("text")]
+        public string? Text { get; set; }
+    }
+
     public class RootPassDetailModel
     {
         [JsonPropertyName("Pass")]
         public PassDetailModel? Pass { get; set; }
     }
+
+
 }

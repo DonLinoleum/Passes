@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Passes.Converters
+namespace Passes.Converters.PassMarksConverters
 {
     public class StatusMarkColorConverter : IValueConverter
     {

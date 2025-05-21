@@ -44,6 +44,9 @@ namespace Passes.Models.PassDetail
         [JsonPropertyName("GROUP")]
         public string? Group { get; set; }
 
+        [JsonPropertyName("IS_GROUP")]
+        public bool? IsGroup { get; set; }
+
         [JsonPropertyName("ID")]
         public string? Id { get; set; }
 

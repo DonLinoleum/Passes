@@ -1,29 +1,22 @@
-﻿using System;
+﻿using Passes.Models.PassDetail;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Markup;
 
 namespace Passes.Converters
 {
-    class MarkLogoAsMarkTypeConverter : IValueConverter
+    internal class AssociatedPassConverter : IValueConverter
     {
-        private Dictionary<string, string> logosByType = new Dictionary<string, string>()
-        {
-            {"warehouse","mark_warehouse" },
-            {"guard","mark_shield" }
-        };
-            
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is string markType)
+            if (value is not null && value is AssociatedPass pass )
             {
-                logosByType.TryGetValue(markType, out var svg);
-                return svg;
+                return true;
             }
-            return String.Empty;
+            return false;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

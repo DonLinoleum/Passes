@@ -1,6 +1,6 @@
-﻿using Passes.Models.PassDetail;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -8,18 +8,15 @@ using System.Threading.Tasks;
 
 namespace Passes.Converters
 {
-    class IsMarksListEmptyConverter : IValueConverter
+    internal class UserOrUsersIconConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is MarksForPassModel marks && parameter is string isEmptyValue)
+            if (value is bool isUsersIcon)
             {
-                if (isEmptyValue == "empty")
-                    return marks?.PrintMark?.Count == 0 && marks.Movement?.Count == 0;
-                else if (isEmptyValue == "notEmpty")
-                    return marks?.PrintMark?.Count > 0 || marks?.Movement?.Count > 0;
+                return isUsersIcon ? "users_icon" : "user_icon";
             }
-            return false;
+            return "user_icon";
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

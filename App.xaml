@@ -2,6 +2,7 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Passes"
+             xmlns:passMarksConverters="clr-namespace:Passes.Converters.PassMarksConverters"
              xmlns:converters="clr-namespace:Passes.Converters"
              x:Class="Passes.App">
     <Application.Resources>
@@ -17,11 +18,13 @@
             <converters:NumberToYesOrNoConverter x:Key="NumberToYesOrNoConverter"></converters:NumberToYesOrNoConverter>
             <converters:AreasImportExportConverter x:Key="AreasImportExportConverter"></converters:AreasImportExportConverter>
             <converters:CheckIsNegotiatorIsUserByIdConverter x:Key="CheckIsNegotiatorIsUserByIdConverter"></converters:CheckIsNegotiatorIsUserByIdConverter>
-            <converters:StatusMarkColorConverter x:Key="StatusMarkColorConverter"></converters:StatusMarkColorConverter>
-            <converters:MarkSvgByStatusConverter x:Key="MarkSvgByStatusConverter"></converters:MarkSvgByStatusConverter>
+            <passMarksConverters:StatusMarkColorConverter x:Key="StatusMarkColorConverter"></passMarksConverters:StatusMarkColorConverter>
+            <passMarksConverters:MarkSvgByStatusConverter x:Key="MarkSvgByStatusConverter"></passMarksConverters:MarkSvgByStatusConverter>
             <converters:CheckShowPrintMarkByPassType x:Key="CheckShowPrintMarkByPassType"></converters:CheckShowPrintMarkByPassType>
-            <converters:MarkLogoAsMarkTypeConverter x:Key="MarkLogoAsMarkTypeConverter"></converters:MarkLogoAsMarkTypeConverter>
-            <converters:IsMarksListEmptyConverter x:Key="IsMarksListEmptyConverter"></converters:IsMarksListEmptyConverter>
+            <passMarksConverters:MarkLogoAsMarkTypeConverter x:Key="MarkLogoAsMarkTypeConverter"></passMarksConverters:MarkLogoAsMarkTypeConverter>
+            <passMarksConverters:IsMarksListEmptyConverter x:Key="IsMarksListEmptyConverter"></passMarksConverters:IsMarksListEmptyConverter>
+            <converters:AssociatedPassConverter x:Key="AssociatedPassConverter"></converters:AssociatedPassConverter>
+            <converters:UserOrUsersIconConverter x:Key="UserOrUsersIconConverter"></converters:UserOrUsersIconConverter>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

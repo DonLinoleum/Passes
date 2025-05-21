@@ -5,6 +5,7 @@ using Passes.Models.PassDetail;
 using Passes.Services;
 using Passes.Services.HttpRequests;
 using Passes.Services.HttpRequestsGet.HttpRequestsGetItem;
+using Passes.ViewModels.Helpers;
 using Passes.ViewModels.States;
 using System.Buffers.Text;
 using System.Collections.ObjectModel;
@@ -27,6 +28,7 @@ namespace Passes.ViewModels
         private IHttpGetRequest<MarksForPassModel> _marksForPass;
         private string _baseUrl;
         private string _passNum;
+        private double _maxHeightDrawer;
 
         [ObservableProperty]
         private string? passIdInputProp;
@@ -36,9 +38,6 @@ namespace Passes.ViewModels
 
         [ObservableProperty]
         private string? passDateInputProp;
-
-        [ObservableProperty]
-        private double drawerHeight = 380;
 
         [ObservableProperty]
         private bool mainContentOpacity = false;
@@ -68,6 +67,15 @@ namespace Passes.ViewModels
         [ObservableProperty]
         private bool? isDrawerLoading = false;
 
+        [ObservableProperty]
+        private double drawerTranslateYTo = 750;
+
+        [ObservableProperty]
+        private double drawerMarksHeight = 150;
+
+        [ObservableProperty]
+        private double drawerProgressHeight = 150;
+
         //
         [ObservableProperty]
         private bool? isNegotiatorIsUser = false;
@@ -84,13 +92,13 @@ namespace Passes.ViewModels
         public string QueryData
         {
             get => _queryData ?? "";
-            set 
+            set
             {
                 _queryData = value;
                 Init(value);
             }
         }
-        public PassDetailViewModel() 
+        public PassDetailViewModel()
         {
             _baseUrl = (new BaseUrlService()).GetBaseUrl();
             _passDetailService = new PassDetailService<RootPassDetailModel>("GetPassById", _baseUrl!, PassIdInputProp ?? "");
@@ -99,22 +107,25 @@ namespace Passes.ViewModels
             _marksForPass = new MarksForPassService<MarksForPassModel>("GetTimelineItems", _baseUrl!, PassIdInputProp ?? "");
             _detailState = new ActionOnDetailState();
             _approveDeclinePassService = new ApproveDeclinePassService();
+            var displayInfo = DeviceDisplay.Current.MainDisplayInfo;
+            _maxHeightDrawer = displayInfo.Height / displayInfo.Density * 0.8;
         }
-
         private async Task Init(string queryDataToParse)
         {
-            await DecodeQueryData(queryDataToParse);
+            DecodeQueryData(queryDataToParse);
             _passDetailService.PassId = PassIdInputProp;
             _checkCanApprove.PassId = PassIdInputProp;
             _passListApproveProgressMarksService.PassId = PassIdInputProp;
             _marksForPass.PassId = PassIdInputProp;
             await LoadPassData();
+            await GetApproveProgressForPass();
+            await GetMarksForPass();
         }
-
         [RelayCommand]
         public async Task LoadPassData()
         {
-            await Task.Run(async () => {
+            await Task.Run(async () =>
+            {
                 IsLoading = true;
                 await GetPassDataById();
                 CanApprove = (await _checkCanApprove.GetData())?.Result;
@@ -128,31 +139,28 @@ namespace Passes.ViewModels
             var passData = await _passDetailService.GetData();
             _passNum = passData?.Pass?.pass_num ?? "";
             if (passData is not null && passData.Pass is not null)
-                PassData = new ObservableCollection<PassDetailModel> { passData.Pass }; 
+                PassData = new ObservableCollection<PassDetailModel> { passData.Pass };
         }
 
         [RelayCommand]
-        public async void GoBack(string url)
+        public async Task GoBack(string url)
         {
             await Shell.Current.GoToAsync(url);
         }
-
         [RelayCommand]
-        public async Task Exit()
+        public void Exit()
         {
-            SecureStorage.Remove("PHPSESSID");
-            await Shell.Current.GoToAsync("//AuthPage");
+            ExitHandlerHelper.GoToAuthPage();
         }
-
         [RelayCommand]
         public async Task ToogleDrawer(string? Params = "")
         {
             MainContentOpacity = !MainContentOpacity;
-            var targetHeight = DrawerHeight == 0 ? 900 : 0;
+            var targetHeight = DrawerTranslateYTo == 0 ? 750 : 0;
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                var animation = new Animation(callback: v => DrawerHeight = v,start: DrawerHeight,end: targetHeight,easing: Easing.CubicInOut);
-                Application.Current.MainPage.Animate(
+                var animation = new Animation(callback: v => DrawerTranslateYTo = v, start: DrawerTranslateYTo, end: targetHeight, easing: Easing.CubicInOut);
+                Application.Current?.Windows[0].Page.Animate(
                 name: "DrawerAnimation",
                 animation: animation,
                 rate: 16,
@@ -167,12 +175,11 @@ namespace Passes.ViewModels
                 if (paramsParts?[1] is not null) await HandleDrawersBySelection(paramsParts[1]);
             }
         }
-
         [RelayCommand]
         public async Task HandleApprovementPass()
         {
             if (_detailState?.ActionName == ActionOnDetailState.DeclinePass && string.IsNullOrEmpty(CommentFromEditor))
-               await Shell.Current.DisplayAlert("Ошибка","При отказе необходимо указать причину отказа.","OK");
+                await Shell.Current.DisplayAlert("Ошибка", "При отказе необходимо указать причину отказа.", "OK");
             else
             {
                 IsSending = true;
@@ -188,11 +195,10 @@ namespace Passes.ViewModels
                 await ToogleDrawer();
                 CommentFromEditor = "";
                 if (isResponseSuccess) await Shell.Current.DisplayAlert("Статус изменен", $"Статус заявки {_passNum} изменен", "OK");
-                GoBack("//PassesList?need_update=true");
+                await GoBack("//PassesList?need_update=true");
             }
         }
-
-        private async Task DecodeQueryData(string inputEncodedJson)
+        private void DecodeQueryData(string inputEncodedJson)
         {
             string decodedString = HttpUtility.UrlDecode(inputEncodedJson);
             var data = JsonSerializer.Deserialize<Dictionary<string, string>>(decodedString);
@@ -200,7 +206,6 @@ namespace Passes.ViewModels
             PassNumInputProp = data?["passNum"];
             PassDateInputProp = data?["passCreated"];
         }
-
         private async Task HandleDrawersBySelection(string? selectedDrawer)
         {
             ApproveDeclineDrawerVisible = false;
@@ -212,25 +217,39 @@ namespace Passes.ViewModels
                     ApproveDeclineDrawerVisible = true;
                     break;
                 case SelectedDrawerState.ApproveProgressDrawer:
-                    await Task.Run(async () => {
+                    await Task.Run(async () =>
+                    {
                         ApproveProgressDrawerVisible = true;
                         IsDrawerLoading = true;
-                        var passProgressData = await _passListApproveProgressMarksService.GetData();
-                        PassProgress = passProgressData ?? new ApproveProgressMarksModel();
+                        PassProgress = await GetApproveProgressForPass() ?? new ApproveProgressMarksModel();
                         IsDrawerLoading = false;
                     });
                     break;
                 case SelectedDrawerState.MarksDrawer:
-                    await Task.Run(async () => {
+                    await Task.Run(async () =>
+                    {
                         MarksDrawerVisible = true;
                         IsDrawerLoading = true;
-                        var passMarksData = await _marksForPass.GetData();
-                        passMarksData?.Movement?.Reverse();
-                        PassMarks = passMarksData ?? new MarksForPassModel();
+                        PassMarks = await GetMarksForPass() ?? new MarksForPassModel();
                         IsDrawerLoading = false;
                     });
                     break;
             }
+        }
+        private async Task<MarksForPassModel> GetMarksForPass()
+        {
+            var passMarksData = await _marksForPass.GetData();
+            passMarksData?.Movement?.Reverse();
+            DrawerMarksHeight = PassDetialService.CalculateMarksDrawerHeight(passMarksData!.PrintMark!.Count, passMarksData!.Movement!.Count, PassDetailDrawerHeights.PassMarksElementHeight, PassData[0].pass_type_id, _maxHeightDrawer);
+            return passMarksData;
+        }
+
+        private async Task<ApproveProgressMarksModel?> GetApproveProgressForPass()
+        {
+            var passProgressData = await _passListApproveProgressMarksService.GetData();
+            if (passProgressData?.Negotiators is not null)
+                DrawerProgressHeight = PassDetialService.CalculateApproveProgressDrawerHeight(passProgressData.Negotiators.Count, passProgressData.Mol is not null, PassDetailDrawerHeights.PassApproveProgressElementHeight,_maxHeightDrawer);
+            return passProgressData;
         }
     }
 }
