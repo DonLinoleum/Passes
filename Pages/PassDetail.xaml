@@ -225,6 +225,36 @@
                                                     </CollectionView.ItemTemplate>
                                                 </CollectionView>
                                             </VerticalStackLayout>
+
+                                            <VerticalStackLayout IsVisible="{Binding Documents, Converter={StaticResource NullToVisibilityConverter}}">
+                                                <Label Style="{StaticResource label_subtitles}" Text="Документы" ></Label>
+                                                <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
+                                                <CollectionView ItemsSource="{Binding Documents}">
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Margin="0,0,0,5" BackgroundColor="#f6f6f6" Style="{StaticResource rounded_white_border}">
+                                                                <Border.GestureRecognizers>
+                                                                    <TapGestureRecognizer>
+                                                                        <TapGestureRecognizer.Command>
+                                                                            <Binding Source="{RelativeSource AncestorType={x:Type ContentPage}}" Path="BindingContext.ShowDocumentCommand" />
+                                                                        </TapGestureRecognizer.Command>
+                                                                        <TapGestureRecognizer.CommandParameter>
+                                                                            <MultiBinding StringFormat='{}{0},{1}'>
+                                                                                <Binding Path="Path"/>
+                                                                                <Binding Path="OriginalName"/>
+                                                                            </MultiBinding>
+                                                                        </TapGestureRecognizer.CommandParameter>
+                                                                    </TapGestureRecognizer>
+                                                                </Border.GestureRecognizers>
+                                                                <Grid ColumnDefinitions="Auto,*" Padding="5">
+                                                                    <Image Grid.Column="0" WidthRequest="20" Source="image_icon" Margin="0,0,7,0" />
+                                                                    <Label Grid.Column="1" HorizontalOptions="Fill" Text="{Binding OriginalName}" Style="{StaticResource pass_data_values}"></Label>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </VerticalStackLayout>
                                         </StackLayout>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>

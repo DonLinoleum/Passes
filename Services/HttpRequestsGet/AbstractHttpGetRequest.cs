@@ -1,4 +1,5 @@
-﻿using Passes.Services.HttpRequests;
+﻿using Passes.Services.Cookies;
+using Passes.Services.HttpRequests;
 using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
@@ -36,7 +37,7 @@ namespace Passes.Services.HttpRequestsGet
             try
             {
                 UriBuilder uriBuilder = PrepareRequestUri();
-                await AddCookies();
+                await AddAuthCookieService.AddAuthCookieFromStorage(_cookieContainer, _baseUrl);
 
                 HttpRequestMessage request = new HttpRequestMessage()
                 {
@@ -63,13 +64,6 @@ namespace Passes.Services.HttpRequestsGet
             query["passId"] = _passId;
             uriBuilder.Query = query.ToString();
             return uriBuilder;
-        }
-
-        public virtual async Task AddCookies()
-        {
-            string sessid = await SecureStorage.GetAsync("PHPSESSID") ?? "";
-            _cookieContainer.GetCookies(new Uri(_baseUrl)).Clear();
-            _cookieContainer.Add(new Uri(_baseUrl), new Cookie("PHPSESSID", sessid));
         }
     }
 }

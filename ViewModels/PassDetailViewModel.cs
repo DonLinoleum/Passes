@@ -26,6 +26,7 @@ namespace Passes.ViewModels
         private IHttpGetRequest<RootPassDetailModel> _passDetailService;
         private IHttpGetRequest<ApproveProgressMarksModel> _passListApproveProgressMarksService;
         private IHttpGetRequest<MarksForPassModel> _marksForPass;
+        private HandleDocumentFileService _handleDocumentFileService;
         private string _baseUrl;
         private string _passNum;
         private double _maxHeightDrawer;
@@ -107,6 +108,7 @@ namespace Passes.ViewModels
             _marksForPass = new MarksForPassService<MarksForPassModel>("GetTimelineItems", _baseUrl!, PassIdInputProp ?? "");
             _detailState = new ActionOnDetailState();
             _approveDeclinePassService = new ApproveDeclinePassService();
+            _handleDocumentFileService = new HandleDocumentFileService(_baseUrl);
             var displayInfo = DeviceDisplay.Current.MainDisplayInfo;
             _maxHeightDrawer = displayInfo.Height / displayInfo.Density * 0.8;
         }
@@ -198,6 +200,16 @@ namespace Passes.ViewModels
                 await GoBack("//PassesList?need_update=true");
             }
         }
+
+        [RelayCommand]
+        public async Task ShowDocument (string? parameters)
+        {
+            string[]? splitParams = parameters?.Split(',');
+            string? path = splitParams?[0];
+            string? fileName = splitParams?[1]; 
+            if (path is not null && fileName is not null)
+                await _handleDocumentFileService.SendRequest(path,fileName);
+        }
         private void DecodeQueryData(string inputEncodedJson)
         {
             string decodedString = HttpUtility.UrlDecode(inputEncodedJson);
@@ -243,7 +255,6 @@ namespace Passes.ViewModels
             DrawerMarksHeight = PassDetialService.CalculateMarksDrawerHeight(passMarksData!.PrintMark!.Count, passMarksData!.Movement!.Count, PassDetailDrawerHeights.PassMarksElementHeight, PassData[0].pass_type_id, _maxHeightDrawer);
             return passMarksData;
         }
-
         private async Task<ApproveProgressMarksModel?> GetApproveProgressForPass()
         {
             var passProgressData = await _passListApproveProgressMarksService.GetData();

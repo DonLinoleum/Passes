@@ -10,16 +10,20 @@ namespace Passes.ViewModels.Helpers
     {
         public static async void GoToAuthPage()
         {
-            SecureStorage.Remove("PHPSESSID");
-            Preferences.Clear();
-            string? login = await SecureStorage.GetAsync("login");
-            string? password = await SecureStorage.GetAsync("password");
-            if (login is not null && password is not null)
+            bool exitConfirmation = await Shell.Current.DisplayAlert("Выход","Выйти из профиля?","Да","Нет");
+            if (exitConfirmation)
             {
-                SecureStorage.Remove("login");
-                SecureStorage.Remove("password");
+                SecureStorage.Remove("PHPSESSID");
+                Preferences.Clear();
+                string? login = await SecureStorage.GetAsync("login");
+                string? password = await SecureStorage.GetAsync("password");
+                if (login is not null && password is not null)
+                {
+                    SecureStorage.Remove("login");
+                    SecureStorage.Remove("password");
+                }
+                await Shell.Current.GoToAsync("//AuthPage");
             }
-            await Shell.Current.GoToAsync("//AuthPage");
         }
     }
 }

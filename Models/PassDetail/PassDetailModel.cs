@@ -544,6 +544,9 @@ namespace Passes.Models.PassDetail
         [JsonPropertyName("associated_pass")]
         public AssociatedPass? AssociatedPass { get; set; }
 
+        [JsonPropertyName("documents")]
+        public List<Document>? Documents { get; set; }
+
     }
 
    public class Negotiator
@@ -635,6 +638,18 @@ namespace Passes.Models.PassDetail
     {
         [JsonPropertyName("text")]
         public string? Text { get; set; }
+    }
+
+    public class Document
+    {
+        [JsonPropertyName("path")]
+        public string? Path { get; set; }
+
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonPropertyName("original_name")]
+        public string? OriginalName { get; set; }
     }
 
     public class RootPassDetailModel

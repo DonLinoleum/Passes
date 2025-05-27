@@ -19,7 +19,7 @@ namespace Passes.Services.HttpRequestsGet.HttpRequestsGetItem
             base(actionName, baseUrl, passId)
         { }
 
-        public override async Task AddCookies()
+        public async Task AddCookies()
         {
             string sessid = await SecureStorage.GetAsync("PHPSESSID") ?? "";
             string mmk_user_info = await SecureStorage.GetAsync("mmk_user_info") ?? "";
