@@ -125,11 +125,6 @@ namespace Passes.ViewModels
         }
 
         [RelayCommand]
-        public async Task Exit()
-        {
-            ExitHandlerHelper.GoToAuthPage();
-        }
-        [RelayCommand]
         public async void Find()
         {
             var startColor = FindBgColor;
@@ -170,7 +165,7 @@ namespace Passes.ViewModels
                     end: targetHeight,
                     easing: Easing.CubicInOut
                 );
-                    Application.Current.MainPage.Animate(
+                    Application.Current?.Windows[0].Page.Animate(
                     name: "DrawerAnimation",
                     animation: animation,
                     rate: 16,

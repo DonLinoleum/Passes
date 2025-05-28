@@ -25,6 +25,12 @@
             <passMarksConverters:IsMarksListEmptyConverter x:Key="IsMarksListEmptyConverter"></passMarksConverters:IsMarksListEmptyConverter>
             <converters:AssociatedPassConverter x:Key="AssociatedPassConverter"></converters:AssociatedPassConverter>
             <converters:UserOrUsersIconConverter x:Key="UserOrUsersIconConverter"></converters:UserOrUsersIconConverter>
+            <Style x:Key="burger_menu_style" TargetType="ImageButton">
+                <Setter Property="WidthRequest" Value="35"></Setter>
+                <Setter Property="MinimumWidthRequest" Value="5"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="HorizontalOptions" Value="End"></Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

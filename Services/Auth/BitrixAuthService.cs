@@ -1,4 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Passes.Models.User;
+using System.Diagnostics;
+using System.Text.Json;
+using System.Web;
 
 
 namespace Passes.Services.Auth
@@ -40,17 +44,21 @@ namespace Passes.Services.Auth
                 var cookies = handler.CookieContainer.GetCookies(new Uri(loginURL));
                 var phpSessId = cookies["PHPSESSID"]?.Value;
                 var mmkUserInfo = cookies["mmk_user_info"]?.Value;
-                var userId = UserIdService.GetUserIdByJson(mmkUserInfo);
-                if (!string.IsNullOrEmpty(phpSessId) && !string.IsNullOrEmpty(mmkUserInfo) && !string.IsNullOrEmpty(userId))
-                {
-                    await SecureStorage.SetAsync("PHPSESSID", phpSessId);
-                    await SecureStorage.SetAsync("mmk_user_info", mmkUserInfo);
-                    Preferences.Set("mmk_user_info__user_id", userId);
-                    handler.CookieContainer = new System.Net.CookieContainer();
-                    return true;
-                }
-                else
-                    return false;
+                var mmkUserInfoDecoded = HttpUtility.UrlDecode(mmkUserInfo);
+                var userInfo = mmkUserInfoDecoded is not null ? JsonSerializer.Deserialize<UserModel>(mmkUserInfoDecoded) : null;   
+                if (!string.IsNullOrEmpty(phpSessId) && !string.IsNullOrEmpty(mmkUserInfo) && userInfo is not null && !string.IsNullOrEmpty(userInfo?.Id))
+                    {
+                        await SecureStorage.SetAsync("PHPSESSID", phpSessId);
+                        await SecureStorage.SetAsync("mmk_user_info", mmkUserInfo);
+                        Preferences.Set("mmk_user_info__user_id", userInfo.Id);
+                        Preferences.Set("mmk_user_name", userInfo.Name); 
+                        Preferences.Set("mmk_user_last_name", userInfo.LastName);
+                        Preferences.Set("mmk_user_second_name", userInfo.SecondName);
+                        Preferences.Set("mmk_user_work_position", userInfo.WorkPosition);
+                        handler.CookieContainer = new System.Net.CookieContainer();
+                        return true;
+                    }
+                return false;
             }
             catch(Exception ex)
             {

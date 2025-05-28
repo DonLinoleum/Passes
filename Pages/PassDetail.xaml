@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Passes.Pages.PassDetail"
              xmlns:drawable="clr-namespace:Passes.Drawable"
+             xmlns:components="clr-namespace:Passes.Components"
              xmlns:system="clr-namespace:System;assembly=netstandard"
              Shell.NavBarIsVisible="False"
              BackgroundColor="#f9f9f9" 
@@ -23,11 +24,16 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
+
+        <!-- Menu !-->
+        <components:MenuView x:Name="MenuComponent" Grid.Row="0" Grid.RowSpan="4" ZIndex="999"/>
+
         <!-- Top -->
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="1">
             <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" Grid.ZIndex="1"></BoxView>
             <Grid Style="{StaticResource grid_top}" Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -35,11 +41,11 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" FontSize="20" FontFamily="JostSemiBold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Подробные данные"></Label>
-                <ImageButton Command="{Binding ExitCommand}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Source="exit"></ImageButton>
+                <ImageButton Style="{StaticResource burger_menu_style}" Command="{Binding Source={x:Reference MenuComponent},Path=BindingContext.OpenMenuCommand}" Grid.Column="1" Source="top_burger"></ImageButton>
             </Grid>
         </Grid>
         <!-- Main -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" Grid.ZIndex="1"></BoxView>
             <Border Style="{StaticResource rounded_white_border}" Margin="10,0,10,10">
                 <Grid Padding="10" RowDefinitions="Auto,*,Auto">
@@ -287,7 +293,7 @@
         </Grid>
 
         <!-- DrawerApprove/Decline-->
-        <Grid IsVisible="{Binding ApproveDeclineDrawerVisible}" Grid.ZIndex="100" Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerTranslateYTo}" Grid.Row="1">
+        <Grid IsVisible="{Binding ApproveDeclineDrawerVisible}" Grid.ZIndex="100" Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerTranslateYTo}" Grid.Row="2">
             <Border  Margin="0,0,0,0" Style="{StaticResource rounded_white_border}" StrokeShape="RoundRectangle 20 20 0 0" Padding="10">
                 <Border.GestureRecognizers>
                     <SwipeGestureRecognizer Direction="Down" Command="{Binding ToogleDrawerCommand}" Threshold="20"/>
@@ -309,7 +315,7 @@
         </Grid>
 
         <!-- DrawerApprove/ApprovalProgress-->
-        <Grid HeightRequest="{Binding DrawerProgressHeight}" IsVisible="{Binding ApproveProgressDrawerVisible}" Grid.ZIndex="100"  Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerTranslateYTo}" Grid.Row="1">
+        <Grid HeightRequest="{Binding DrawerProgressHeight}" IsVisible="{Binding ApproveProgressDrawerVisible}" Grid.ZIndex="100"  Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerTranslateYTo}" Grid.Row="2">
             <Border BackgroundColor="#f9f9f9" Margin="0,0,0,0" Style="{StaticResource rounded_white_border}" StrokeShape="RoundRectangle 20 20 0 0" Padding="10">
                 <Border.GestureRecognizers>
                     <SwipeGestureRecognizer Direction="Down" Command="{Binding ToogleDrawerCommand}" Threshold="20"/>
@@ -427,7 +433,7 @@
         </Grid>
 
         <!-- DrawerMarks-->
-        <Grid HeightRequest="{Binding DrawerMarksHeight}" IsVisible="{Binding MarksDrawerVisible}" Grid.ZIndex="100"  Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerTranslateYTo}" Grid.Row="1">
+        <Grid HeightRequest="{Binding DrawerMarksHeight}" IsVisible="{Binding MarksDrawerVisible}" Grid.ZIndex="100"  Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerTranslateYTo}" Grid.Row="2">
             <Border BackgroundColor="#f9f9f9" Style="{StaticResource rounded_white_border}" StrokeShape="RoundRectangle 20 20 0 0" Padding="10">
                 <Border.GestureRecognizers>
                     <SwipeGestureRecognizer Direction="Down" Command="{Binding ToogleDrawerCommand}" Threshold="20"/>
@@ -546,7 +552,7 @@
         </Grid>
 
         <!-- Bottom Menu -->
-        <Grid Grid.Row="2" >
+        <Grid Grid.Row="3" >
             <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" Grid.ZIndex="1"></BoxView>
             <Border Style="{StaticResource rounded_white_border}" StrokeShape="Rectangle" VerticalOptions="End">
                 <FlexLayout JustifyContent="SpaceEvenly" Padding="0,5.5">

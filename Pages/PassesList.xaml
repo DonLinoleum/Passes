@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:Passes.Components"
              x:Class="Passes.Pages.PassesList"
              Shell.NavBarIsVisible="False"
              BackgroundColor="#f9f9f9" 
@@ -18,29 +19,33 @@
     </ContentPage.Resources>
 
 
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
+        <!-- Menu !-->
+        <components:MenuView x:Name="MenuComponent" Grid.Row="0" Grid.RowSpan="5" ZIndex="999"/>
+
         <!-- TOP -->
-        <Grid Grid.Row="0">
-            <BoxView BackgroundColor="#4D000000" IsVisible="{Binding FilterOpacity}" Grid.ZIndex="1"></BoxView>
-            <Grid Style="{StaticResource grid_top}" Grid.ZIndex="0">
+        <Grid Grid.Row="1">
+            <BoxView BackgroundColor="#4D000000" IsVisible="{Binding FilterOpacity}" ZIndex="1"></BoxView>
+            <Grid Style="{StaticResource grid_top}" ZIndex="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" FontSize="20" FontFamily="{StaticResource SemiBold}" VerticalOptions="Center" HorizontalOptions="Start"  Text="Список заявок"></Label>
-                <ImageButton Command="{Binding ExitCommand}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="End" Source="exit"></ImageButton>
+                <ImageButton Style="{StaticResource burger_menu_style}" Command="{Binding Source={x:Reference MenuComponent},Path=BindingContext.OpenMenuCommand}" Grid.Column="1" Source="top_burger" ></ImageButton>
             </Grid>
         </Grid>
 
         <!-- Find and Filter -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <BoxView BackgroundColor="#4D000000" IsVisible="{Binding FilterOpacity}" Grid.ZIndex="1"></BoxView>
             <Grid Margin="10,0,10,10" ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
@@ -97,10 +102,10 @@
             </Grid>
         </Grid>
 
-        <ActivityIndicator Margin="0,30,0,0" Grid.Row="2" VerticalOptions="Center"  HorizontalOptions="Center" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="#2056ae"></ActivityIndicator>
+        <ActivityIndicator Margin="0,30,0,0" Grid.Row="3" VerticalOptions="Center"  HorizontalOptions="Center" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="#2056ae"></ActivityIndicator>
 
         <!-- Passes -->
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="4">
             <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding FilterOpacity}" Grid.ZIndex="1"></BoxView>
             <Grid >
                 <RefreshView Margin="10,0,10,0" IsRefreshing="{Binding IsRefreshing}" Command="{Binding LoadPassesRefreshListCommand}">
