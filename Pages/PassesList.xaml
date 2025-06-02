@@ -133,7 +133,7 @@
                                                 <Ellipse HeightRequest="20" WidthRequest="20" Margin="10,0,0,0" Fill="{Binding PassStateName, Converter={StaticResource PassStateToColorConverter}}" />
                                             </HorizontalStackLayout>
                                         </FlexLayout>
-                                        <StackLayout Style="{StaticResource stack_props_labels}" IsVisible="{Binding Visitors[0], TargetNullValue=False}" >
+                                        <StackLayout Style="{StaticResource stack_props_labels}" IsVisible="{Binding Visitors[0], Converter={StaticResource NullToVisibilityConverter}}" >
                                             <Label FontFamily="{StaticResource Regular}" TextColor="#0f2548" FontSize="14"  Text="Посетитель: "></Label>
                                             <Label  Text="{Binding Visitors[0].LastName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />
                                             <Label  Text="{Binding Visitors[0].FirstName, StringFormat='{0}'}" Style="{DynamicResource label_text_margin_right}" />

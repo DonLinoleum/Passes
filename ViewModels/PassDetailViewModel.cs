@@ -145,20 +145,16 @@ namespace Passes.ViewModels
         }
 
         [RelayCommand]
-        public async Task GoBack(string url)
-        {
-            await Shell.Current.GoToAsync(url);
-        }
+        public async Task GoBackByBottomMenu(string url) => await Shell.Current.GoToAsync(url);
+      
         [RelayCommand]
-        public void Exit()
-        {
-            ExitHandlerHelper.GoToAuthPage();
-        }
+        public void Exit() => ExitHandlerHelper.GoToAuthPage();
+    
         [RelayCommand]
         public async Task ToogleDrawer(string? Params = "")
         {
             MainContentOpacity = !MainContentOpacity;
-            var targetHeight = DrawerTranslateYTo == 0 ? 750 : 0;
+            var targetHeight = PassDetailDrawerHeights.HeightOfDrawerEnabledOrDisabled(DrawerTranslateYTo);
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
                 var animation = new Animation(callback: v => DrawerTranslateYTo = v, start: DrawerTranslateYTo, end: targetHeight, easing: Easing.CubicInOut);
@@ -197,7 +193,7 @@ namespace Passes.ViewModels
                 await ToogleDrawer();
                 CommentFromEditor = "";
                 if (isResponseSuccess) await Shell.Current.DisplayAlert("Статус изменен", $"Статус заявки {_passNum} изменен", "OK");
-                await GoBack("//PassesList?need_update=true");
+                await GoBackByBottomMenu("//PassesList?need_update=true");
             }
         }
 

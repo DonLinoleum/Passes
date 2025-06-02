@@ -77,7 +77,7 @@ namespace Passes.ViewModels
         {
             var displayInfo = DeviceDisplay.Current.MainDisplayInfo;
             double screenWidth = displayInfo.Width / displayInfo.Density;
-            double width = (int)(screenWidth * 0.8);
+            double width = (int)(screenWidth * 0.85);
             MenuWidth = width;
             TranslationMenuX = width;
         }

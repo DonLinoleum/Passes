@@ -1,4 +1,5 @@
 using Passes.ViewModels;
+using System.Diagnostics;
 
 namespace Passes.Pages;
 
@@ -19,5 +20,27 @@ public partial class PassDetail : ContentPage
              this.TranslateTo(0, 0, 1000, Easing.CubicOut)
             );
         base.OnAppearing();
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        if (BindingContext is not PassDetailViewModel viewModel)
+            return false;
+
+        if (viewModel.DrawerTranslateYTo == 0)
+        {
+            viewModel.ToogleDrawer().Wait();
+            return true;
+        }
+        if (MenuComponent.BindingContext is MenuViewModel viewMenuModel && viewMenuModel.IsMenuOpen)
+        {
+            viewMenuModel.CloseMenu().Wait();
+            return true;
+        }
+        else
+        {
+            Shell.Current.GoToAsync("//PassesList").Wait();
+            return true;
+        }      
     }
 }

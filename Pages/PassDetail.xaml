@@ -7,8 +7,9 @@
              xmlns:system="clr-namespace:System;assembly=netstandard"
              Shell.NavBarIsVisible="False"
              BackgroundColor="#f9f9f9" 
-             Shell.PresentationMode="Animated"
+             Shell.PresentationMode="Animated" 
              >
+  
     <ContentPage.Resources>
         <ResourceDictionary>
             <x:String x:Key="Regular">JostRegular</x:String>
@@ -558,7 +559,7 @@
                 <FlexLayout JustifyContent="SpaceEvenly" Padding="0,5.5">
                     <VerticalStackLayout>
                         <VerticalStackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoBackCommand}" CommandParameter="//PassesList"/>
+                            <TapGestureRecognizer Command="{Binding GoBackByBottomMenuCommand}" CommandParameter="//PassesList"/>
                         </VerticalStackLayout.GestureRecognizers>
                         <Image Style="{StaticResource bottom_menu_img}" Source="back" />
                         <Label FontFamily="{StaticResource Regular}" FontSize="10" Text="Вернуться" />

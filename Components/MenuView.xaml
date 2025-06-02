@@ -3,18 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Passes.Components.MenuView">
 
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <x:String x:Key="Regular">JostRegular</x:String>
-            <x:String x:Key="Medium">JostMedium</x:String>
-            <x:String x:Key="SemiBold">JostSemiBold</x:String>
-        </ResourceDictionary>
-        <ResourceDictionary Source="/Resources/Styles/PassListStyles.xaml"></ResourceDictionary>
-        <StyleSheet Source="/css/styles.css" />
-    </ContentView.Resources>
-
     <Grid>
-        <BoxView  BackgroundColor="#4D000000" IsVisible="{Binding IsMenuOpen}" ZIndex="200"></BoxView>
+        <BoxView BackgroundColor="#4D000000" IsVisible="{Binding IsMenuOpen}" ZIndex="200"></BoxView>
         <Grid     
         BackgroundColor="#ffffff" 
         WidthRequest="{Binding MenuWidth}" 
@@ -23,64 +13,65 @@
         TranslationX="{Binding TranslationMenuX}"
         ZIndex="999"
     >
-        <Grid.GestureRecognizers>
-            <SwipeGestureRecognizer Direction="Right" Command="{Binding CloseMenuCommand}" Threshold="20"  />
-        </Grid.GestureRecognizers>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Right" Command="{Binding CloseMenuCommand}" Threshold="20"  />
+            </Grid.GestureRecognizers>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <Grid Style="{StaticResource grid_top}" Margin="0,0,0,20"  Grid.Row="0"  >
+            <Grid Padding="10" Margin="0,0,0,20.5" Grid.Row="0" BackgroundColor="#ffffff">
                 <Grid.Shadow>
-                    <Shadow Brush="#1E488A" Offset="0,5" Opacity="0.08" />
+                    <Shadow Brush="#1E488A" Offset="0,4" Opacity="0.09" Radius="15"></Shadow>
                 </Grid.Shadow>
-            <Label VerticalOptions="Center" FontFamily="JostMedium" FontSize="20" Text="Меню"></Label>
-            <Border VerticalOptions="Center" HorizontalOptions="End" Stroke="Transparent" WidthRequest="28" HeightRequest="28" StrokeShape="RoundRectangle 5" BackgroundColor="#4DCEDAF9"  >
-                <Border.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding CloseMenuCommand}" />
-                </Border.GestureRecognizers>
-                <Image WidthRequest="10" MinimumWidthRequest="10" Source="cross" />
-            </Border>
-        </Grid>
+                <Label VerticalOptions="Center" FontFamily="JostSemiBold" FontSize="20" Text="Меню"></Label>
+                <Border VerticalOptions="Center" HorizontalOptions="End" Stroke="Transparent" WidthRequest="30" HeightRequest="30" StrokeShape="RoundRectangle 5" BackgroundColor="#4DCEDAF9"  >
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CloseMenuCommand}" />
+                    </Border.GestureRecognizers>
+                    <Image WidthRequest="10" MinimumWidthRequest="10" Source="cross" />
+                </Border>
+            </Grid>
 
-        <VerticalStackLayout Grid.Row="1" Margin="0,0,0,0">
-            <VerticalStackLayout Margin="0,0,0,20">
-                <Image Margin="0,0,0,10" HorizontalOptions="Center" HeightRequest="39" Source="user_icon_menu"/>
-                <Label LineBreakMode="WordWrap" FontFamily="JostRegular" FontSize="20" Margin="0,0,0,8" HorizontalOptions="Center" Text="{Binding UserName}"></Label>
-                    <Label LineBreakMode="WordWrap" FontFamily="JostMedium" FontSize="16" Opacity="0.5" HorizontalOptions="Center" Text="{Binding WorkPosition}"></Label>
+            <VerticalStackLayout Margin="0,0,0,20" Grid.Row="1" Padding="10,0,10,0">
+                <Image Margin="0,0,0,10" HorizontalOptions="Center" MinimumWidthRequest="10" WidthRequest="40" Source="user_icon_menu"/>
+                <Label LineHeight="0.8" LineBreakMode="WordWrap" FontFamily="JostRegular" FontSize="20" Margin="0,0,0,8" HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="{Binding UserName}"></Label>
+                <Label LineBreakMode="WordWrap" FontFamily="JostMedium" FontSize="16" Opacity="0.5" HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="{Binding WorkPosition}"></Label>
             </VerticalStackLayout>
-            <FlexLayout Direction="Column" Padding="10" >
+            
+            <FlexLayout Direction="Column" Padding="10" Grid.Row="2" >
                 <HorizontalStackLayout Margin="0,0,0,10">
                     <Image Margin="0,0,10,0" VerticalOptions="Center" Source="Resources/Images/Menu/user"></Image>
                     <Label FontFamily="JostSemiBold" FontSize="14" TextColor="#2056AE" Text="Профиль"></Label>
                 </HorizontalStackLayout>
-                
+
                 <HorizontalStackLayout Margin="0,0,0,10">
-                        <HorizontalStackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoToWorkPlaceCommand}"/>
-                        </HorizontalStackLayout.GestureRecognizers>
+                    <HorizontalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToWorkPlaceCommand}"/>
+                    </HorizontalStackLayout.GestureRecognizers>
                     <Image Margin="0,0,10,0" VerticalOptions="Center" Source="Resources/Images/Menu/working_place"></Image>
                     <Label FontFamily="JostSemiBold" FontSize="14" TextColor="#2056AE" Text="Рабочее место"></Label>
                 </HorizontalStackLayout>
-                
+
                 <HorizontalStackLayout Margin="0,0,0,10">
                     <Image Margin="0,0,10,0" VerticalOptions="Center" Source="Resources/Images/Menu/settings"></Image>
                     <Label FontFamily="JostSemiBold" FontSize="14" TextColor="#2056AE"  Text="Настройки"></Label>
                 </HorizontalStackLayout>
             </FlexLayout>
-        </VerticalStackLayout>
 
-        <Border Grid.Row="2" Margin="10,0,10,10"  BackgroundColor="#F9F9F9" Stroke="Transparent" StrokeShape="RoundRectangle 10" >
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding ExitCommand}" />
-            </Border.GestureRecognizers>
-            <FlexLayout Padding="14" AlignItems="Center" JustifyContent="Center" >
-                <ImageButton Margin="0,0,4,0" WidthRequest="14" HeightRequest="14" MinimumWidthRequest="5" BackgroundColor="Transparent" Source="Resources/Images/Menu/exit_menu"/>
-                <Label FontFamily="JostSemiBold" FontSize="16" Text="Выход"></Label>
-            </FlexLayout>
-        </Border>
-    </Grid>
+
+            <Border Grid.Row="3" Margin="10,0,10,10"  BackgroundColor="#F9F9F9" Stroke="Transparent" StrokeShape="RoundRectangle 10" >
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ExitCommand}" />
+                </Border.GestureRecognizers>
+                <FlexLayout Padding="14" AlignItems="Center" JustifyContent="Center" >
+                    <ImageButton Margin="0,0,4,0" WidthRequest="14" HeightRequest="14" MinimumWidthRequest="5" BackgroundColor="Transparent" Source="Resources/Images/Menu/exit_menu"/>
+                    <Label FontFamily="JostSemiBold" FontSize="16" Text="Выход"></Label>
+                </FlexLayout>
+            </Border>
+        </Grid>
     </Grid>
 </ContentView>

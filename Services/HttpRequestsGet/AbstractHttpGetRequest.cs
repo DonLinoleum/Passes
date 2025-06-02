@@ -44,7 +44,7 @@ namespace Passes.Services.HttpRequestsGet
                     Method = HttpMethod.Get,
                     RequestUri = uriBuilder.Uri,
                 };
-                var response = await _httpClient.SendAsync(request);
+                var response = await _httpClient.SendAsync(request); 
                 var data = await response.Content.ReadAsStringAsync();
                 T? result = JsonSerializer.Deserialize<T?>(data);
                 return result;

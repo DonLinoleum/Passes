@@ -1,5 +1,6 @@
 ﻿using Passes.Models.PassDetail;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -13,10 +14,8 @@ namespace Passes.Converters
     {
         public object Convert(object? value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is List<Vehicle> vehicleList)
-                return vehicleList.Count > 0;
-            else if (value is List<string> stringList)
-                return stringList.Count > 0;
+            if (value is IList list)
+                return list.Count > 0;
             else
                 return value != null && !string.IsNullOrEmpty(value?.ToString()) && value as bool? != false;
         }

@@ -5,6 +5,7 @@ using Passes.Models.PassList;
 using Passes.Services;
 using Passes.Services.Auth;
 using Passes.ViewModels.Helpers;
+using Passes.ViewModels.States;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Security.AccessControl;
@@ -155,7 +156,7 @@ namespace Passes.ViewModels
         public async Task ToogleDrawerFilter()
         {
             FilterOpacity = !FilterOpacity;
-            var targetHeight = FilterHeight == 0 ? 380 : 0;
+            var targetHeight = PassesListDrawerHeight.HeightOfDrawerEnabledOrDisabled(FilterHeight);
             await MainThread.InvokeOnMainThreadAsync(async () => 
             {
                 var animation = new Animation
@@ -189,12 +190,12 @@ namespace Passes.ViewModels
             
                 await MainThread.InvokeOnMainThreadAsync(() => {
                 FilteredPasses = new ObservableCollection<PassListModel>(filtered);              
-                    if (!_hasFilteredByType)
+                    if (!_hasFilteredByType && PassTypeFilterInput is not null)
                     {
                         FilterCount++;
                         _hasFilteredByType = true;
                     }               
-                    if (!_hasFilteredByState)
+                    if (!_hasFilteredByState && PassStateFilterInput is not null)
                     {
                         FilterCount++;
                         _hasFilteredByState = true;
