@@ -109,8 +109,7 @@ namespace Passes.ViewModels
             _detailState = new ActionOnDetailState();
             _approveDeclinePassService = new ApproveDeclinePassService();
             _handleDocumentFileService = new HandleDocumentFileService(_baseUrl);
-            var displayInfo = DeviceDisplay.Current.MainDisplayInfo;
-            _maxHeightDrawer = displayInfo.Height / displayInfo.Density * 0.8;
+            _maxHeightDrawer = ElementHeightHelper.GetHeight();
         }
         private async Task Init(string queryDataToParse)
         {

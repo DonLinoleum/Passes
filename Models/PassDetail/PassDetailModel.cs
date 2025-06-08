@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Passes.Models.JsonConverters;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -98,7 +99,8 @@ namespace Passes.Models.PassDetail
         public string? waybills { get; set; }
 
         [JsonPropertyName("curator")]
-        public string? curator { get; set; }
+        [JsonConverter(typeof(CuratorJsonConverter))]
+        public object? curator { get; set; }
 
         [JsonPropertyName("curator_position")]
         public string? curator_position { get; set; }
@@ -533,7 +535,8 @@ namespace Passes.Models.PassDetail
         public List<Vehicle>? vehicles { get; set; }
 
         [JsonPropertyName("goods")]
-        public List<string>? list_of_tmc { get; set; }
+        [JsonConverter(typeof(GoodsJsonConverter))]
+        public object? list_of_tmc { get; set; }
 
         [JsonPropertyName("visit_goal")]
         public VisitGoal? visitGoal { get; set; }
@@ -546,6 +549,12 @@ namespace Passes.Models.PassDetail
 
         [JsonPropertyName("documents")]
         public List<Document>? Documents { get; set; }
+
+        [JsonPropertyName("supplier_name")]
+        public string? SupplierName { get; set; }
+
+        [JsonPropertyName("executor_name")]
+        public string? ExecutorName { get; set; }
 
     }
 
@@ -650,6 +659,34 @@ namespace Passes.Models.PassDetail
 
         [JsonPropertyName("original_name")]
         public string? OriginalName { get; set; }
+    }
+
+    public class CuratorModel
+    {
+        [JsonPropertyName("ID")]
+        public string? Id { get; set; }
+        [JsonPropertyName("LAST_NAME")]
+        public string? LastName { get; set; }
+        [JsonPropertyName("NAME")]
+        public string? Name { get; set; }
+        [ JsonPropertyName("SECOND_NAME")]
+        public string? SecondName { get; set; }
+        [JsonPropertyName("WORK_COMPANY")]
+        public string? WorkCompany { get; set; }
+        [JsonPropertyName("WORK_POSITION")]
+        public string? WorkPosition { get; set; }
+        [JsonPropertyName("WORK_PROFILE")]
+        public string? WorkProfile { get; set; }
+    }
+
+    public class GoodsModel
+    {
+        [JsonPropertyName("count")]
+        public string? Count { get; set; }
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+        [JsonPropertyName("number")]
+        public string? Number { get; set; }
     }
 
     public class RootPassDetailModel

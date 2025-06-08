@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Passes"
              xmlns:passMarksConverters="clr-namespace:Passes.Converters.PassMarksConverters"
+             xmlns:curatorConverters="clr-namespace:Passes.Converters.CuratorConverters"
+             xmlns:goodsConverters="clr-namespace:Passes.Converters.GoodsConverters"
              xmlns:converters="clr-namespace:Passes.Converters"
              x:Class="Passes.App">
     <Application.Resources>
@@ -11,6 +13,7 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
             <converters:PassStateToColorConverter x:Key="PassStateToColorConverter"></converters:PassStateToColorConverter>
             <converters:BoolInvertConverter x:Key="BoolInvertConverter"></converters:BoolInvertConverter>
             <converters:BoolYesNoConverter x:Key="BoolYesNoConverter"></converters:BoolYesNoConverter>
@@ -25,15 +28,21 @@
             <passMarksConverters:IsMarksListEmptyConverter x:Key="IsMarksListEmptyConverter"></passMarksConverters:IsMarksListEmptyConverter>
             <converters:AssociatedPassConverter x:Key="AssociatedPassConverter"></converters:AssociatedPassConverter>
             <converters:UserOrUsersIconConverter x:Key="UserOrUsersIconConverter"></converters:UserOrUsersIconConverter>
+            <curatorConverters:CuratorValueConverter x:Key="CuratorValueConverter"></curatorConverters:CuratorValueConverter>
+            <curatorConverters:CuratorKeyConverter x:Key="CuratorKeyConverter"></curatorConverters:CuratorKeyConverter>
+            <goodsConverters:GoodsItemConverter x:Key="GoodsValueConverter"></goodsConverters:GoodsItemConverter>
+            
             <Style x:Key="burger_menu_style" TargetType="ImageButton">
                 <Setter Property="WidthRequest" Value="35"></Setter>
                 <Setter Property="MinimumWidthRequest" Value="5"></Setter>
                 <Setter Property="VerticalOptions" Value="Center"></Setter>
                 <Setter Property="HorizontalOptions" Value="End"></Setter>
             </Style>
+            
             <x:String x:Key="Regular">JostRegular</x:String>
             <x:String x:Key="Medium">JostMedium</x:String>
             <x:String x:Key="SemiBold">JostSemiBold</x:String>
+        
         </ResourceDictionary>
     </Application.Resources>
 </Application>

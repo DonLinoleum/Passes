@@ -35,7 +35,7 @@
 
         <!-- Top -->
         <Grid Grid.Row="1">
-            <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" Grid.ZIndex="1"></BoxView>
+            <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" ZIndex="1"></BoxView>
             <Grid Style="{StaticResource grid_top}" Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -47,7 +47,7 @@
         </Grid>
         <!-- Main -->
         <Grid Grid.Row="2">
-            <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" Grid.ZIndex="1"></BoxView>
+            <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" ZIndex="1"></BoxView>
             <Border Style="{StaticResource rounded_white_border}" Margin="10,0,10,10">
                 <Grid Padding="10" RowDefinitions="Auto,*,Auto">
                     <StackLayout Grid.Row="0">
@@ -139,8 +139,8 @@
                                             </FlexLayout>
 
                                             <FlexLayout IsVisible="{Binding curator, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
-                                                <Label Style="{StaticResource pass_data_keys}"  Text="Куратор или принимающее лицо: " />
-                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding curator}" />
+                                                <Label Style="{StaticResource pass_data_keys}"  Text="{Binding curator,Converter={StaticResource CuratorKeyConverter}}" />
+                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding curator,Converter={StaticResource CuratorValueConverter}}" />
                                             </FlexLayout>
 
                                             <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
@@ -186,6 +186,17 @@
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="Место вывоза груза: " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding Areas.ExportName}"/>
                                             </FlexLayout>
+
+                                            <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding SupplierName, Converter={StaticResource NullToVisibilityConverter}}">
+                                                <Label Style="{StaticResource pass_data_keys}"  Text="Поставщик: " />
+                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding SupplierName}"/>
+                                            </FlexLayout>
+
+                                            <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding ExecutorName, Converter={StaticResource NullToVisibilityConverter}}">
+                                                <Label Style="{StaticResource pass_data_keys}"  Text="Исполнитель работ: " />
+                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding ExecutorName}"/>
+                                            </FlexLayout>
+
                                             <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding comment, Converter={StaticResource NullToVisibilityConverter}}">
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="Комментарий: " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding comment}"/>
@@ -227,7 +238,7 @@
                                                 <CollectionView ItemsSource="{Binding list_of_tmc}">
                                                     <CollectionView.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding StringFormat='- {0}'}" />
+                                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding .,Converter={StaticResource GoodsValueConverter}}" />
                                                         </DataTemplate>
                                                     </CollectionView.ItemTemplate>
                                                 </CollectionView>
@@ -554,7 +565,7 @@
 
         <!-- Bottom Menu -->
         <Grid Grid.Row="3" >
-            <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" Grid.ZIndex="1"></BoxView>
+            <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" ZIndex="1"></BoxView>
             <Border Style="{StaticResource rounded_white_border}" StrokeShape="Rectangle" VerticalOptions="End">
                 <FlexLayout JustifyContent="SpaceEvenly" Padding="0,5.5">
                     <VerticalStackLayout>
