@@ -370,7 +370,7 @@
                                     </HorizontalStackLayout>
                                     <Label Style="{StaticResource pass_drawer_approve_progress_user_role}" Text="{Binding PassProgress.Mol.Role}"></Label>
                                     <HorizontalStackLayout>
-                                        <Border Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2">
+                                        <Border Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2" BackgroundColor="{Binding PassProgress.Mol.Status,Converter={StaticResource StatusMarkColorConverter}}">
                                             <Grid ColumnDefinitions="Auto,Auto">
                                                 <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassProgress.Mol.Status}"></Label>
                                                 <Grid Grid.Column="1" Margin="10,0,2,0">
@@ -379,7 +379,7 @@
                                                 </Grid>
                                             </Grid>
                                         </Border>
-                                        <Border Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2">
+                                        <Border Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2" IsVisible="{Binding PassProgress.Mol.Date,Converter={StaticResource NullToVisibilityConverter}}">
                                             <Grid ColumnDefinitions="Auto,Auto">
                                                 <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassProgress.Mol.Date}"></Label>
                                                 <Grid Grid.Column="1" Margin="8,0,3,0">
@@ -414,7 +414,7 @@
                                                 </HorizontalStackLayout>
                                                 <Label Style="{StaticResource pass_drawer_approve_progress_user_role}" Text="{Binding Role}"></Label>
                                                 <HorizontalStackLayout>
-                                                    <Border BackgroundColor="{Binding Status,Converter={StaticResource StatusMarkColorConverter} }" Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2">
+                                                    <Border BackgroundColor="{Binding Status,Converter={StaticResource StatusMarkColorConverter}}" Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2">
                                                         <Grid ColumnDefinitions="Auto,Auto">
                                                             <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding Status}"></Label>
                                                             <Grid Grid.Column="1" Margin="10,0,2,0">
@@ -564,7 +564,7 @@
         </Grid>
 
         <!-- Bottom Menu -->
-        <Grid Grid.Row="3" >
+        <Grid Grid.Row="3" IsVisible="{Binding IsLoading,Converter={StaticResource BoolInvertConverter}}" >
             <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" ZIndex="1"></BoxView>
             <Border Style="{StaticResource rounded_white_border}" StrokeShape="Rectangle" VerticalOptions="End">
                 <FlexLayout JustifyContent="SpaceEvenly" Padding="0,5.5">
@@ -575,14 +575,14 @@
                         <Image Style="{StaticResource bottom_menu_img}" Source="back" />
                         <Label FontFamily="{StaticResource Regular}" FontSize="10" Text="Вернуться" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout>
+                    <VerticalStackLayout IsVisible="{Binding PassData[0], Converter={StaticResource HasPassChildrenConverter}}">
                         <VerticalStackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter=",ApproveProgressDrawer"/>
                         </VerticalStackLayout.GestureRecognizers>
                         <Image Style="{StaticResource bottom_menu_img}" Source="approval_progress.png" />
                         <Label  FontFamily="{StaticResource Regular}" FontSize="10" Text="Ход согласования" />
                     </VerticalStackLayout>
-                    <VerticalStackLayout>
+                    <VerticalStackLayout IsVisible="{Binding PassData[0], Converter={StaticResource HasPassChildrenConverter}}">
                         <VerticalStackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter=",MarksDrawer"/>
                         </VerticalStackLayout.GestureRecognizers>

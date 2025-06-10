@@ -556,6 +556,9 @@ namespace Passes.Models.PassDetail
         [JsonPropertyName("executor_name")]
         public string? ExecutorName { get; set; }
 
+        [JsonPropertyName("children")]
+        public ChildrenModel? Children { get; set; }
+
     }
 
    public class Negotiator

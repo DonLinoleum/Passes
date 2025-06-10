@@ -6,6 +6,7 @@
              xmlns:curatorConverters="clr-namespace:Passes.Converters.CuratorConverters"
              xmlns:goodsConverters="clr-namespace:Passes.Converters.GoodsConverters"
              xmlns:converters="clr-namespace:Passes.Converters"
+             xmlns:servicePassesConverter="clr-namespace:Passes.Converters.ServicePassesConverters"
              x:Class="Passes.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -31,6 +32,7 @@
             <curatorConverters:CuratorValueConverter x:Key="CuratorValueConverter"></curatorConverters:CuratorValueConverter>
             <curatorConverters:CuratorKeyConverter x:Key="CuratorKeyConverter"></curatorConverters:CuratorKeyConverter>
             <goodsConverters:GoodsItemConverter x:Key="GoodsValueConverter"></goodsConverters:GoodsItemConverter>
+            <servicePassesConverter:HasPassChildrenConverter x:Key="HasPassChildrenConverter"></servicePassesConverter:HasPassChildrenConverter>
             
             <Style x:Key="burger_menu_style" TargetType="ImageButton">
                 <Setter Property="WidthRequest" Value="35"></Setter>
