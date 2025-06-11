@@ -29,10 +29,15 @@
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.GoToChildPassCommand}" CommandParameter="{Binding .}" />
                             </Grid.GestureRecognizers>
-                            <Switch OnColor="#3c6cba" ThumbColor="#2056ae"  Grid.Column="0"/>
-                            <Border Grid.Column="1" StrokeShape="RoundRectangle 10" Padding="8"  BackgroundColor="Transparent" Stroke="#2056ae" StrokeThickness="0.5">
-                                <FlexLayout JustifyContent="SpaceBetween"  Wrap="Wrap" >
-                                    <VerticalStackLayout VerticalOptions="Center" Grid.Row="0">
+                            <Switch x:Name="toggleSwitchVehicle" OnColor="#3c6cba" ThumbColor="#2056ae"  Grid.Column="0"/>
+                            <Border Grid.Column="1" StrokeShape="RoundRectangle 10" Padding="8"  BackgroundColor="Transparent" Stroke="#4D2056ae" StrokeThickness="1">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding Source={x:Reference toggleSwitchVehicle},Path=IsToggled}" Value="True">
+                                        <Setter Property="Stroke" Value="#2056ae"></Setter>
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                <FlexLayout Direction="Column" JustifyContent="SpaceBetween">
+                                    <VerticalStackLayout VerticalOptions="Center">
                                         <Label Style="{StaticResource pass_data_values}" FontFamily="JostMedium">
                                             <Label.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}">
@@ -44,7 +49,7 @@
                                         <Label Style="{StaticResource pass_data_values}" Text="{Binding PassNum}" />
                                     </VerticalStackLayout>
 
-                                    <Border VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="1"  BackgroundColor="{Binding PassStateId,Converter={StaticResource StatusIdColorServicePassConverter}}" StrokeShape="RoundRectangle 20" Stroke="Transparent"  Padding="10,2,0,2">
+                                    <Border HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="{Binding PassStateId,Converter={StaticResource StatusIdColorServicePassConverter}}" StrokeShape="RoundRectangle 20" Stroke="Transparent"  Padding="10,2,0,2">
                                         <Grid ColumnDefinitions="*,Auto">
                                             <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassStateId,Converter={StaticResource PassStatesIdToTextConverter}}" LineBreakMode="WordWrap" ></Label>
                                             <Grid Grid.Column="1" Margin="10,0,2,0">
@@ -70,10 +75,15 @@
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.GoToChildPassCommand}" CommandParameter="{Binding .}" />
                             </Grid.GestureRecognizers>
-                            <Switch OnColor="#3c6cba" ThumbColor="#2056ae" Grid.Column="0"/>
-                            <Border Grid.Column="1" StrokeShape="RoundRectangle 10" Padding="8"  BackgroundColor="Transparent" Stroke="#2056ae" StrokeThickness="0.5">
-                                <FlexLayout JustifyContent="SpaceBetween"  Wrap="Wrap" >
-                                    <VerticalStackLayout VerticalOptions="Center" Grid.Row="0">
+                            <Switch x:Name="toggleSwitchVisitor" OnColor="#3c6cba" ThumbColor="#2056ae" Grid.Column="0"/>
+                            <Border Grid.Column="1" StrokeShape="RoundRectangle 10" Padding="8" BackgroundColor="Transparent" Stroke="#4D2056ae" StrokeThickness="1">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding Source={x:Reference toggleSwitchVisitor},Path=IsToggled}" Value="True">
+                                        <Setter Property="Stroke" Value="#2056ae"></Setter>
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                <FlexLayout Direction="Column" JustifyContent="SpaceBetween">
+                                    <VerticalStackLayout VerticalOptions="Center" >
                                         <Label Style="{StaticResource pass_data_values}" FontFamily="JostMedium">
                                             <Label.Text>
                                                 <MultiBinding StringFormat="{}{0} {1}. {2}.">
@@ -86,7 +96,7 @@
                                         <Label Style="{StaticResource pass_data_values}" Text="{Binding PassNum}" />
                                     </VerticalStackLayout>
 
-                                    <Border VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="1"  BackgroundColor="{Binding PassStateId,Converter={StaticResource StatusIdColorServicePassConverter}}" StrokeShape="RoundRectangle 20" Stroke="Transparent"  Padding="10,2,0,2">
+                                    <Border VerticalOptions="Center" HorizontalOptions="Center"  BackgroundColor="{Binding PassStateId,Converter={StaticResource StatusIdColorServicePassConverter}}" StrokeShape="RoundRectangle 20" Stroke="Transparent"  Padding="10,2,0,2">
                                         <Grid ColumnDefinitions="*,Auto">
                                             <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassStateId,Converter={StaticResource PassStatesIdToTextConverter}}" LineBreakMode="WordWrap" ></Label>
                                             <Grid Grid.Column="1" Margin="10,0,2,0">

@@ -145,8 +145,9 @@
 
                                             <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="Дата посещения: " />
-                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding date_from}" />
+                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding .,Converter={StaticResource DateFromDateToConverter}}" />
                                             </FlexLayout>
+                                            
                                             <FlexLayout IsVisible="{Binding time_from, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="Временной режим 'С' и 'ПО': " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding time_from, StringFormat='C {0}'}" />

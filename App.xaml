@@ -36,6 +36,7 @@
             <servicePassesConverter:StatusIdColorServicePassConverter x:Key="StatusIdColorServicePassConverter"></servicePassesConverter:StatusIdColorServicePassConverter>
             <servicePassesConverter:SvgByStateIdServicePass x:Key="SvgByStateIdServicePass"></servicePassesConverter:SvgByStateIdServicePass>
             <converters:PassStatesIdToTextConverter x:Key="PassStatesIdToTextConverter"></converters:PassStatesIdToTextConverter>
+            <converters:DateFromDateToConverter x:Key="DateFromDateToConverter"></converters:DateFromDateToConverter>
             
             <Style x:Key="burger_menu_style" TargetType="ImageButton">
                 <Setter Property="WidthRequest" Value="35"></Setter>
