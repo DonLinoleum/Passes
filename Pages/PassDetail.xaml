@@ -64,34 +64,34 @@
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
                                         <StackLayout>
-                                            <Label Style="{StaticResource label_subtitles}" Text="Данные посетителя" ></Label>
+                                            <Label Style="{StaticResource label_subtitles}" IsVisible="{Binding visitors,Converter={StaticResource NullToVisibilityConverter}}" Text="Данные посетителя" ></Label>
                                             <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
-                                            <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
+                                            <FlexLayout Style="{StaticResource pass_data_element_wrapper}" IsVisible="{Binding visitors, Converter={StaticResource NullToVisibilityConverter},ConverterParameter='LastName'}" >
                                                 <Label Style="{StaticResource pass_data_keys}" Text="ФИО: "/>
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].LastName}" Margin="0,0,2,0" />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].FirstName}"  Margin="0,0,2,0"/>
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].SecondName}" Margin="0,0,2,0" />
                                             </FlexLayout>
-                                            <FlexLayout IsVisible="{Binding visitors[0].BirthDate, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                            <FlexLayout IsVisible="{Binding visitors, Converter={StaticResource NullToVisibilityConverter},ConverterParameter='BirthDate'}" Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}" Text="Дата рождения: " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].BirthDate}" />
                                             </FlexLayout>
-                                            <FlexLayout IsVisible="{Binding visitors[0].Phone, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                            <FlexLayout IsVisible="{Binding visitors, Converter={StaticResource NullToVisibilityConverter},ConverterParameter='Phone'}" Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}" Text="Телефон: " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].Phone}" />
                                             </FlexLayout>
 
-                                            <FlexLayout IsVisible="{Binding visitors[0].number_of_pass, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                            <FlexLayout IsVisible="{Binding visitors, Converter={StaticResource NullToVisibilityConverter},ConverterParameter='number_of_pass'}" Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="Сотрудник ООО 'ММК-УГОЛЬ': " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="Да" />
                                             </FlexLayout>
 
-                                            <FlexLayout IsVisible="{Binding visitors[0].number_of_pass, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                            <FlexLayout IsVisible="{Binding visitors, Converter={StaticResource NullToVisibilityConverter},ConverterParameter='number_of_pass'}" Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="Номер электронного пропуска: " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].number_of_pass}" />
                                             </FlexLayout>
 
-                                            <FlexLayout IsVisible="{Binding visitors[0].date_of_pass, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
+                                            <FlexLayout IsVisible="{Binding visitors, Converter={StaticResource NullToVisibilityConverter},ConverterParameter='date_of_pass'}" Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="Дата выдачи электронного пропуска: " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding visitors[0].date_of_pass}" />
                                             </FlexLayout>
@@ -217,7 +217,7 @@
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding AssociatedPass.Text}"/>
                                             </FlexLayout>
 
-                                            <VerticalStackLayout IsVisible="{Binding vehicles, Converter={StaticResource NullToVisibilityConverter}}">
+                                            <VerticalStackLayout IsVisible="{Binding vehicles, Converter={StaticResource NullToVisibilityConverter},ConverterParameter=true}">
                                                 <Label Style="{StaticResource label_subtitles}" Text="Данные о ТС" ></Label>
                                                 <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
 
@@ -273,6 +273,9 @@
                                                     </CollectionView.ItemTemplate>
                                                 </CollectionView>
                                             </VerticalStackLayout>
+
+                                            <components:ApproverForServicesPasses BindingContext="{Binding .}"></components:ApproverForServicesPasses>
+
                                         </StackLayout>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>

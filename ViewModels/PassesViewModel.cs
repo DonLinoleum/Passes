@@ -119,11 +119,7 @@ namespace Passes.ViewModels
                 GetItemsForFilterPickers();
         }
         [RelayCommand]
-        public async Task PassElementTapped(PassListModel model)
-        {
-            var queryParams = new Dictionary<string, string?>() { { "passId",model?.Id },{"passNum",model?.PassNum },{ "passCreated",model?.Created} };
-            await Shell.Current.GoToAsync($"//PassDetail?QueryData={HttpUtility.UrlEncode(JsonSerializer.Serialize(queryParams))}",true);
-        }
+        public void PassElementTapped(PassListModel model) => ToTheDetailPass.GoToTheDetailPass(model?.Id, model?.PassNum, model?.Created);
 
         [RelayCommand]
         public async void Find()

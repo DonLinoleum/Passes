@@ -27,6 +27,8 @@ namespace Passes.Models.PassDetail
         public List<DecisionsChildren>? DecisionsChildren { get; set; }
         [JsonPropertyName("negotiators")]
         public List<NegotiatorsChildren>? NegotiatorsChildren { get; set; }
+        [JsonPropertyName("vehicles")]
+        public List<ChildrenVehicle>? Vehicles { get; set; }
 
     }
 
@@ -42,6 +44,8 @@ namespace Passes.Models.PassDetail
         public List<DecisionsChildren>? DecisionsChildren { get; set; }
         [JsonPropertyName("negotiators")]
         public List<NegotiatorsChildren>? NegotiatorsChildren { get; set; }
+        [JsonPropertyName("visitors")]
+        public List<ChildrenVisitor>? Visitors { get; set; }
     }
 
     public class DecisionsChildren
@@ -76,5 +80,34 @@ namespace Passes.Models.PassDetail
         public string? WORK_COMPANY { get; set; }
     }
 
+    public class ChildrenVehicle
+    {
+        [JsonPropertyName("brand")]
+        public string? brand { get; set; }
+
+        [JsonPropertyName("number")]
+        public string? number { get; set; }
+    }
+
+    public class ChildrenVisitor
+    {
+        [JsonPropertyName("first_name")]
+        public string? FirstName { get; set; }
+
+        [JsonPropertyName("second_name")]
+        public string? SecondName { get; set; }
+
+        [JsonPropertyName("last_name")]
+        public string? LastName { get; set; }
+
+        [JsonPropertyName("phone")]
+        public string? Phone { get; set; }
+
+        [JsonPropertyName("number_of_pass")]
+        public string? number_of_pass { get; set; }
+
+        [JsonPropertyName("date_of_pass")]
+        public string? date_of_pass { get; set; }
+    }
 
 }

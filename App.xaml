@@ -33,6 +33,9 @@
             <curatorConverters:CuratorKeyConverter x:Key="CuratorKeyConverter"></curatorConverters:CuratorKeyConverter>
             <goodsConverters:GoodsItemConverter x:Key="GoodsValueConverter"></goodsConverters:GoodsItemConverter>
             <servicePassesConverter:HasPassChildrenConverter x:Key="HasPassChildrenConverter"></servicePassesConverter:HasPassChildrenConverter>
+            <servicePassesConverter:StatusIdColorServicePassConverter x:Key="StatusIdColorServicePassConverter"></servicePassesConverter:StatusIdColorServicePassConverter>
+            <servicePassesConverter:SvgByStateIdServicePass x:Key="SvgByStateIdServicePass"></servicePassesConverter:SvgByStateIdServicePass>
+            <converters:PassStatesIdToTextConverter x:Key="PassStatesIdToTextConverter"></converters:PassStatesIdToTextConverter>
             
             <Style x:Key="burger_menu_style" TargetType="ImageButton">
                 <Setter Property="WidthRequest" Value="35"></Setter>

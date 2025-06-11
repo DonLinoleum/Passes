@@ -10,7 +10,9 @@ using Passes.ViewModels.States;
 using System.Buffers.Text;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Web;
 
 
@@ -30,6 +32,7 @@ namespace Passes.ViewModels
         private string _baseUrl;
         private string _passNum;
         private double _maxHeightDrawer;
+        private string? _parentPassId;
 
         [ObservableProperty]
         private string? passIdInputProp;
@@ -144,11 +147,14 @@ namespace Passes.ViewModels
         }
 
         [RelayCommand]
-        public async Task GoBackByBottomMenu(string url) => await Shell.Current.GoToAsync(url);
-      
+        public void GoBackByBottomMenu(string url) => ToTheParentPass.GoToTheParentPassOrPassList(_parentPassId, url); 
+ 
         [RelayCommand]
         public void Exit() => ExitHandlerHelper.GoToAuthPage();
-    
+
+        [RelayCommand]
+        public void GoToChildPass(object childModelPass) => ToTheChildPass.GoToTheChildPass(childModelPass, PassData[0].id);
+
         [RelayCommand]
         public async Task ToogleDrawer(string? Params = "")
         {
@@ -192,7 +198,7 @@ namespace Passes.ViewModels
                 await ToogleDrawer();
                 CommentFromEditor = "";
                 if (isResponseSuccess) await Shell.Current.DisplayAlert("Статус изменен", $"Статус заявки {_passNum} изменен", "OK");
-                await GoBackByBottomMenu("//PassesList?need_update=true");
+                GoBackByBottomMenu("//PassesList?need_update=true");
             }
         }
 
@@ -212,6 +218,7 @@ namespace Passes.ViewModels
             PassIdInputProp = data?["passId"];
             PassNumInputProp = data?["passNum"];
             PassDateInputProp = data?["passCreated"];
+            _parentPassId = data?.TryGetValue("parentPassId",out string? value) == true ? value : null;
         }
         private async Task HandleDrawersBySelection(string? selectedDrawer)
         {

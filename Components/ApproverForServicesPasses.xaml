@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Passes.Components.ApproverForServicesPasses"
+             >
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="Regular">JostRegular</x:String>
+            <x:String x:Key="Medium">JostMedium</x:String>
+            <x:String x:Key="SemiBold">JostSemiBold</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary Source="/Resources/Styles/PassDetailStyles.xaml"></ResourceDictionary>
+        <StyleSheet Source="/css/styles.css" />
+        <x:Boolean x:Key="FalseValue">False</x:Boolean>
+        <x:Boolean x:Key="TrueValue">True</x:Boolean>
+    </ContentView.Resources>
+
+    <VerticalStackLayout IsVisible="{Binding Children, Converter={StaticResource NullToVisibilityConverter}}">
+        <Label Style="{StaticResource label_subtitles}" Text="Связанные пропуска" ></Label>
+        <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
+
+        <VerticalStackLayout IsVisible="{Binding Children.VehiclesChildren, Converter={StaticResource NullToVisibilityConverter}}" >
+            <Label Style="{StaticResource pass_data_keys}" Text="На автомобиль: " />
+            <CollectionView ItemsSource="{Binding Children.VehiclesChildren}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="auto,*" Margin="0,5,0,0" ColumnSpacing="5">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.GoToChildPassCommand}" CommandParameter="{Binding .}" />
+                            </Grid.GestureRecognizers>
+                            <Switch OnColor="#3c6cba" ThumbColor="#2056ae"  Grid.Column="0"/>
+                            <Border Grid.Column="1" StrokeShape="RoundRectangle 10" Padding="8"  BackgroundColor="Transparent" Stroke="#2056ae" StrokeThickness="0.5">
+                                <FlexLayout JustifyContent="SpaceBetween"  Wrap="Wrap" >
+                                    <VerticalStackLayout VerticalOptions="Center" Grid.Row="0">
+                                        <Label Style="{StaticResource pass_data_values}" FontFamily="JostMedium">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                    <Binding Path="Vehicles[0].brand"/>
+                                                    <Binding Path="Vehicles[0].number"/>
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding PassNum}" />
+                                    </VerticalStackLayout>
+
+                                    <Border VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="1"  BackgroundColor="{Binding PassStateId,Converter={StaticResource StatusIdColorServicePassConverter}}" StrokeShape="RoundRectangle 20" Stroke="Transparent"  Padding="10,2,0,2">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassStateId,Converter={StaticResource PassStatesIdToTextConverter}}" LineBreakMode="WordWrap" ></Label>
+                                            <Grid Grid.Column="1" Margin="10,0,2,0">
+                                                <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}"  />
+                                                <Image WidthRequest="10" HeightRequest="10"  Source="{Binding PassStateId,Converter={StaticResource SvgByStateIdServicePass}}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </FlexLayout>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout IsVisible="{Binding Children.VisitorsChildren, Converter={StaticResource NullToVisibilityConverter}}" Margin="0,10,0,0" >
+            <Label Style="{StaticResource pass_data_keys}"  Text="На водителя/посетителя: " />
+            <CollectionView ItemsSource="{Binding Children.VisitorsChildren}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="auto,*" Margin="0,5,0,0" ColumnSpacing="5">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.GoToChildPassCommand}" CommandParameter="{Binding .}" />
+                            </Grid.GestureRecognizers>
+                            <Switch OnColor="#3c6cba" ThumbColor="#2056ae" Grid.Column="0"/>
+                            <Border Grid.Column="1" StrokeShape="RoundRectangle 10" Padding="8"  BackgroundColor="Transparent" Stroke="#2056ae" StrokeThickness="0.5">
+                                <FlexLayout JustifyContent="SpaceBetween"  Wrap="Wrap" >
+                                    <VerticalStackLayout VerticalOptions="Center" Grid.Row="0">
+                                        <Label Style="{StaticResource pass_data_values}" FontFamily="JostMedium">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0} {1}. {2}.">
+                                                    <Binding Path="Visitors[0].LastName"/>
+                                                    <Binding Path="Visitors[0].FirstName[0]"/>
+                                                    <Binding Path="Visitors[0].SecondName[0]"/>
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding PassNum}" />
+                                    </VerticalStackLayout>
+
+                                    <Border VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="1"  BackgroundColor="{Binding PassStateId,Converter={StaticResource StatusIdColorServicePassConverter}}" StrokeShape="RoundRectangle 20" Stroke="Transparent"  Padding="10,2,0,2">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassStateId,Converter={StaticResource PassStatesIdToTextConverter}}" LineBreakMode="WordWrap" ></Label>
+                                            <Grid Grid.Column="1" Margin="10,0,2,0">
+                                                <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}"  />
+                                                <Image WidthRequest="10" HeightRequest="10"  Source="{Binding PassStateId,Converter={StaticResource SvgByStateIdServicePass}}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </FlexLayout>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+
+    </VerticalStackLayout>
+</ContentView>

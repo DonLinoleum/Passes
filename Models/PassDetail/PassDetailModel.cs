@@ -613,10 +613,6 @@ namespace Passes.Models.PassDetail
 
         [JsonPropertyName("date_of_pass")]
         public string? date_of_pass { get; set; }
-
-        [JsonPropertyName("is_employee_of_mmk")]
-        public bool? is_employee_of_mmk { get; set; }
-
     }
 
     public class VisitGoal
