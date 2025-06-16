@@ -11,5 +11,6 @@ namespace Passes.Models.PassDetail
         public string? id { get; set; }
         public string? action { get; set; }
         public string? comment { get; set; }
+        public List<string>? child_ids { get; set; }
     }
 }

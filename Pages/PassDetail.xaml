@@ -144,6 +144,17 @@
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding curator,Converter={StaticResource CuratorValueConverter}}" />
                                             </FlexLayout>
 
+                                            <VerticalStackLayout IsVisible="{Binding negotiators, Converter={StaticResource NullToVisibilityConverter}}">
+                                                <Label Style="{StaticResource pass_data_keys}" Text="Согласующие: " ></Label>
+                                                <CollectionView ItemsSource="{Binding negotiators}">
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding .,Converter={StaticResource NegotiatorValueConverter}}" />
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </VerticalStackLayout>
+
                                             <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="Дата посещения: " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding .,Converter={StaticResource DateFromDateToConverter}}" />

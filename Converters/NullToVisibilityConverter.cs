@@ -16,10 +16,12 @@ namespace Passes.Converters
         {
             return value switch
             {
+                List<Negotiator> negotiators => negotiators is not null && negotiators.Count > 1,
                 IList list => NullToVisibilityConverter.CheckIsValueList(value, parameter),
                 string str => string.IsNullOrEmpty(str) ? false : true,
                 bool boolVal => boolVal,
                 ChildrenModel children => children is not null, 
+                CuratorModel curator => curator is not null,
                 null => false,
                 _ => false
             };

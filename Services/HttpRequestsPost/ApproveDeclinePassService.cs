@@ -1,14 +1,6 @@
 ﻿using Passes.Models.PassDetail;
-using System;
-using System.Buffers.Text;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net;
-using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+
 
 namespace Passes.Services
 {
@@ -40,15 +32,17 @@ namespace Passes.Services
                     { new StringContent(requestModel.action ?? ""),"action"},
                     { new StringContent(requestModel.comment ?? ""),"comment"},
                 };
-                var request = new HttpRequestMessage()
+
+                if (requestModel.child_ids is not null)
                 {
-                    Method = HttpMethod.Post,
-                    Content = content,
-                };
+                    for (int i = 0; i < requestModel?.child_ids.Count; i++)
+                    {
+                        content.Add(new StringContent(requestModel?.child_ids[i]), $"child_id[{i}]");
+                    }
+                }
                 using var response = await _httpClient.PostAsync(targetUrl, content);
                 if (!response.IsSuccessStatusCode)
                     throw new Exception(await response.Content.ReadAsStringAsync());
-
                 return true;
             }
             catch (Exception ex) {
@@ -56,6 +50,6 @@ namespace Passes.Services
                 return false;
             }
             
-        }
+        } 
     }
 }

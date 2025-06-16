@@ -7,15 +7,8 @@ using Passes.Services.HttpRequests;
 using Passes.Services.HttpRequestsGet.HttpRequestsGetItem;
 using Passes.ViewModels.Helpers;
 using Passes.ViewModels.States;
-using System.Buffers.Text;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Reflection;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System.Web;
-
-
 
 namespace Passes.ViewModels
 {
@@ -99,6 +92,9 @@ namespace Passes.ViewModels
         [ObservableProperty]
         private ObservableCollection<PassDetailModel> passData;
 
+        [ObservableProperty]
+        private HashSet<string> childrenPassesToApprove = new HashSet<string>();
+
         public string QueryData
         {
             get => _queryData ?? "";
@@ -169,6 +165,15 @@ namespace Passes.ViewModels
         public void GoToChildPass(object childModelPass) => ToTheChildPass.GoToTheChildPass(childModelPass, PassData[0].id);
 
         [RelayCommand]
+        public void AddChildPassToApproveList(string passId)
+        {
+            if (!ChildrenPassesToApprove.Contains(passId))
+                ChildrenPassesToApprove?.Add(passId);
+            else
+                ChildrenPassesToApprove.Remove(passId);
+        }
+
+        [RelayCommand]
         public async Task ToogleDrawer(string? Params = "")
         {
             MainContentOpacity = !MainContentOpacity;
@@ -203,7 +208,8 @@ namespace Passes.ViewModels
                 {
                     id = PassIdInputProp,
                     action = _detailState?.ActionName,
-                    comment = CommentFromEditor
+                    comment = CommentFromEditor,
+                    child_ids = ChildrenPassesToApprove.ToList(),
                 };
                 ApproveDeclinePassService approveDeclinePassService = new ApproveDeclinePassService();
                 bool isResponseSuccess = await approveDeclinePassService.MakeRequest(body);
