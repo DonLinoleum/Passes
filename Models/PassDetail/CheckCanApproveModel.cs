@@ -7,9 +7,18 @@ using System.Threading.Tasks;
 
 namespace Passes.Models.PassDetail
 {
-    internal class CheckCanApproveModel
+    public class CheckCanApproveModel
     {
-        [JsonPropertyName("result")]
-        public bool? Result { get; set; }
+        [JsonPropertyName("data")]
+        public CanApproveDataMovel? Data { get; set; }
+    }
+
+    public class CanApproveDataMovel
+    {
+        [JsonPropertyName("showApproveButton")]
+        public bool ShowApproveButton { get; set; }
+
+        [JsonPropertyName("idsOfChildrenPassesCanApprove")]
+        public List<string>? IdsOfChildrenPassesCanApprove { get; set; }
     }
 }

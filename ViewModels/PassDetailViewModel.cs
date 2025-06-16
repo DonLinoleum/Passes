@@ -16,19 +16,22 @@ using System.Threading.Tasks;
 using System.Web;
 
 
+
 namespace Passes.ViewModels
 {
     [QueryProperty(nameof(QueryData), "QueryData")]
     public partial class PassDetailViewModel : ObservableObject
     {
-        private string? _queryData;
-        private ActionOnDetailState _detailState;
-        private readonly ApproveDeclinePassService _approveDeclinePassService;
         private IHttpGetRequest<CheckCanApproveModel> _checkCanApprove;
         private IHttpGetRequest<RootPassDetailModel> _passDetailService;
         private IHttpGetRequest<ApproveProgressMarksModel> _passListApproveProgressMarksService;
         private IHttpGetRequest<MarksForPassModel> _marksForPass;
-        private HandleDocumentFileService _handleDocumentFileService;
+
+        private ActionOnDetailState _detailState;
+        private readonly ApproveDeclinePassService _approveDeclinePassService;
+        private readonly GetDocumentFromServerHelper _getDocumentFromServerHelper;
+
+        private string? _queryData;
         private string _baseUrl;
         private string _passNum;
         private double _maxHeightDrawer;
@@ -57,6 +60,9 @@ namespace Passes.ViewModels
 
         [ObservableProperty]
         private bool? canApprove;
+
+        [ObservableProperty]
+        private List<string>? idsOfServicePassesCanApprove;
 
         //drawers
         [ObservableProperty]
@@ -111,12 +117,17 @@ namespace Passes.ViewModels
             _marksForPass = new MarksForPassService<MarksForPassModel>("GetTimelineItems", _baseUrl!, PassIdInputProp ?? "");
             _detailState = new ActionOnDetailState();
             _approveDeclinePassService = new ApproveDeclinePassService();
-            _handleDocumentFileService = new HandleDocumentFileService(_baseUrl);
             _maxHeightDrawer = ElementHeightHelper.GetHeight();
+            _getDocumentFromServerHelper = new GetDocumentFromServerHelper(_baseUrl);
         }
         private async Task Init(string queryDataToParse)
         {
-            DecodeQueryData(queryDataToParse);
+            var decodedInputQuery = DecodeInputQueryForPassHelper.DecodeQueryData(queryDataToParse);
+            PassIdInputProp = decodedInputQuery?["passId"];
+            PassNumInputProp = decodedInputQuery?["passNum"];
+            PassDateInputProp = decodedInputQuery?["passCreated"];
+            _parentPassId = decodedInputQuery?.TryGetValue("parentPassId", out string? value) == true ? value : null;
+           
             _passDetailService.PassId = PassIdInputProp;
             _checkCanApprove.PassId = PassIdInputProp;
             _passListApproveProgressMarksService.PassId = PassIdInputProp;
@@ -132,7 +143,9 @@ namespace Passes.ViewModels
             {
                 IsLoading = true;
                 await GetPassDataById();
-                CanApprove = (await _checkCanApprove.GetData())?.Result;
+                var canApproveData = await _checkCanApprove.GetData();
+                CanApprove = canApproveData?.Data?.ShowApproveButton;
+                IdsOfServicePassesCanApprove = canApproveData?.Data?.IdsOfChildrenPassesCanApprove ?? new List<string>();
                 IsLoading = false;
             });
         }
@@ -203,23 +216,8 @@ namespace Passes.ViewModels
         }
 
         [RelayCommand]
-        public async Task ShowDocument (string? parameters)
-        {
-            string[]? splitParams = parameters?.Split(',');
-            string? path = splitParams?[0];
-            string? fileName = splitParams?[1]; 
-            if (path is not null && fileName is not null)
-                await _handleDocumentFileService.SendRequest(path,fileName);
-        }
-        private void DecodeQueryData(string inputEncodedJson)
-        {
-            string decodedString = HttpUtility.UrlDecode(inputEncodedJson);
-            var data = JsonSerializer.Deserialize<Dictionary<string, string>>(decodedString);
-            PassIdInputProp = data?["passId"];
-            PassNumInputProp = data?["passNum"];
-            PassDateInputProp = data?["passCreated"];
-            _parentPassId = data?.TryGetValue("parentPassId",out string? value) == true ? value : null;
-        }
+        public async Task ShowDocument (string? parameters) => await _getDocumentFromServerHelper.GetDocumentFromServer(parameters);
+ 
         private async Task HandleDrawersBySelection(string? selectedDrawer)
         {
             ApproveDeclineDrawerVisible = false;
@@ -231,22 +229,16 @@ namespace Passes.ViewModels
                     ApproveDeclineDrawerVisible = true;
                     break;
                 case SelectedDrawerState.ApproveProgressDrawer:
-                    await Task.Run(async () =>
-                    {
                         ApproveProgressDrawerVisible = true;
                         IsDrawerLoading = true;
                         PassProgress = await GetApproveProgressForPass() ?? new ApproveProgressMarksModel();
                         IsDrawerLoading = false;
-                    });
                     break;
                 case SelectedDrawerState.MarksDrawer:
-                    await Task.Run(async () =>
-                    {
                         MarksDrawerVisible = true;
                         IsDrawerLoading = true;
                         PassMarks = await GetMarksForPass() ?? new MarksForPassModel();
                         IsDrawerLoading = false;
-                    });
                     break;
             }
         }

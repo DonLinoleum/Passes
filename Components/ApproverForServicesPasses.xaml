@@ -29,7 +29,20 @@
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.GoToChildPassCommand}" CommandParameter="{Binding .}" />
                             </Grid.GestureRecognizers>
-                            <Switch x:Name="toggleSwitchVehicle" OnColor="#3c6cba" ThumbColor="#2056ae"  Grid.Column="0"/>
+                            <Switch x:Name="toggleSwitchVehicle" OnColor="#3c6cba" ThumbColor="#2056ae"  Grid.Column="0">
+                                <Switch.Opacity>
+                                    <MultiBinding Converter="{StaticResource IsSwitchVisible}">
+                                        <Binding Source = "{RelativeSource AncestorType={x:Type ContentPage}}" Path="BindingContext.IdsOfServicePassesCanApprove"/>
+                                        <Binding Path = "PassId"/>
+                                    </MultiBinding>
+                                </Switch.Opacity>
+                                <Switch.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource IsSwitchVisible}">
+                                        <Binding Source = "{RelativeSource AncestorType={x:Type ContentPage}}" Path="BindingContext.IdsOfServicePassesCanApprove"/>
+                                        <Binding Path = "PassId"/>
+                                    </MultiBinding>
+                                </Switch.IsEnabled>
+                            </Switch>
                             <Border Grid.Column="1" StrokeShape="RoundRectangle 10" Padding="8"  BackgroundColor="Transparent" Stroke="#4D2056ae" StrokeThickness="1">
                                 <Border.Triggers>
                                     <DataTrigger TargetType="Border" Binding="{Binding Source={x:Reference toggleSwitchVehicle},Path=IsToggled}" Value="True">
@@ -75,7 +88,20 @@
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.GoToChildPassCommand}" CommandParameter="{Binding .}" />
                             </Grid.GestureRecognizers>
-                            <Switch x:Name="toggleSwitchVisitor" OnColor="#3c6cba" ThumbColor="#2056ae" Grid.Column="0"/>
+                            <Switch x:Name="toggleSwitchVisitor" OnColor="#3c6cba" ThumbColor="#2056ae" Grid.Column="0">
+                                <Switch.Opacity>
+                                    <MultiBinding Converter="{StaticResource IsSwitchVisible}">
+                                        <Binding Source = "{RelativeSource AncestorType={x:Type ContentPage}}" Path="BindingContext.IdsOfServicePassesCanApprove"/>
+                                        <Binding Path = "PassId"/>
+                                    </MultiBinding>
+                                </Switch.Opacity>
+                                <Switch.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource IsSwitchVisible}">
+                                        <Binding Source = "{RelativeSource AncestorType={x:Type ContentPage}}" Path="BindingContext.IdsOfServicePassesCanApprove"/>
+                                        <Binding Path = "PassId"/>
+                                    </MultiBinding>
+                                </Switch.IsEnabled>
+                            </Switch>
                             <Border Grid.Column="1" StrokeShape="RoundRectangle 10" Padding="8" BackgroundColor="Transparent" Stroke="#4D2056ae" StrokeThickness="1">
                                 <Border.Triggers>
                                     <DataTrigger TargetType="Border" Binding="{Binding Source={x:Reference toggleSwitchVisitor},Path=IsToggled}" Value="True">

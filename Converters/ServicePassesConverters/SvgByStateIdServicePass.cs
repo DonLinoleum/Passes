@@ -17,6 +17,7 @@ namespace Passes.Converters.ServicePassesConverters
                 {
                     case "4":
                         return "aggrement_mark";
+                    case "3":
                     case "19":
                         return "decline_mark";
                     default:

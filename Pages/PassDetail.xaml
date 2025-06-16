@@ -129,10 +129,11 @@
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding mol}" />
                                             </FlexLayout>
 
-                                            <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
+                                            <FlexLayout IsVisible="{Binding visitGoal.id,Converter={StaticResource VisitGoalVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="Цель посещения: " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding visitGoal.name}" />
                                             </FlexLayout>
+                                            
                                             <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="Объект посещения: " />
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding objects[0].SINERGO_APP_ENTITY_PASSES_OBJECTS_object_name}" />
@@ -275,6 +276,7 @@
                                                 </CollectionView>
                                             </VerticalStackLayout>
 
+                                            <!-- ApproverList for service pass  -->
                                             <components:ApproverForServicesPasses BindingContext="{Binding .}"></components:ApproverForServicesPasses>
 
                                         </StackLayout>

@@ -35,8 +35,10 @@
             <servicePassesConverter:HasPassChildrenConverter x:Key="HasPassChildrenConverter"></servicePassesConverter:HasPassChildrenConverter>
             <servicePassesConverter:StatusIdColorServicePassConverter x:Key="StatusIdColorServicePassConverter"></servicePassesConverter:StatusIdColorServicePassConverter>
             <servicePassesConverter:SvgByStateIdServicePass x:Key="SvgByStateIdServicePass"></servicePassesConverter:SvgByStateIdServicePass>
+            <servicePassesConverter:IsSwitchVisible x:Key="IsSwitchVisible"></servicePassesConverter:IsSwitchVisible>
             <converters:PassStatesIdToTextConverter x:Key="PassStatesIdToTextConverter"></converters:PassStatesIdToTextConverter>
             <converters:DateFromDateToConverter x:Key="DateFromDateToConverter"></converters:DateFromDateToConverter>
+            <converters:VisitGoalVisibilityConverter x:Key="VisitGoalVisibilityConverter"></converters:VisitGoalVisibilityConverter>
             
             <Style x:Key="burger_menu_style" TargetType="ImageButton">
                 <Setter Property="WidthRequest" Value="35"></Setter>

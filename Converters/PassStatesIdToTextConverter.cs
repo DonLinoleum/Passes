@@ -12,6 +12,7 @@ namespace Passes.Converters
         private Dictionary<string, string> passStates = new Dictionary<string, string>()
         {
             {"1" , "на согласовании" },
+            {"3" , "отклонен" },
             {"4" , "готов к выдаче" },
             {"6" , "на согласовании ОТ и ПК" },
             {"8" , "использован" },
