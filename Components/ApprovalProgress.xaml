@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Passes.Components.ApprovalProgress">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="Regular">JostRegular</x:String>
+            <x:String x:Key="Medium">JostMedium</x:String>
+            <x:String x:Key="SemiBold">JostSemiBold</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary Source="/Resources/Styles/PassDetailStyles.xaml"></ResourceDictionary>
+        <StyleSheet Source="/css/styles.css" />
+        <x:Boolean x:Key="FalseValue">False</x:Boolean>
+        <x:Boolean x:Key="TrueValue">True</x:Boolean>
+    </ContentView.Resources>
+
+    <Grid HeightRequest="{Binding DrawerProgressHeight}" IsVisible="{Binding ApproveProgressDrawerVisible}" Grid.ZIndex="100"  Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerTranslateYTo}" Grid.Row="2">
+        <Border BackgroundColor="#f9f9f9" Margin="0,0,0,0" Style="{StaticResource rounded_white_border}" StrokeShape="RoundRectangle 20 20 0 0" Padding="10">
+            <Border.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Down" Command="{Binding ToogleDrawerCommand}" Threshold="20"/>
+            </Border.GestureRecognizers>
+            <Grid MinimumHeightRequest="150">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Style="{StaticResource pass_drawer_top_line}">
+                    <BoxView BackgroundColor="#2056Ae" Opacity="0.6"  />
+                </Border>
+                <Label Grid.Row="1" Style="{StaticResource pass_drawer_title}" Text="Ход согласования"></Label>
+
+                <VerticalStackLayout Grid.Row="2" HeightRequest="0" IsVisible="{Binding IsDrawerLoading}">
+                    <ActivityIndicator  HorizontalOptions="Center" IsRunning="{Binding IsDrawerLoading}" Color="#2056ae"></ActivityIndicator>
+                </VerticalStackLayout>
+
+                <ScrollView Grid.Row="3" VerticalScrollBarVisibility="Never">
+                    <VerticalStackLayout IsVisible="{Binding IsDrawerLoading,Converter={StaticResource BoolInvertConverter}}">
+                        <!-- MOL -->
+                        <Border IsVisible="{Binding PassProgress.Mol, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource rounded_white_border}" Margin="0,0,0,10">
+                            <VerticalStackLayout  Padding="10">
+                                <HorizontalStackLayout Margin="0,0,0,10">
+                                    <Image VerticalOptions="Center" Source="user_icon" WidthRequest="30" HeightRequest="30" Margin="0,0,11,0" ></Image>
+                                    <Label VerticalOptions="Center" LineBreakMode="WordWrap">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding PassProgress.Mol.LastName}"></Span>
+                                                <Span Text=" " ></Span>
+                                                <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding PassProgress.Mol.Name}"></Span>
+                                                <Span Text=" "></Span>
+                                                <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding PassProgress.Mol.SecondName}"></Span>
+                                                <Span Text=" "></Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label IsVisible="{Binding PassProgress.Mol.Id,Converter={StaticResource CheckIsNegotiatorIsUserByIdConverter}}" VerticalOptions="Center" Text="(Вы)" Style="{StaticResource pass_drawer_approve_progress_user_name}"></Label>
+                                </HorizontalStackLayout>
+                                <Label Style="{StaticResource pass_drawer_approve_progress_user_role}" Text="{Binding PassProgress.Mol.Role}"></Label>
+                                <HorizontalStackLayout>
+                                    <Border Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2" BackgroundColor="{Binding PassProgress.Mol.Status,Converter={StaticResource StatusMarkColorConverter}}">
+                                        <Grid ColumnDefinitions="Auto,Auto">
+                                            <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassProgress.Mol.Status}"></Label>
+                                            <Grid Grid.Column="1" Margin="10,0,2,0">
+                                                <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}"  />
+                                                <Image WidthRequest="10" HeightRequest="10" Source="{Binding PassProgress.Mol.Status,Converter={StaticResource MarkSvgByStatusConverter}}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                    <Border Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2" IsVisible="{Binding PassProgress.Mol.Date,Converter={StaticResource NullToVisibilityConverter}}">
+                                        <Grid ColumnDefinitions="Auto,Auto">
+                                            <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassProgress.Mol.Date}"></Label>
+                                            <Grid Grid.Column="1" Margin="8,0,3,0">
+                                                <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}"  />
+                                                <Image WidthRequest="10" HeightRequest="10"  Source="calendar"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                        <!-- Negotiators -->
+                        <CollectionView ItemsSource="{Binding PassProgress.Negotiators}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource rounded_white_border}" Margin="0,0,0,10">
+                                        <VerticalStackLayout Padding="10" IsVisible="{Binding Name, Converter={StaticResource NullToVisibilityConverter}}">
+                                            <HorizontalStackLayout Margin="0,0,0,10">
+                                                <Image Source="{Binding IsGroup, Converter={StaticResource UserOrUsersIconConverter}}" WidthRequest="30" HeightRequest="30" Margin="0,0,11,0"></Image>
+                                                <Label VerticalOptions="Center" LineBreakMode="WordWrap" >
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding LastName}"></Span>
+                                                            <Span Text=" " ></Span>
+                                                            <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding Name}"></Span>
+                                                            <Span Text=" "></Span>
+                                                            <Span Style="{StaticResource pass_drawer_approve_progress_user_name}" Text="{Binding SecondName}"></Span>
+                                                            <Span Text=" "></Span>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label IsVisible="{Binding Id, Converter={StaticResource CheckIsNegotiatorIsUserByIdConverter}}" VerticalOptions="Center" Text="(Вы)" Style="{StaticResource pass_drawer_approve_progress_user_name}"></Label>
+                                            </HorizontalStackLayout>
+                                            <Label Style="{StaticResource pass_drawer_approve_progress_user_role}" Text="{Binding Role}"></Label>
+                                            <HorizontalStackLayout>
+                                                <Border BackgroundColor="{Binding Status,Converter={StaticResource StatusMarkColorConverter}}" Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2">
+                                                    <Grid ColumnDefinitions="Auto,Auto">
+                                                        <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding Status}"></Label>
+                                                        <Grid Grid.Column="1" Margin="10,0,2,0">
+                                                            <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}"  />
+                                                            <Image WidthRequest="10" HeightRequest="10"  Source="{Binding Status,Converter={StaticResource MarkSvgByStatusConverter}}"/>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Border>
+                                                <Border BackgroundColor="{Binding Status,Converter={StaticResource StatusMarkColorConverter}}" Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2" IsVisible="{Binding Date,Converter={StaticResource NullToVisibilityConverter}}">
+                                                    <Grid ColumnDefinitions="Auto,Auto">
+                                                        <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding Date}"></Label>
+                                                        <Grid Grid.Column="1" Margin="10,0,2,0">
+                                                            <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}" />
+                                                            <Image WidthRequest="10" HeightRequest="10"  Source="calendar"/>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Border>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Grid>
+        </Border>
+    </Grid>
+
+</ContentView>

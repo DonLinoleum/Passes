@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Passes.Components.ApproveDeclineButtons">
+
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="Regular">JostRegular</x:String>
+            <x:String x:Key="Medium">JostMedium</x:String>
+            <x:String x:Key="SemiBold">JostSemiBold</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary Source="/Resources/Styles/PassDetailStyles.xaml"></ResourceDictionary>
+        <StyleSheet Source="/css/styles.css" />
+        <x:Boolean x:Key="FalseValue">False</x:Boolean>
+        <x:Boolean x:Key="TrueValue">True</x:Boolean>
+    </ContentView.Resources>
+
+
+    <VerticalStackLayout  Margin="0,20,0,0" IsVisible="{Binding IsLoading,Converter={StaticResource BoolInvertConverter}}">
+        <Border IsVisible="{Binding CanApprove}" Style="{StaticResource main_buttons_border}" BackgroundColor="#12A958" Margin="0,0,0,20" >
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter="ApprovePass,ApproveDeclineDrawer" />
+            </Border.GestureRecognizers>
+            <FlexLayout JustifyContent="Center">
+                <Image Source="approve" Margin="0,0,6,0"></Image>
+                <Label Style="{StaticResource main_buttons}" Text="Согласовать"></Label>
+            </FlexLayout>
+        </Border>
+        <Border IsVisible="{Binding CanApprove}" Style="{StaticResource main_buttons_border}" >
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter="DeclinePass,ApproveDeclineDrawer" />
+            </Border.GestureRecognizers>
+            <FlexLayout JustifyContent="Center">
+                <Image Source="decline" Margin="0,0,6,0"></Image>
+                <Label Style="{StaticResource main_buttons}" Text="Отказать"></Label>
+            </FlexLayout>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

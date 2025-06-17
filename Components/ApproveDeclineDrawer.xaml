@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Passes.Components.ApproveDeclineDrawer">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="Regular">JostRegular</x:String>
+            <x:String x:Key="Medium">JostMedium</x:String>
+            <x:String x:Key="SemiBold">JostSemiBold</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary Source="/Resources/Styles/PassDetailStyles.xaml"></ResourceDictionary>
+        <StyleSheet Source="/css/styles.css" />
+        <x:Boolean x:Key="FalseValue">False</x:Boolean>
+        <x:Boolean x:Key="TrueValue">True</x:Boolean>
+    </ContentView.Resources>
+
+
+    <Grid IsVisible="{Binding ApproveDeclineDrawerVisible}" Grid.ZIndex="100" Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding DrawerTranslateYTo}" Grid.Row="2">
+        <Border  Margin="0,0,0,0" Style="{StaticResource rounded_white_border}" StrokeShape="RoundRectangle 20 20 0 0" Padding="10">
+            <Border.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Down" Command="{Binding ToogleDrawerCommand}" Threshold="20"/>
+            </Border.GestureRecognizers>
+            <VerticalStackLayout>
+                <Border Margin="0,0,0,20" Stroke="Transparent" StrokeShape="RoundRectangle 10" HeightRequest="8" WidthRequest="150">
+                    <BoxView BackgroundColor="#2056Ae" Opacity="0.6"  />
+                </Border>
+                <Label FontSize="16" Text="Комментарий / причина отказа"  FontFamily="{StaticResource Medium}"></Label>
+                <Border IsVisible="{Binding IsSending,Converter={StaticResource BoolInvertConverter}}" Margin="0,5,0,20" Stroke="#ffffff" StrokeShape="RoundRectangle 10">
+                    <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" BackgroundColor="#f6f6f8" FontSize="14" FontFamily="JostMedium" HeightRequest="135"></Editor>
+                </Border>
+                <Border IsVisible="{Binding IsSending}" Margin="0,5,0,20" Stroke="#ffffff" StrokeShape="RoundRectangle 10" HeightRequest="135">
+                    <ActivityIndicator VerticalOptions="Center" IsRunning="true" Color="#2056ae" />
+                </Border>
+                <Button Command="{Binding HandleApprovementPassCommand}" FontSize="16" FontFamily="{StaticResource Medium}" BackgroundColor="#2056AE" Margin="0,0,0,20" Text="Принять"></Button>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>

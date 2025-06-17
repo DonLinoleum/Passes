@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Passes.Components.BottomMenu">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="Regular">JostRegular</x:String>
+            <x:String x:Key="Medium">JostMedium</x:String>
+            <x:String x:Key="SemiBold">JostSemiBold</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary Source="/Resources/Styles/PassDetailStyles.xaml"></ResourceDictionary>
+        <StyleSheet Source="/css/styles.css" />
+        <x:Boolean x:Key="FalseValue">False</x:Boolean>
+        <x:Boolean x:Key="TrueValue">True</x:Boolean>
+    </ContentView.Resources>
+
+    <Grid IsVisible="{Binding IsLoading,Converter={StaticResource BoolInvertConverter}}" >
+        <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" ZIndex="1"></BoxView>
+        <Border Style="{StaticResource rounded_white_border}" StrokeShape="Rectangle" VerticalOptions="End">
+            <FlexLayout JustifyContent="SpaceEvenly" Padding="0,5.5">
+                <VerticalStackLayout>
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackByBottomMenuCommand}" CommandParameter="//PassesList"/>
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Image Style="{StaticResource bottom_menu_img}" Source="back" />
+                    <Label FontFamily="{StaticResource Regular}" FontSize="10" Text="Вернуться" />
+                </VerticalStackLayout>
+                <VerticalStackLayout IsVisible="{Binding PassData[0], Converter={StaticResource HasPassChildrenConverter}}">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter=",ApproveProgressDrawer"/>
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Image Style="{StaticResource bottom_menu_img}" Source="approval_progress.png" />
+                    <Label  FontFamily="{StaticResource Regular}" FontSize="10" Text="Ход согласования" />
+                </VerticalStackLayout>
+                <VerticalStackLayout IsVisible="{Binding PassData[0], Converter={StaticResource HasPassChildrenConverter}}">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToogleDrawerCommand}" CommandParameter=",MarksDrawer"/>
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Image Style="{StaticResource bottom_menu_img}" Source="marks.png" />
+                    <Label FontFamily="{StaticResource Regular}"  FontSize="10" Text="Отметки" />
+                </VerticalStackLayout>
+            </FlexLayout>
+        </Border>
+    </Grid>
+
+</ContentView>

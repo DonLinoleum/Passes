@@ -83,6 +83,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Components\ApproveDeclineButtons.xaml.cs">
+	    <DependentUpon>ApproveDeclineButtons.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\AuthPage.xaml.cs">
 	    <DependentUpon>AuthPage.xaml</DependentUpon>
 	  </Compile>
@@ -95,7 +98,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Components\ApprovalMarks.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\ApprovalProgress.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\ApproveDeclineDrawer.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Components\ApproverForServicesPasses.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\ApproveDeclineButtons.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\BottomMenu.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Components\MenuView.xaml">
