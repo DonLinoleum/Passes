@@ -217,6 +217,7 @@ namespace Passes.ViewModels
                 await ToogleDrawer();
                 CommentFromEditor = "";
                 if (isResponseSuccess) await Shell.Current.DisplayAlert("Статус изменен", $"Статус заявки {_passNum} изменен", "OK");
+                ChildrenPassesToApprove?.Clear();
                 GoBackByBottomMenu("//PassesList?need_update=true");
             }
         }
@@ -247,6 +248,13 @@ namespace Passes.ViewModels
                         IsDrawerLoading = false;
                     break;
             }
+        }
+
+        [RelayCommand]
+        public async Task ShowApproveProgressComment(string? comment)
+        {
+            if (!String.IsNullOrEmpty(comment))
+                await Shell.Current.DisplayAlert("Комментарий", comment, "Отмена");
         }
         private async Task<MarksForPassModel> GetMarksForPass()
         {

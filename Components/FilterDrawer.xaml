@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Passes.Components.FilterDrawer">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="Regular">JostRegular</x:String>
+            <x:String x:Key="Medium">JostMedium</x:String>
+            <x:String x:Key="SemiBold">JostSemiBold</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary Source="/Resources/Styles/PassListStyles.xaml"></ResourceDictionary>
+        <StyleSheet Source="/css/styles.css" />
+    </ContentView.Resources>
+
+    <Grid Grid.RowSpan="2" VerticalOptions="End" TranslationY="{Binding FilterHeight}">
+        <Grid >
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer 
+                 Direction="Down"
+                 Command="{Binding ToogleDrawerFilterCommand}"
+                 Threshold="20"
+                />
+            </Grid.GestureRecognizers>
+            <Border 
+        Margin="0,0,0,0" 
+        Style="{StaticResource rounded_white_border}" 
+        StrokeShape="RoundRectangle 20 20 0 0" 
+        Padding="10">
+                <VerticalStackLayout>
+                    <Border Margin="0,0,0,20" Stroke="Transparent" StrokeShape="RoundRectangle 10" HeightRequest="8" WidthRequest="150">
+                        <BoxView BackgroundColor="#2056Ae" Opacity="0.6"  />
+                    </Border>
+                    <Label FontSize="16" Text="Тип пропуска"  FontFamily="{StaticResource Medium}"></Label>
+                    <Border Margin="0,5,0,20" Stroke="#ffffff" StrokeShape="RoundRectangle 10">
+                        <Grid>
+                            <Picker ItemsSource="{Binding PassTypeFilterItems}" SelectedItem="{Binding PassTypeFilterInput, Mode=TwoWay}" FontFamily="{StaticResource Medium}" FontSize="16" StyleClass="CustomPicker" Title="Выберите" BackgroundColor="#f6f6f8">
+                            </Picker>
+                            <Image Source="arrow_down" HeightRequest="12" WidthRequest="12" HorizontalOptions="End" Margin="0,0,25,0"/>
+                        </Grid>
+                    </Border>
+                    <Label FontSize="16" FontFamily="{StaticResource Medium}" Text="Статус"></Label>
+                    <Border Margin="0,5,0,20" Stroke="#ffffff" StrokeShape="RoundRectangle 10">
+                        <Grid>
+                            <Picker ItemsSource="{Binding PassStateFilterItems}" SelectedItem="{Binding PassStateFilterInput, Mode=TwoWay}" FontFamily="{StaticResource Medium}" FontSize="16" StyleClass="CustomPicker" Title="Выберите" BackgroundColor="#f6f6f8">
+                            </Picker>
+                            <Image Source="arrow_down.png" HeightRequest="12" WidthRequest="12" HorizontalOptions="End" Margin="0,0,25,0"/>
+                        </Grid>
+                    </Border>
+                    <Button Command="{Binding FilterPassesCommand}" FontSize="16" FontFamily="{StaticResource Medium}" BackgroundColor="#2056AE" Margin="0,0,0,20" Text="Применить"></Button>
+                    <Button Command="{Binding CancelFilterOfPassesCommand}" FontSize="16" FontFamily="{StaticResource Medium}"  TextColor="#0F2548" BackgroundColor="#F9F9F9" Margin="0,0,0,20" Text="Сбросить"></Button>
+                    <Border WidthRequest="250" StrokeShape="RoundRectangle 10" Scale="{Binding FilterApplyingProgresBarScale}"  BackgroundColor="Transparent" Stroke="Transparent" HeightRequest="7" >
+                        <ProgressBar Progress="{Binding FilterLoadingProgress}" ProgressColor="#2056ae" BackgroundColor="#b3d0ff" />
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentView>

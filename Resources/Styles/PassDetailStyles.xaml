@@ -55,7 +55,7 @@
     <Style x:Key="pass_data_keys" TargetType="Label">
         <Setter Property="FontSize" Value="14"></Setter>
         <Setter Property="FontFamily" Value="JostSemiBold"></Setter>
-        <Setter Property="LineBreakMode" Value="NoWrap"></Setter>
+        <Setter Property="LineBreakMode" Value="WordWrap"></Setter>
     </Style>
     <Style x:Key="pass_data_values" TargetType="Label">
         <Setter Property="FontSize" Value="14"></Setter>

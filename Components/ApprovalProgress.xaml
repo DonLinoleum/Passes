@@ -59,6 +59,9 @@
                                 </HorizontalStackLayout>
                                 <Label Style="{StaticResource pass_drawer_approve_progress_user_role}" Text="{Binding PassProgress.Mol.Role}"></Label>
                                 <HorizontalStackLayout>
+                                    <HorizontalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ShowApproveProgressCommentCommand}" CommandParameter="{Binding PassProgress.Mol.Comment}" />
+                                    </HorizontalStackLayout.GestureRecognizers>
                                     <Border Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2" BackgroundColor="{Binding PassProgress.Mol.Status,Converter={StaticResource StatusMarkColorConverter}}">
                                         <Grid ColumnDefinitions="Auto,Auto">
                                             <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding PassProgress.Mol.Status}"></Label>
@@ -104,6 +107,9 @@
                                             </HorizontalStackLayout>
                                             <Label Style="{StaticResource pass_drawer_approve_progress_user_role}" Text="{Binding Role}"></Label>
                                             <HorizontalStackLayout>
+                                                <HorizontalStackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ShowApproveProgressCommentCommand}" CommandParameter="{Binding Comment}" />
+                                                </HorizontalStackLayout.GestureRecognizers>
                                                 <Border BackgroundColor="{Binding Status,Converter={StaticResource StatusMarkColorConverter}}" Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="10,2,0,2">
                                                     <Grid ColumnDefinitions="Auto,Auto">
                                                         <Label Style="{StaticResource pass_drawer_approve_progress__colored_marks}" Text="{Binding Status}"></Label>

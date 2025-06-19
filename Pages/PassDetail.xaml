@@ -134,10 +134,16 @@
                                                 <Label Style="{StaticResource pass_data_values}" Text="{Binding visitGoal.name}" />
                                             </FlexLayout>
                                             
-                                            <FlexLayout Style="{StaticResource pass_data_element_wrapper}">
-                                                <Label Style="{StaticResource pass_data_keys}"  Text="Объект посещения: " />
-                                                <Label Style="{StaticResource pass_data_values}" Text="{Binding objects[0].SINERGO_APP_ENTITY_PASSES_OBJECTS_object_name}" />
-                                            </FlexLayout>
+                                            <VerticalStackLayout IsVisible="{Binding objects, Converter={StaticResource NullToVisibilityConverter}}">
+                                                <Label Style="{StaticResource pass_data_keys}" Text="Объект посещения: " ></Label>
+                                                <CollectionView ItemsSource="{Binding objects}">
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Label Style="{StaticResource pass_data_values}" Text="{Binding SINERGO_APP_ENTITY_PASSES_OBJECTS_object_name,StringFormat='- {0}'}" />
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </VerticalStackLayout>
 
                                             <FlexLayout IsVisible="{Binding curator, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
                                                 <Label Style="{StaticResource pass_data_keys}"  Text="{Binding curator,Converter={StaticResource CuratorKeyConverter}}" />
@@ -240,7 +246,7 @@
                                                 </FlexLayout>
 
                                                 <FlexLayout IsVisible="{Binding vehicles[0].number, Converter={StaticResource NullToVisibilityConverter}}" Style="{StaticResource pass_data_element_wrapper}">
-                                                    <Label Style="{StaticResource pass_data_keys}"  Text="Государственный регистрационный знак (номер): " />
+                                                    <Label Style="{StaticResource pass_data_keys}"   Text="Государственный регистрационный знак (номер): " />
                                                     <Label Style="{StaticResource pass_data_values}" Text="{Binding vehicles[0].number}" />
                                                 </FlexLayout>
                                             </VerticalStackLayout>
