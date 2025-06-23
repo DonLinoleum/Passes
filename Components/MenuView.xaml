@@ -44,6 +44,9 @@
             
             <FlexLayout Direction="Column" Padding="10" Grid.Row="2" >
                 <HorizontalStackLayout Margin="0,0,0,10">
+                    <HorizontalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToProfileCommand}" />
+                    </HorizontalStackLayout.GestureRecognizers>
                     <Image Margin="0,0,10,0" VerticalOptions="Center" Source="Resources/Images/Menu/user"></Image>
                     <Label FontFamily="JostSemiBold" FontSize="14" TextColor="#2056AE" Text="Профиль"></Label>
                 </HorizontalStackLayout>
@@ -56,10 +59,10 @@
                     <Label FontFamily="JostSemiBold" FontSize="14" TextColor="#2056AE" Text="Рабочее место"></Label>
                 </HorizontalStackLayout>
 
-                <HorizontalStackLayout Margin="0,0,0,10">
+                <!--<HorizontalStackLayout Margin="0,0,0,10">
                     <Image Margin="0,0,10,0" VerticalOptions="Center" Source="Resources/Images/Menu/settings"></Image>
                     <Label FontFamily="JostSemiBold" FontSize="14" TextColor="#2056AE"  Text="Настройки"></Label>
-                </HorizontalStackLayout>
+                </HorizontalStackLayout>!-->
             </FlexLayout>
 
 

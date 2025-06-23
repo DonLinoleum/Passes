@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:Passes.Components"
+             x:Class="Passes.Pages.ProfilePage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#f9f9f9" 
+             Shell.PresentationMode="Animated"            
+             >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="Regular">JostRegular</x:String>
+            <x:String x:Key="Medium">JostMedium</x:String>
+            <x:String x:Key="SemiBold">JostSemiBold</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary Source="/Resources/Styles/PassDetailStyles.xaml"></ResourceDictionary>
+        <ResourceDictionary Source="/Resources/Styles/ProfileStyles.xaml"></ResourceDictionary>
+        <StyleSheet Source="/css/styles.css" />
+        <x:Boolean x:Key="FalseValue">False</x:Boolean>
+        <x:Boolean x:Key="TrueValue">True</x:Boolean>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!-- Menu !-->
+        <components:MenuView x:Name="MenuComponent" Grid.Row="0" Grid.RowSpan="3" ZIndex="999"/>
+        <!-- Top -->
+        <Grid Grid.Row="1">
+            <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" ZIndex="1"></BoxView>
+            <Grid Style="{StaticResource grid_top}" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" FontSize="20" FontFamily="JostSemiBold" VerticalOptions="Center" HorizontalOptions="Start"  Text="Профиль пользователя"></Label>
+                <ImageButton Style="{StaticResource burger_menu_style}" Command="{Binding Source={x:Reference MenuComponent},Path=BindingContext.OpenMenuCommand}" Grid.Column="1" Source="top_burger"></ImageButton>
+            </Grid>
+        </Grid>
+        <!-- Main -->
+        <Grid Grid.Row="2">
+            <BoxView Margin="0,0,0,0.1" BackgroundColor="#4D000000" IsVisible="{Binding MainContentOpacity}" ZIndex="1"></BoxView>
+            <Border Style="{StaticResource rounded_white_border}" Margin="10,0,10,10">
+                <Grid Padding="10" RowDefinitions="Auto,*">
+                    <StackLayout Grid.Row="0">
+                        <ActivityIndicator Margin="0,50,0,0" IsRunning="true" IsVisible="{Binding IsLoading}" Color="#2056ae" />
+                    </StackLayout>
+                    <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource label_subtitles}" Text="Данные пользователя" ></Label>
+                            <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
+
+                            <Label Style="{StaticResource 16px}"  Text="Фамилия" FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium"></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource 16px}" Text="Имя" FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource 16px}" Text="Отчество" FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource 16px}" Text="E-mail" FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource 16px}" Text="Телефон" FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource 16px}" Text="Пароль" FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource 16px}" Text="Подтверждение пароля"  FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource label_subtitles}" Text="Информация об организации" ></Label>
+                            <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
+
+                            <Label Style="{StaticResource 16px}" Text="Должность"  FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource 16px}" Text="Отдел" FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource 16px}" Text="Табельный номер" FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource 16px}" Text="Кабинет" FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                            </Border>
+
+                            <Label Style="{StaticResource 16px}" Text="Информация для заявителей" FontFamily="{StaticResource Medium}"></Label>
+                            <Border Style="{StaticResource editor_wrapper}">
+                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" HeightRequest="135"></Editor>
+                            </Border>
+                            <Button Command="{Binding HandleApprovementPassCommand}" Style="{StaticResource profile_button}" FontFamily="{StaticResource Medium}" Text="Сохранить"></Button>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

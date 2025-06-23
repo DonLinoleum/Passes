@@ -16,6 +16,7 @@ namespace Passes.Converters.ServicePassesConverters
                 switch (statusId)
                 {
                     case "4":
+                    case "5":
                         return "aggrement_mark";
                     case "3":
                     case "19":

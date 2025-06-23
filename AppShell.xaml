@@ -23,6 +23,11 @@
         Title="Подробные данные"
         ContentTemplate="{DataTemplate pages:PassDetail}"
         Route="PassDetail"
- />
+    />
+    <ShellContent
+        Title="Профиль пользователя"
+        ContentTemplate="{DataTemplate pages:ProfilePage}"
+        Route="ProfilePage"
+    />
 
 </Shell>

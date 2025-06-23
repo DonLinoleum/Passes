@@ -128,6 +128,13 @@
                                                         </Grid>
                                                     </Grid>
                                                 </Border>
+                                                <!-- Comment -->
+                                                <Border BackgroundColor="{Binding Status,Converter={StaticResource StatusMarkColorConverter}}" Style="{StaticResource pass_drawer_approve_progress__colored_marks__border}" Padding="0,2,0,2" IsVisible="{Binding Comment,Converter={StaticResource NullToVisibilityConverter}}">
+                                                    <Grid Grid.Column="1" Margin="2,0,2,0">
+                                                        <Ellipse Style="{StaticResource pass_drawer_approve_progress__colored_marks_ellipse}" />
+                                                        <Image WidthRequest="10" HeightRequest="10" Source="comment"/>
+                                                    </Grid>
+                                                </Border>
                                             </HorizontalStackLayout>
                                         </VerticalStackLayout>
                                     </Border>

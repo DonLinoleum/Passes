@@ -11,8 +11,9 @@ namespace Passes.Converters.ServicePassesConverters
     {
         private Dictionary<string, string> StatusMarksColors = new Dictionary<string, string>()
         {
-            {"4" , "#5DBB81" } ,
-            {"3" , "#e55952" } ,
+            {"5" , "#5DBB81" },
+            {"4" , "#5DBB81" },
+            {"3" , "#e55952" },
             {"19","#e55952" },
             {"1" , "#EBB144" },
             {"8" , "#3f5468" },

@@ -41,6 +41,13 @@ namespace Passes.ViewModels
         }
 
         [RelayCommand]
+        public async Task GoToProfile()
+        {
+            await CloseMenu();
+            await Shell.Current.GoToAsync("//ProfilePage");
+        }
+
+        [RelayCommand]
         public async Task CloseMenu()
         {
             IsMenuOpen = false;

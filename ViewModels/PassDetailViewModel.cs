@@ -8,7 +8,6 @@ using Passes.Services.HttpRequestsGet.HttpRequestsGetItem;
 using Passes.ViewModels.Helpers;
 using Passes.ViewModels.States;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Passes.ViewModels
 {
