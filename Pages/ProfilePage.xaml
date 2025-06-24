@@ -48,72 +48,72 @@
                     <StackLayout Grid.Row="0">
                         <ActivityIndicator Margin="0,50,0,0" IsRunning="true" IsVisible="{Binding IsLoading}" Color="#2056ae" />
                     </StackLayout>
-                    <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+                    <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never" IsVisible="{Binding IsLoading,Converter={StaticResource BoolInvertConverter}}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource label_subtitles}" Text="Данные пользователя" ></Label>
                             <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
 
-                            <Label Style="{StaticResource 16px}"  Text="Фамилия" FontFamily="{StaticResource Medium}"></Label>
+                            <Label Style="{StaticResource 16px}"  Text="Фамилия *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium"></Editor>
+                                <Editor Text="{Binding ProfileData.LastName, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium"></Editor>
                             </Border>
 
-                            <Label Style="{StaticResource 16px}" Text="Имя" FontFamily="{StaticResource Medium}"></Label>
+                            <Label Style="{StaticResource 16px}" Text="Имя *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Text="{Binding ProfileData.Name, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
-                            <Label Style="{StaticResource 16px}" Text="Отчество" FontFamily="{StaticResource Medium}"></Label>
+                            <Label Style="{StaticResource 16px}" Text="Отчество *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Text="{Binding ProfileData.SecondName, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="E-mail" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Text="{Binding ProfileData.Email, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
-                            <Label Style="{StaticResource 16px}" Text="Телефон" FontFamily="{StaticResource Medium}"></Label>
+                            <Label Style="{StaticResource 16px}" Text="Телефон *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Text="{Binding ProfileData.PersonalPhone, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Пароль" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Text="{Binding Password, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Подтверждение пароля"  FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Text="{Binding ConfirmPassword, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
                             <Label Style="{StaticResource label_subtitles}" Text="Информация об организации" ></Label>
                             <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
 
-                            <Label Style="{StaticResource 16px}" Text="Должность"  FontFamily="{StaticResource Medium}"></Label>
+                            <Label Style="{StaticResource 16px}" Text="Должность *"  FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Text="{Binding ProfileData.WorkPosition, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Отдел" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Text="{Binding ProfileData.WorkDepartment, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Табельный номер" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Text="{Binding ProfileData.EmployeeId, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
-                            <Label Style="{StaticResource 16px}" Text="Кабинет" FontFamily="{StaticResource Medium}"></Label>
+                            <Label Style="{StaticResource 16px}" Text="Кабинет *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Text="{Binding ProfileData.WorkRoom, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Информация для заявителей" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding CommentFromEditor, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" HeightRequest="135"></Editor>
+                                <Editor Text="{Binding ProfileData.WorkProfile, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" HeightRequest="135"></Editor>
                             </Border>
                             <Button Command="{Binding HandleApprovementPassCommand}" Style="{StaticResource profile_button}" FontFamily="{StaticResource Medium}" Text="Сохранить"></Button>
                         </VerticalStackLayout>

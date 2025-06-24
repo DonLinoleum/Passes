@@ -107,7 +107,7 @@ namespace Passes.ViewModels
         {
             _baseUrl = (new BaseUrlService()).GetBaseUrl();
             _passDetailService = new PassDetailService<RootPassDetailModel>("GetPassById", _baseUrl!, PassIdInputProp ?? "");
-            _checkCanApprove = new CheckCanApproveService<CheckCanApproveModel>("CheckCanApprovePass", _baseUrl!, PassIdInputProp ?? "");
+            _checkCanApprove = new CheckCanApproveService<CheckCanApproveModel>("Mobile\\CheckCanApprovePass", _baseUrl!, PassIdInputProp ?? "");
             _passListApproveProgressMarksService = new PassListApproveProgressMarksService<ApproveProgressMarksModel>("ApproversForPassById", _baseUrl!, PassIdInputProp ?? "");
             _marksForPass = new MarksForPassService<MarksForPassModel>("GetTimelineItems", _baseUrl!, PassIdInputProp ?? "");
             _detailState = new ActionOnDetailState();

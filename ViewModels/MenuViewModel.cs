@@ -44,7 +44,7 @@ namespace Passes.ViewModels
         public async Task GoToProfile()
         {
             await CloseMenu();
-            await Shell.Current.GoToAsync("//ProfilePage");
+            await Shell.Current.GoToAsync("//ProfilePage?need_update=true");
         }
 
         [RelayCommand]

@@ -18,7 +18,7 @@ namespace Passes.Services.HttpRequestsGet
 
         public string PassId { get => _passId; set { _passId = value; } }
 
-        public AbstractHttpGetRequest(string actionName, string baseUrl, string passId)
+        public AbstractHttpGetRequest(string actionName, string baseUrl, string passId = "")
         {
             _cookieContainer = new CookieContainer();
             _handler = new HttpClientHandler()
