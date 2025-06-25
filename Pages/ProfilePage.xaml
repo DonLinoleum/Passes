@@ -70,24 +70,14 @@
 
                             <Label Style="{StaticResource 16px}" Text="E-mail" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding ProfileData.Email, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor IsEnabled="False" Text="{Binding ProfileData.Email, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Телефон *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding ProfileData.PersonalPhone, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Editor Keyboard="Numeric" Text="{Binding ProfileData.PersonalPhone, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
                             </Border>
-
-                            <Label Style="{StaticResource 16px}" Text="Пароль" FontFamily="{StaticResource Medium}"></Label>
-                            <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding Password, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
-                            </Border>
-
-                            <Label Style="{StaticResource 16px}" Text="Подтверждение пароля"  FontFamily="{StaticResource Medium}"></Label>
-                            <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding ConfirmPassword, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
-                            </Border>
-
+ 
                             <Label Style="{StaticResource label_subtitles}" Text="Информация об организации" ></Label>
                             <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
 
@@ -115,7 +105,21 @@
                             <Border Style="{StaticResource editor_wrapper}">
                                 <Editor Text="{Binding ProfileData.WorkProfile, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" HeightRequest="135"></Editor>
                             </Border>
-                            <Button Command="{Binding HandleApprovementPassCommand}" Style="{StaticResource profile_button}" FontFamily="{StaticResource Medium}" Text="Сохранить"></Button>
+
+                            <VerticalStackLayout IsVisible="{Binding ProfileData.ReplacingUsers,Converter={StaticResource NullToVisibilityConverter}}" Margin="0,0,0,20">
+                            <Label  Style="{StaticResource label_subtitles}" Text="Информация о замещении" ></Label>
+                                <BoxView Style="{StaticResource hr_detail_lines}"></BoxView>
+                                <Label Style="{StaticResource pass_data_keys}" Text="Я замещаю: " ></Label>
+                                <CollectionView ItemsSource="{Binding ProfileData.ReplacingUsers}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Style="{StaticResource pass_data_values}" Text="{Binding .,StringFormat='- {0}'}"></Label>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                            </VerticalStackLayout>
+
+                            <Button Command="{Binding SendRequestCommand}" Style="{StaticResource profile_button}" FontFamily="{StaticResource Medium}" Text="Сохранить"></Button>
                         </VerticalStackLayout>
                     </ScrollView>
                 </Grid>

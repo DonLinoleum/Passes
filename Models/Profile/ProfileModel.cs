@@ -44,5 +44,8 @@ namespace Passes.Models.Profile
 
         [JsonPropertyName("EMPLOYEE_ID")]
         public string? EmployeeId { get; set; }
+
+        [JsonPropertyName("REPLACING_USERS")]
+        public List<string>? ReplacingUsers { get; set; }
     }
 }
