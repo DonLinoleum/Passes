@@ -55,27 +55,27 @@
 
                             <Label Style="{StaticResource 16px}"  Text="Фамилия *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding ProfileData.LastName, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium"></Editor>
+                                <Entry ReturnType="Done" Text="{Binding ProfileData.LastName, Mode=TwoWay}" StyleClass="CustomEntry" Style="{StaticResource profile_editor}" FontFamily="JostMedium"></Entry>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Имя *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding ProfileData.Name, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Entry ReturnType="Done" Text="{Binding ProfileData.Name, Mode=TwoWay}" StyleClass="CustomEntry" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Entry>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Отчество *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding ProfileData.SecondName, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Entry ReturnType="Done" Text="{Binding ProfileData.SecondName, Mode=TwoWay}" StyleClass="CustomEntry" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Entry>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="E-mail" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor IsEnabled="False" Text="{Binding ProfileData.Email, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Entry ReturnType="Done" IsEnabled="False" Text="{Binding ProfileData.Email, Mode=TwoWay}" StyleClass="CustomEntry" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Entry>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Телефон *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Keyboard="Numeric" Text="{Binding ProfileData.PersonalPhone, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Entry ReturnType="Done" Keyboard="Telephone" MaxLength="12" Text="{Binding ProfileData.PersonalPhone, Mode=TwoWay}" StyleClass="CustomEntry" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Entry>
                             </Border>
  
                             <Label Style="{StaticResource label_subtitles}" Text="Информация об организации" ></Label>
@@ -83,22 +83,22 @@
 
                             <Label Style="{StaticResource 16px}" Text="Должность *"  FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding ProfileData.WorkPosition, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Entry ReturnType="Done" Text="{Binding ProfileData.WorkPosition, Mode=TwoWay}" StyleClass="CustomEntry" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Entry>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Отдел" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding ProfileData.WorkDepartment, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Entry ReturnType="Done" Text="{Binding ProfileData.WorkDepartment, Mode=TwoWay}" StyleClass="CustomEntry" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Entry>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Табельный номер" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding ProfileData.EmployeeId, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Entry ReturnType="Done" Text="{Binding ProfileData.EmployeeId, Mode=TwoWay}" StyleClass="CustomEntry" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Entry>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Кабинет *" FontFamily="{StaticResource Medium}"></Label>
                             <Border Style="{StaticResource editor_wrapper}">
-                                <Editor Text="{Binding ProfileData.WorkRoom, Mode=TwoWay}" StyleClass="CustomEditor" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Editor>
+                                <Entry ReturnType="Done" Text="{Binding ProfileData.WorkRoom, Mode=TwoWay}" StyleClass="CustomEntry" Style="{StaticResource profile_editor}" FontFamily="JostMedium" ></Entry>
                             </Border>
 
                             <Label Style="{StaticResource 16px}" Text="Информация для заявителей" FontFamily="{StaticResource Medium}"></Label>

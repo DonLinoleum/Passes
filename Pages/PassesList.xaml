@@ -111,7 +111,7 @@
                 <RefreshView Margin="10,0,10,0" IsRefreshing="{Binding IsRefreshing}" Command="{Binding LoadPassesRefreshListCommand}">
                     <CollectionView ItemsSource="{Binding FilteredPasses}" IsVisible="{Binding IsLoading, Converter={StaticResource BoolInvertConverter}}">
                         <CollectionView.EmptyView>
-                            <Label IsVisible="{Binding HasNoPasses, Converter={StaticResource BoolInvertConverter}}" Text="Нет заявок для согласования" HorizontalOptions="Center" FontSize="16" Margin="20"></Label>
+                            <Label IsVisible="{Binding HasNoPasses}" Text="Нет заявок для согласования" HorizontalOptions="Center" FontSize="16" Margin="20"></Label>
                         </CollectionView.EmptyView>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>

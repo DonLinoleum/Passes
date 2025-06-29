@@ -39,12 +39,12 @@
                 <Label FontFamily="{StaticResource SemiBold}" Text="Вход" FontSize="22" Margin="0,0,0,25"></Label>
                 <Label FontFamily="{StaticResource Regular}" Margin="3,0,0,10" FontAttributes="Bold" Text="E-mail" FontSize="16"></Label>
                 <Border Margin="0,0,0,20" Stroke="#ffffff" StrokeShape="RoundRectangle 10">
-                    <Entry BackgroundColor="#f6f6f8" StyleClass="CustomEntry" x:Name="email" ></Entry>
+                    <Entry ReturnType="Done" BackgroundColor="#f6f6f8" StyleClass="CustomEntry" x:Name="email" ></Entry>
                 </Border>
                 <Label FontFamily="{StaticResource Regular}" Margin="3,0,0,10" FontAttributes="Bold" Text="Пароль" FontSize="16"></Label>
                 <Border Margin="0,0,0,30" Stroke="#ffffff" StrokeShape="RoundRectangle 10">
                     <Grid VerticalOptions="Center" HorizontalOptions="Fill">
-                        <Entry IsPassword="True" BackgroundColor="#f6f6f8" StyleClass="CustomEntry" x:Name="password" ></Entry>
+                        <Entry ReturnType="Done" IsPassword="True" BackgroundColor="#f6f6f8" StyleClass="CustomEntry" x:Name="password" ></Entry>
                         <ImageButton Aspect="AspectFit" Source="eye" BackgroundColor="Transparent" MinimumHeightRequest="5" HeightRequest="24" MinimumWidthRequest="5" WidthRequest="24" HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,23,0" Clicked="PasswordShowClicked"></ImageButton>
                     </Grid>
                 </Border>
